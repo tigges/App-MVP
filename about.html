@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ecosystem Blueprint · AI App Marketplace</title>
+  <style>
+    /* ================================================================
+       DESIGN TOKENS — identical to index.html
+    ================================================================ */
+    :root {
+      --bg-base:        #06060f;
+      --bg-card:        #0b0b1c;
+      --bg-card-hi:     #101028;
+      --bg-console:     #040410;
+      --border-dim:     #16163a;
+      --border-mid:     #222244;
+      --accent-cyan:    #00d4ff;
+      --accent-green:   #00ff88;
+      --accent-purple:  #9b6dff;
+      --accent-orange:  #ff6b35;
+      --text-primary:   #e4e8f5;
+      --text-400:       #7a85a0;
+      --text-300:       #9aa5c0;
+      --text-500:       #4a5270;
+      --text-dim:       #272745;
+      --glow-cyan:      0 0 24px rgba(0,212,255,.35), 0 0 48px rgba(0,212,255,.12);
+      --glow-green:     0 0 24px rgba(0,255,136,.35), 0 0 48px rgba(0,255,136,.12);
+      --glow-purple:    0 0 24px rgba(155,109,255,.35), 0 0 48px rgba(155,109,255,.12);
+      --r-sm:  6px;
+      --r-md:  10px;
+      --r-lg:  16px;
+      --r-xl:  20px;
+      --mono: 'SF Mono','JetBrains Mono','Cascadia Code','Fira Code',monospace;
+      --sans: 'Inter',system-ui,-apple-system,sans-serif;
+    }
+
+    /* ================================================================
+       BASE
+    ================================================================ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { color-scheme: dark; }
+
+    body {
+      min-height: 100vh;
+      background: var(--bg-base);
+      background-image:
+        radial-gradient(ellipse 60% 40% at 15% -5%,  rgba(0,212,255,.07)   0%, transparent 60%),
+        radial-gradient(ellipse 60% 40% at 85% -5%,  rgba(155,109,255,.07) 0%, transparent 60%),
+        radial-gradient(ellipse 40% 30% at 50% 100%, rgba(0,255,136,.04)   0%, transparent 60%);
+      color: var(--text-primary);
+      font-family: var(--sans);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    #app { min-height: 100vh; display: flex; flex-direction: column; }
+
+    /* ================================================================
+       HEADER — matches index.html exactly
+    ================================================================ */
+    .app-header {
+      position: sticky; top: 0; z-index: 200;
+      border-bottom: 1px solid var(--border-dim);
+      background: rgba(6,6,15,.88);
+      backdrop-filter: blur(16px) saturate(1.4);
+      padding: 14px 28px;
+    }
+
+    .header-inner {
+      max-width: 1440px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    }
+
+    .brand { display: flex; align-items: center; gap: 14px; }
+
+    .brand-hex {
+      width: 38px; height: 38px; border-radius: 10px;
+      background: linear-gradient(135deg, var(--accent-cyan) 0%, var(--accent-purple) 100%);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px; line-height: 1; flex-shrink: 0;
+      box-shadow: 0 0 16px rgba(0,212,255,.3), 0 0 32px rgba(155,109,255,.2);
+      text-decoration: none;
+    }
+
+    .brand-name { font-size: 15px; font-weight: 700; color: var(--text-primary); letter-spacing: -.025em; }
+    .brand-tag  { font-size: 11px; color: var(--text-400); font-family: var(--mono); margin-top: 1px; }
+
+    /* ================================================================
+       NAV LINKS
+    ================================================================ */
+    .app-nav { display: flex; align-items: center; gap: 4px; }
+
+    .nav-link {
+      padding: 6px 14px;
+      border-radius: var(--r-sm);
+      font-size: 12px; font-weight: 600;
+      text-decoration: none;
+      color: var(--text-400);
+      border: 1px solid transparent;
+      transition: all .2s ease;
+      letter-spacing: .01em;
+    }
+    .nav-link:hover {
+      color: var(--text-primary);
+      border-color: var(--border-mid);
+      background: var(--bg-card-hi);
+    }
+    .nav-link.active {
+      color: var(--accent-purple);
+      border-color: rgba(155,109,255,.3);
+      background: rgba(155,109,255,.07);
+    }
+
+    /* ================================================================
+       MAIN
+    ================================================================ */
+    .app-main {
+      flex: 1;
+      padding: 36px 28px 52px;
+      max-width: 1040px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    /* ================================================================
+       PAGE CARD CONTAINER
+    ================================================================ */
+    .page-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-dim);
+      border-radius: var(--r-xl);
+      padding: 40px 44px;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      gap: 36px;
+    }
+
+    /* Decorative blobs (match the Tailwind version's gradient backdrops) */
+    .blob {
+      position: absolute; border-radius: 50%;
+      pointer-events: none; filter: blur(90px);
+    }
+    .blob-tr { top: -120px; right: -120px; width: 380px; height: 380px; background: rgba(155,109,255,.07); }
+    .blob-bl { bottom: -120px; left: -120px; width: 380px; height: 380px; background: rgba(0,255,136,.07); }
+
+    /* Ensure content sits above blobs */
+    .page-card > *:not(.blob) { position: relative; z-index: 1; }
+
+    /* ================================================================
+       ABOUT HEADER
+    ================================================================ */
+    .about-hd {
+      border-bottom: 1px solid var(--border-dim);
+      padding-bottom: 26px;
+    }
+
+    .manifest-tag {
+      display: block;
+      font-family: var(--mono);
+      font-size: 9px; font-weight: 800;
+      letter-spacing: .2em;
+      color: var(--accent-purple);
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .about-title {
+      font-size: 32px; font-weight: 900;
+      color: var(--text-primary);
+      letter-spacing: -.04em; line-height: 1.05;
+    }
+
+    .about-desc {
+      font-size: 14px; color: var(--text-400);
+      margin-top: 12px; max-width: 600px;
+      line-height: 1.7;
+    }
+
+    /* ================================================================
+       SECTION HEADING
+    ================================================================ */
+    .section-lbl {
+      font-family: var(--mono);
+      font-size: 9px; font-weight: 800;
+      letter-spacing: .14em;
+      color: var(--text-500);
+      text-transform: uppercase;
+      text-align: center;
+      margin-bottom: 16px;
+    }
+    .section-lbl.left { text-align: left; }
+
+    /* ================================================================
+       PIPELINE DIAGRAM
+    ================================================================ */
+    .pipeline-section {}
+
+    .pipeline-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 14px;
+      align-items: center;
+      background: rgba(6,6,15,.65);
+      border: 1px solid var(--border-dim);
+      border-radius: var(--r-lg);
+      padding: 20px;
+    }
+
+    /* Side node cards */
+    .p-node {
+      background: var(--bg-console);
+      border: 1px solid var(--border-dim);
+      border-radius: var(--r-md);
+      padding: 18px 16px;
+      text-align: center;
+    }
+
+    .p-node-type {
+      font-family: var(--mono);
+      font-size: 11px; font-weight: 800;
+      letter-spacing: .08em; margin-bottom: 5px;
+    }
+
+    .p-node-sub  { font-size: 11px; color: var(--text-300); }
+    .p-node-tag  { font-size: 10px; color: var(--text-500); margin-top: 8px; font-style: italic; }
+
+    /* Center: flow labels + router box */
+    .p-center {
+      display: flex; flex-direction: column;
+      align-items: center; gap: 6px;
+    }
+
+    .flow-badge {
+      display: flex; align-items: center; justify-content: center; gap: 6px;
+      width: 100%;
+    }
+
+    .flow-arrow { color: var(--text-dim); font-size: 11px; }
+
+    .flow-tag {
+      font-family: var(--mono);
+      font-size: 9px; font-weight: 700;
+      letter-spacing: .08em; color: var(--text-400);
+      background: var(--border-dim);
+      padding: 3px 8px; border-radius: 4px;
+      white-space: nowrap;
+    }
+
+    .p-router {
+      width: 100%;
+      background: rgba(155,109,255,.08);
+      border: 1px solid rgba(155,109,255,.28);
+      border-radius: var(--r-md);
+      padding: 14px 16px;
+      text-align: center;
+    }
+
+    .p-router-title {
+      font-family: var(--mono);
+      font-size: 11px; font-weight: 800;
+      letter-spacing: .07em; color: var(--text-primary);
+    }
+
+    .p-router-sub { font-size: 10px; color: var(--accent-purple); margin-top: 5px; }
+
+    /* Settlement bar */
+    .settlement {
+      display: flex; flex-direction: column;
+      align-items: center; gap: 0;
+      margin-top: 6px;
+    }
+
+    .settlement-wire {
+      width: 1px; height: 16px;
+      background: linear-gradient(to bottom, var(--border-mid), transparent);
+    }
+
+    .settlement-pill {
+      background: rgba(0,255,136,.05);
+      border: 1px solid rgba(0,255,136,.2);
+      border-radius: 24px;
+      padding: 7px 24px;
+      font-family: var(--mono);
+      font-size: 9px; font-weight: 800;
+      letter-spacing: .1em;
+      color: var(--accent-green);
+      text-align: center;
+      max-width: 420px; width: 100%;
+    }
+
+    /* ================================================================
+       VALUE DRIVERS MATRIX
+    ================================================================ */
+    .value-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+
+    .v-card {
+      background: rgba(6,6,15,.45);
+      border: 1px solid var(--border-dim);
+      border-radius: var(--r-lg);
+      padding: 20px;
+      display: flex; flex-direction: column;
+      gap: 14px;
+      transition: border-color .25s ease;
+    }
+    .v-card:hover { border-color: var(--border-mid); }
+
+    .v-card-hd {
+      display: flex; align-items: center; gap: 9px;
+    }
+
+    .v-emoji { font-size: 15px; }
+
+    .v-title {
+      font-size: 13px; font-weight: 700;
+      color: var(--text-primary); letter-spacing: -.01em;
+    }
+
+    .v-body {
+      font-size: 11px; color: var(--text-400); line-height: 1.7;
+      flex: 1;
+    }
+
+    .v-body strong { color: var(--accent-orange); font-weight: 700; }
+
+    .v-footer {
+      background: var(--bg-console);
+      border: 1px solid var(--border-dim);
+      border-radius: var(--r-sm);
+      padding: 12px 13px;
+      font-size: 11px;
+      color: var(--text-300);
+      line-height: 1.65;
+    }
+
+    .v-footer-label {
+      display: block; font-weight: 700; margin-bottom: 4px;
+    }
+    .v-footer-label.green  { color: var(--accent-green); }
+    .v-footer-label.purple { color: var(--accent-purple); }
+
+    /* ================================================================
+       FOOTER NOTES
+    ================================================================ */
+    .about-footer {
+      border-top: 1px solid var(--border-dim);
+      padding-top: 24px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+    }
+
+    .af-col {
+      font-size: 11px; color: var(--text-500);
+      line-height: 1.7; padding: 0 20px;
+    }
+    .af-col:first-child { padding-left: 0; }
+    .af-col + .af-col {
+      border-left: 1px solid var(--border-dim);
+    }
+
+    .af-title { display: block; font-weight: 700; margin-bottom: 5px; font-size: 12px; }
+    .af-title.white  { color: var(--text-400); }
+    .af-title.purple { color: var(--accent-purple); }
+
+    /* ================================================================
+       FOOTER
+    ================================================================ */
+    .app-footer {
+      border-top: 1px solid var(--border-dim);
+      padding: 13px 28px;
+      text-align: center;
+      font-size: 11px; color: var(--text-dim);
+      font-family: var(--mono);
+    }
+
+    /* ================================================================
+       RESPONSIVE
+    ================================================================ */
+    @media (max-width: 800px) {
+      .pipeline-grid { grid-template-columns: 1fr; }
+      .flow-arrow { display: none; }
+      .p-center { width: 100%; }
+      .value-grid { grid-template-columns: 1fr; }
+      .about-footer { grid-template-columns: 1fr; }
+      .af-col + .af-col {
+        border-left: none;
+        border-top: 1px solid var(--border-dim);
+        padding-left: 0; padding-top: 20px; margin-top: 20px;
+      }
+      .about-title { font-size: 24px; }
+    }
+
+    @media (max-width: 600px) {
+      .app-main { padding: 20px 16px 36px; }
+      .page-card { padding: 24px 20px; gap: 28px; }
+      .app-header { padding: 14px 16px; }
+    }
+  </style>
+</head>
+<body>
+<div id="app">
+
+  <!-- ══════════════════════ HEADER ══════════════════════ -->
+  <header class="app-header">
+    <div class="header-inner">
+      <div class="brand">
+        <a href="index.html" class="brand-hex" aria-label="Home">⬡</a>
+        <div>
+          <div class="brand-name">AI App Marketplace</div>
+          <div class="brand-tag">MCP Connection Sandbox · Validation MVP v0.1</div>
+        </div>
+      </div>
+      <nav class="app-nav" aria-label="Site navigation">
+        <a href="index.html" class="nav-link">Sandbox</a>
+        <a href="about.html" class="nav-link active" aria-current="page">About</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ══════════════════════ MAIN ══════════════════════ -->
+  <main class="app-main">
+    <div class="page-card">
+      <!-- Background blobs -->
+      <div class="blob blob-tr"></div>
+      <div class="blob blob-bl"></div>
+
+      <!-- ── HEADER ── -->
+      <header class="about-hd">
+        <span class="manifest-tag">Marketplace Manifest</span>
+        <h1 class="about-title">THE ECOSYSTEM BLUEPRINT</h1>
+        <p class="about-desc">
+          The open architecture realignment for AI apps and developers. Breaking down walled gardens to replace platform taxes with modular, compounding collaboration.
+        </p>
+      </header>
+
+      <!-- ── PIPELINE DIAGRAM ── -->
+      <section class="pipeline-section">
+        <p class="section-lbl">The Interconnected Value Flywheel</p>
+
+        <div class="pipeline-grid">
+
+          <!-- Left: AI Client Node -->
+          <div class="p-node">
+            <div class="p-node-type" style="color:var(--accent-purple)">AI CLIENT NODE</div>
+            <div class="p-node-sub">Single LLM / HF Space</div>
+            <div class="p-node-tag">"The Context-Aware Brain"</div>
+          </div>
+
+          <!-- Center: Router -->
+          <div class="p-center">
+            <div class="flow-badge">
+              <span class="flow-arrow">→</span>
+              <span class="flow-tag">JSON-RPC LOOP</span>
+              <span class="flow-arrow">→</span>
+            </div>
+
+            <div class="p-router">
+              <div class="p-router-title">STATELESS SSE ROUTER</div>
+              <div class="p-router-sub">Universal Schema Registry</div>
+            </div>
+
+            <div class="flow-badge">
+              <span class="flow-arrow">←</span>
+              <span class="flow-tag">2-CLICK STREAM</span>
+              <span class="flow-arrow">←</span>
+            </div>
+          </div>
+
+          <!-- Right: Data & Tool Node -->
+          <div class="p-node">
+            <div class="p-node-type" style="color:var(--accent-green)">DATA &amp; TOOL NODE</div>
+            <div class="p-node-sub">Private DB / Specialized API</div>
+            <div class="p-node-tag">"The Executing Muscle"</div>
+          </div>
+
+        </div>
+
+        <!-- Settlement bar -->
+        <div class="settlement">
+          <div class="settlement-wire"></div>
+          <div class="settlement-pill">⚡ REAL-TIME MICRO-BILLING CLEARINGHOUSE (5–10% FEE)</div>
+        </div>
+      </section>
+
+      <!-- ── VALUE DRIVERS MATRIX ── -->
+      <section>
+        <p class="section-lbl left">Top Value Drivers &amp; Fulfillment Matrix</p>
+
+        <div class="value-grid">
+
+          <!-- Card 1: Component Creators -->
+          <div class="v-card">
+            <div class="v-card-hd">
+              <span class="v-emoji">🛠️</span>
+              <span class="v-title">Component Creators</span>
+            </div>
+            <p class="v-body">
+              <strong>The Friction:</strong> High tolls and SDK debt. Handing over 30% of tight compute margins to traditional app stores while manually rebuilding plugins for isolated gardens.
+            </p>
+            <div class="v-footer">
+              <span class="v-footer-label green">Build Once, Own the Margin</span>
+              Deploy 1 open MCP manifest. Gain native global connectivity across all frontends. Keep 90–95% gross.
+            </div>
+          </div>
+
+          <!-- Card 2: App Builders -->
+          <div class="v-card">
+            <div class="v-card-hd">
+              <span class="v-emoji">🧩</span>
+              <span class="v-title">App Builders</span>
+            </div>
+            <p class="v-body">
+              <strong>The Friction:</strong> Siloed integration code. Wasting 70% of product iteration cycle timelines configuring redundant custom backend routers and authentication keys.
+            </p>
+            <div class="v-footer">
+              <span class="v-footer-label purple">Software Lego Composability</span>
+              Chain micro-utilities into comprehensive pipelines on the fly. Rely on our platform backplane for multi-hop billing.
+            </div>
+          </div>
+
+          <!-- Card 3: Single-Sub Users -->
+          <div class="v-card">
+            <div class="v-card-hd">
+              <span class="v-emoji">🔑</span>
+              <span class="v-title">Single-Sub Users</span>
+            </div>
+            <p class="v-body">
+              <strong>The Friction:</strong> Utility capture. Trapped inside the feature roadmap limits of a single provider while handing over private memories to remote monolithic corporate silos.
+            </p>
+            <div class="v-footer">
+              <span class="v-footer-label green">Infinite Tooling &amp; Sovereignty</span>
+              Hook missing data arrays straight to your primary model of choice. Keep historical data private in a local <strong style="color:var(--text-300)">Context Vault</strong>.
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ── FOOTER NOTES ── -->
+      <footer class="about-footer">
+        <div class="af-col">
+          <span class="af-title white">Programmatic Agentic Discovery</span>
+          We index system-vetted JSON-RPC schemas rather than human SEO keywords, allowing AI pipelines to independently pull and resolve required actions dynamically.
+        </div>
+        <div class="af-col">
+          <span class="af-title purple">The Compounding Structural Moat</span>
+          Traditional stores rely on user isolation. Our platform scaling tracks exponentially with developer cooperation — every added node simplifies the next build.
+        </div>
+      </footer>
+
+    </div><!-- /page-card -->
+  </main>
+
+  <footer class="app-footer">
+    AI App Marketplace · Open MCP Protocol · Protocol Version 2024-11-05 · No Walled Gardens
+  </footer>
+</div>
+</body>
+</html>
