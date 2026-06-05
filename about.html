@@ -131,8 +131,9 @@
     }
 
     /* ================================================================
-       SECTION LABEL (shared)
+       ECOSYSTEM DIAGRAM SECTION
     ================================================================ */
+    .diagram-section {}
     .section-lbl {
       font-family: var(--mono); font-size: 9px; font-weight: 800;
       letter-spacing: .14em; color: var(--text-500); text-transform: uppercase;
@@ -140,167 +141,55 @@
     }
     .section-lbl.center { text-align: center; }
 
-    /* ================================================================
-       CLEARINGHOUSE DIAGRAM
-    ================================================================ */
-
-    /* Stack container */
-    .layers-container {
-      display: flex; flex-direction: column; align-items: stretch;
-    }
-
-    /* ── Base card ── */
-    .layer-card {
-      border-radius: var(--r-lg);
-      padding: 28px 32px;
-      position: relative; overflow: hidden;
-      transition: box-shadow .3s ease;
-      cursor: default;
-    }
-
-    /* Demand (indigo) */
-    .layer-demand {
-      background: rgba(129,140,248,.05);
-      border: 1px solid rgba(129,140,248,.28);
-    }
-    .layer-demand:hover {
-      border-color: rgba(129,140,248,.5);
-      box-shadow: 0 0 44px rgba(129,140,248,.16), inset 0 0 60px rgba(129,140,248,.03);
-    }
-
-    /* Platform — gradient border via wrapper */
-    .layer-platform-wrap {
-      background: linear-gradient(135deg, var(--accent-cyan) 0%, var(--accent-purple) 50%, var(--accent-green) 100%);
-      padding: 1.5px;
-      border-radius: calc(var(--r-lg) + 2px);
-    }
-    .layer-platform {
-      border-radius: var(--r-lg);
-      background: #0d0d20;
-      padding: 28px 32px;
-      position: relative; overflow: hidden;
-      cursor: default;
-      transition: background .25s ease;
-    }
-    .layer-platform:hover { background: #101028; }
-
-    /* Supply (emerald) */
-    .layer-supply {
-      background: rgba(0,255,136,.04);
-      border: 1px solid rgba(0,255,136,.22);
-    }
-    .layer-supply:hover {
-      border-color: rgba(0,255,136,.42);
-      box-shadow: 0 0 44px rgba(0,255,136,.13), inset 0 0 60px rgba(0,255,136,.025);
-    }
-
-    /* ── Role / title / sub ── */
-    .layer-role {
-      font-family: var(--mono); font-size: 9px; font-weight: 800;
-      letter-spacing: .18em; text-transform: uppercase; display: block; margin-bottom: 7px;
-    }
-    .layer-role.c-indigo { color: #818cf8; }
-    .layer-role.c-purple { color: var(--accent-purple); }
-    .layer-role.c-green  { color: var(--accent-green); }
-
-    .layer-title {
-      font-size: 22px; font-weight: 900;
-      color: var(--text-primary); letter-spacing: -.03em; margin-bottom: 7px;
-    }
-    .layer-sub {
-      font-size: 13px; color: var(--text-400);
-      line-height: 1.65; max-width: 600px;
-    }
-
-    /* ── Node pills ── */
-    .layer-pills { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 16px; }
-    .lpill {
-      padding: 3px 11px; border-radius: 20px;
-      font-family: var(--mono); font-size: 10px; font-weight: 600;
-      border: 1px solid; white-space: nowrap;
-      transition: opacity .15s ease;
-    }
-    .lpill-indigo { background: rgba(129,140,248,.1); color: #a5b4fc; border-color: rgba(129,140,248,.28); }
-    .lpill-green  { background: rgba(0,255,136,.08);  color: var(--accent-green); border-color: rgba(0,255,136,.22); }
-    .lpill-more   { opacity: .5; font-style: italic; }
-
-    /* ── Platform feature grid ── */
-    .pf-grid {
-      display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 16px;
-    }
-    .pf-item {
-      display: flex; align-items: flex-start; gap: 10px;
-      padding: 11px 13px; border-radius: var(--r-sm);
-      background: rgba(255,255,255,.025);
+    /* Outer scroll wrapper for narrow screens */
+    .svg-outer {
+      overflow-x: auto;
       border: 1px solid var(--border-dim);
-      transition: border-color .2s ease;
-    }
-    .pf-item:hover { border-color: var(--border-mid); }
-    .pf-icon  { font-size: 15px; flex-shrink: 0; line-height: 1; padding-top: 1px; }
-    .pf-label { font-size: 11px; font-weight: 700; color: var(--text-primary); }
-    .pf-sub   { font-size: 10px; color: var(--text-secondary); font-family: var(--mono); margin-top: 2px; }
-
-    /* ── Hover tooltip overlay ── */
-    .layer-tooltip {
-      position: absolute; inset: 0;
-      border-radius: inherit;
-      background: rgba(6,6,15,.93);
-      backdrop-filter: blur(4px);
-      display: flex; align-items: center; justify-content: center;
-      padding: 28px 40px; text-align: center;
-      opacity: 0; transition: opacity .22s ease;
-      pointer-events: none; z-index: 10;
-    }
-    .layer-card:hover    .layer-tooltip { opacity: 1; }
-    .layer-platform:hover .layer-tooltip { opacity: 1; }
-
-    .tt-kicker {
-      font-family: var(--mono); font-size: 9px; font-weight: 800;
-      letter-spacing: .15em; text-transform: uppercase; display: block; margin-bottom: 12px;
-    }
-    .tt-kicker.c-indigo { color: #818cf8; }
-    .tt-kicker.c-purple { color: var(--accent-purple); }
-    .tt-kicker.c-green  { color: var(--accent-green); }
-
-    .tt-text {
-      font-size: 15px; color: var(--text-primary);
-      line-height: 1.65; font-weight: 500; max-width: 480px; margin: 0 auto;
+      border-radius: var(--r-lg);
+      background: var(--bg-console);
+      -webkit-overflow-scrolling: touch;
     }
 
-    /* ── Vertical connectors ── */
-    .connector {
-      display: flex; align-items: center; justify-content: center;
-      gap: 14px; height: 56px; padding: 6px 0;
+    /* The SVG itself */
+    .eco-svg {
+      display: block;
+      min-width: 620px;
+      width: 100%;
     }
-    .conn-track {
-      width: 2px; height: 100%;
-      position: relative; flex-shrink: 0;
+
+    /* SVG path animations */
+    .p-bg {
+      fill: none; stroke: #1e1e42; stroke-width: 1.2;
     }
-    .conn-line {
-      position: absolute; inset: 0; border-radius: 1px; opacity: .22;
+    .p-anim {
+      fill: none; stroke-dasharray: 5 8;
+      animation: march 1.3s linear infinite;
     }
-    .cdot {
-      position: absolute; width: 6px; height: 6px;
-      border-radius: 50%; opacity: 0;
+    .p-model { stroke: rgba(155,109,255,.65); stroke-width: 1.8; }
+    .p-data  { stroke: rgba(0,255,136,.55);   stroke-width: 1.8; }
+    .d0 { animation-delay:  0.0s; }
+    .d1 { animation-delay: -0.32s; }
+    .d2 { animation-delay: -0.64s; }
+    .d3 { animation-delay: -0.96s; }
+
+    @keyframes march { to { stroke-dashoffset: -13; } }
+
+    /* SVG particle dots */
+    .ptcl-m { fill: #9b6dff; }
+    .ptcl-d { fill: #00ff88; }
+
+    /* SVG text helpers (inline styles used for specificity, but shared classes here) */
+    .svg-col-hd {
+      font-family: var(--mono); fill: #2e2e5a;
+      font-size: 10px; font-weight: 700; letter-spacing: 2px;
     }
-    @keyframes flow-dn {
-      0%   { top: 0%;   opacity: 0; }
-      12%  { opacity: 1; }
-      88%  { opacity: 1; }
-      100% { top: 100%; opacity: 0; }
-    }
-    @keyframes flow-up {
-      0%   { top: 100%; opacity: 0; }
-      12%  { opacity: 1; }
-      88%  { opacity: 1; }
-      100% { top: 0%;   opacity: 0; }
-    }
-    .conn-meta { display: flex; flex-direction: column; align-items: flex-start; gap: 3px; }
-    .conn-arrows { font-size: 13px; line-height: 1; }
-    .conn-label {
-      font-family: var(--mono); font-size: 9px; font-weight: 600;
-      letter-spacing: .08em; opacity: .6; white-space: nowrap;
-    }
+    .node-name { font-family: var(--sans); fill: #e4e8f5; font-weight: 600; }
+    .node-sub  { font-family: var(--sans); fill: #5a6380; }
+    .badge-txt { font-family: var(--mono); font-weight: 800; text-anchor: middle; }
+    .router-title { font-family: var(--mono); fill: #e4e8f5; font-weight: 800; letter-spacing: 0.5px; text-anchor: middle; }
+    .router-sub   { font-family: var(--mono); fill: #9b6dff; text-anchor: middle; }
+    .billing-txt  { font-family: var(--mono); fill: #00ff88; font-weight: 800; letter-spacing: 1.5px; text-anchor: middle; }
+    .proto-lbl    { font-family: var(--mono); fill: #272745; font-weight: 700; letter-spacing: 1px; text-anchor: middle; }
 
     /* ================================================================
        KEY METRICS ROW
@@ -450,14 +339,11 @@
         </p>
       </header>
 
-      <!-- ── CLEARINGHOUSE DIAGRAM ── -->
-      <section>
-        <p class="section-lbl center">Platform Architecture · Value Clearing Flow</p>
-        <div class="layers-container" id="layers-container"><!-- rendered by JS --></div>
-      </section>
+      <!-- ── ECOSYSTEM DIAGRAM ── -->
+      <section class="diagram-section">
+        <p class="section-lbl center">Live Architecture · The Interconnected Value Flywheel</p>
 
-      <!-- legacy SVG kept as hidden (replaced by clearinghouse above) -->
-      <div style="display:none"><div class="svg-outer">
+        <div class="svg-outer">
           <!--
             COORDINATE PLAN  viewBox 0 0 740 410
             ─────────────────────────────────────────────────────────
@@ -750,7 +636,8 @@
               ⚡ REAL-TIME MICRO-BILLING CLEARINGHOUSE
             </text>
           </svg>
-        </div></div><!-- /hidden legacy SVG -->
+        </div>
+      </section>
 
       <!-- ── KEY METRICS ── -->
       <section>
@@ -780,6 +667,22 @@
             <div class="stat-label">Vendor Lock-in</div>
             <div class="stat-sub">Swap any node at any time</div>
           </div>
+
+        </div>
+
+        <!-- HF Bridge callout -->
+        <div style="margin-top:14px;padding:14px 18px;border-radius:var(--r-md);background:rgba(251,191,36,.04);border:1px solid rgba(251,191,36,.18);display:flex;align-items:flex-start;gap:14px;">
+          <div style="font-size:20px;flex-shrink:0;padding-top:2px;">⟷</div>
+          <div>
+            <div style="font-size:12px;font-weight:700;color:#fbbf24;margin-bottom:4px;">Hugging Face is a Bridge Node — it appears on both sides</div>
+            <div style="font-size:11px;color:var(--text-500);line-height:1.65;">
+              <strong style="color:var(--text-400)">As an MCP Client (left):</strong> HF Inference API runs open models (Zephyr, Phi-3, Mistral) as the reasoning brain making tool calls.&nbsp;
+              <strong style="color:var(--text-400)">As an MCP Server (right):</strong> HF Spaces expose specialized ML pipelines — image generation, embeddings, audio processing, custom classifiers — that any MCP client can call as tools.
+              HF is the only actor in this architecture that can be both the caller and the callee in the same pipeline.
+            </div>
+          </div>
+        </div>
+
 
         </div>
       </section>
@@ -856,201 +759,5 @@
     AI App Marketplace · Open MCP Protocol · Protocol Version 2024-11-05 · No Walled Gardens
   </footer>
 </div>
-
-<script>
-/* ================================================================
-   CLEARINGHOUSE CONFIG
-   Edit text, colors, pills, and feature items here.
-   Layout and animation logic below reads from these arrays.
-================================================================ */
-
-const CLEARINGHOUSE = {
-
-  /* ── Design tokens for the three layers ── */
-  colors: {
-    indigo:  { hex: '#818cf8', rgb: '129,140,248' },
-    purple:  { hex: '#9b6dff', rgb: '155,109,255' },
-    cyan:    { hex: '#00d4ff', rgb: '0,212,255'   },
-    green:   { hex: '#00ff88', rgb: '0,255,136'   },
-  },
-
-  /* ── Layer definitions (top → bottom) ── */
-  layers: [
-    {
-      id:        'demand',
-      color:     'indigo',
-      role:      'THE DEMAND LAYER',
-      title:     'HUGGING FACE HUB',
-      subtitle:  'Thousands of specialized Open-Source AI Apps, Agents, and LLM Models.',
-      tooltip:   'Models gain instant access to real-world utility without custom integration overhead.',
-      pills: [
-        'Llama 3 70B', 'Claude 3.5', 'Qwen 2.5 72B',
-        'Mistral 7B',  'DeepSeek R1', 'HF Inference',
-        { text: '+1,000s more', more: true },
-      ],
-    },
-    {
-      id:        'platform',
-      color:     'purple',
-      role:      'THE MARKETPLACE',
-      title:     'OUR PLATFORM ENGINE',
-      subtitle:  'Secure Identity Matching & Real-Time Micro-Billing Framework.',
-      tooltip:   'Resolves security identity handshakes and executes real-time fractional payment splits.',
-      features: [
-        { icon: '⚡', label: 'Real-Time Settlement',  sub: 'Micro-billing per call' },
-        { icon: '🔐', label: 'Identity Matching',     sub: 'Secure MCP handshake'  },
-        { icon: '⟷',  label: 'JSON-RPC 2.0',          sub: 'SSE Transport Protocol' },
-        { icon: '⬡',  label: '5% Routing Fee',         sub: 'vs 30% walled-garden avg' },
-      ],
-    },
-    {
-      id:        'supply',
-      color:     'green',
-      role:      'THE SUPPLY LAYER',
-      title:     'MCP CONNECTORS',
-      subtitle:  'User Context: Notion, Private DBs, Local Files, and Niche Software.',
-      tooltip:   'Tool & data creators monetize their unique context streams via a plug-and-play protocol.',
-      pills: [
-        'PostgreSQL', 'Notion', 'Supabase',
-        'MongoDB',    'HF Spaces', 'Local Files',
-        { text: '+∞ connectors', more: true },
-      ],
-    },
-  ],
-
-  /* ── Connector definitions (one per gap between layers) ── */
-  connectors: [
-    {
-      direction: 'down',
-      color:     'indigo',
-      label:     'MCP Requests',
-      arrows:    '↓',
-    },
-    {
-      direction: 'both',
-      color:     'green',
-      label:     'Tool Calls · Data Responses',
-      arrows:    '↕',
-    },
-  ],
-};
-
-/* ================================================================
-   RENDERER
-================================================================ */
-
-function renderClearinghouse() {
-  const container = document.getElementById('layers-container');
-  if (!container) return;
-
-  const { layers, connectors, colors } = CLEARINGHOUSE;
-  const parts = [];
-
-  layers.forEach((layer, i) => {
-    if (i > 0) parts.push(buildConnector(connectors[i - 1], colors));
-    parts.push(buildLayer(layer, colors));
-  });
-
-  container.innerHTML = parts.join('');
-}
-
-function buildLayer(layer, colors) {
-  const c = colors[layer.color];
-  const colorClass = `c-${layer.color}`;
-  const isPlatform = layer.id === 'platform';
-
-  /* Tooltip */
-  const tooltip = `
-    <div class="layer-tooltip">
-      <div>
-        <span class="tt-kicker ${colorClass}">Value Proposition</span>
-        <p class="tt-text">${layer.tooltip}</p>
-      </div>
-    </div>`;
-
-  /* Pills (demand / supply) */
-  let extra = '';
-  if (layer.pills) {
-    const pillColor = layer.color === 'indigo' ? 'lpill-indigo' : 'lpill-green';
-    const pillsHtml = layer.pills.map(p => {
-      const t    = typeof p === 'string' ? p : p.text;
-      const more = typeof p === 'object' && p.more;
-      return `<span class="lpill ${pillColor}${more ? ' lpill-more' : ''}">${t}</span>`;
-    }).join('');
-    extra = `<div class="layer-pills">${pillsHtml}</div>`;
-  }
-
-  /* Feature grid (platform) */
-  if (layer.features) {
-    const featsHtml = layer.features.map(f => `
-      <div class="pf-item">
-        <span class="pf-icon">${f.icon}</span>
-        <div>
-          <div class="pf-label">${f.label}</div>
-          <div class="pf-sub">${f.sub}</div>
-        </div>
-      </div>`).join('');
-    extra = `<div class="pf-grid">${featsHtml}</div>`;
-  }
-
-  const inner = `
-    <span class="layer-role ${colorClass}">${layer.role}</span>
-    <h3 class="layer-title">${layer.title}</h3>
-    <p class="layer-sub">${layer.subtitle}</p>
-    ${extra}
-    ${tooltip}`;
-
-  if (isPlatform) {
-    return `
-      <div class="layer-platform-wrap">
-        <div class="layer-platform">${inner}</div>
-      </div>`;
-  }
-
-  return `<div class="layer-card layer-${layer.id}">${inner}</div>`;
-}
-
-function buildConnector(conn, colors) {
-  const c   = colors[conn.color];
-  const hex = c.hex;
-  const isDual = conn.direction === 'both';
-
-  /* Build animated dots */
-  let dots = '';
-  const dur = 1.5;
-
-  if (isDual) {
-    /* Down dots — left of centre */
-    for (let i = 0; i < 3; i++) {
-      const delay = -(i * (dur / 3)).toFixed(2);
-      dots += `<span class="cdot" style="left:calc(50% - 4px);width:5px;height:5px;background:${hex};animation:flow-dn ${dur}s ease-in-out ${delay}s infinite"></span>`;
-    }
-    /* Up dots — right of centre, slightly dimmer */
-    for (let i = 0; i < 2; i++) {
-      const delay = -(i * (dur / 2)).toFixed(2);
-      dots += `<span class="cdot" style="left:calc(50% + 3px);width:5px;height:5px;background:${hex};opacity:.5;animation:flow-up ${dur}s ease-in-out ${delay}s infinite"></span>`;
-    }
-  } else {
-    for (let i = 0; i < 3; i++) {
-      const delay = -(i * (dur / 3)).toFixed(2);
-      dots += `<span class="cdot" style="left:50%;transform:translateX(-50%);width:6px;height:6px;background:${hex};animation:flow-dn ${dur}s ease-in-out ${delay}s infinite"></span>`;
-    }
-  }
-
-  return `
-    <div class="connector">
-      <div class="conn-track">
-        <div class="conn-line" style="background:${hex}"></div>
-        ${dots}
-      </div>
-      <div class="conn-meta">
-        <span class="conn-arrows" style="color:${hex}">${conn.arrows}</span>
-        <span class="conn-label" style="color:${hex}">${conn.label}</span>
-      </div>
-    </div>`;
-}
-
-document.addEventListener('DOMContentLoaded', renderClearinghouse);
-</script>
 </body>
 </html>
