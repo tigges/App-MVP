@@ -345,259 +345,294 @@
 
         <div class="svg-outer">
           <!--
-            SVG coordinate plan
-            viewBox:  0 0 740 360
-            Left nodes  (x=20, w=155): right edge = 175, node centers y = 58,124,190,256
-            Router      (x=270, w=200, y=103, h=104): center x=370 y=155; left=270 right=470
-            Right nodes (x=565, w=155): left edge = 565, node centers y = 58,124,190,256
-            Billing pill: y=305, centered x=370
+            COORDINATE PLAN  viewBox 0 0 740 410
+            ─────────────────────────────────────────────────────────
+            5 nodes each side  height=40  gap=18  starting y=22
+              y: 22 / 80 / 138 / 196 / 254   center-y: 42/100/158/216/274
+
+            Router  x=270 w=200 y=108 h=100  center (370,158)
+              left=270  right=470
+
+            Left right-edge = 175   Right left-edge = 565
+            All left paths  → (270,158)
+            All right paths ← (470,158)
+            Middle row (158) = perfectly straight line
+
+            HF Bridge nodes: row 5 (y=254, center=274, bottom=294)
+              Left HF Inference · Right HF Spaces  → amber colour
+            Bridge arc: M97,294 Q370,348 642,294
+            Bridge label: y=363
+
+            Billing connector: x=370 y=208→374   pill y=375 h=27
+            SVG total height: 410
           -->
-          <svg viewBox="0 0 740 360" class="eco-svg"
+          <svg viewBox="0 0 740 410" class="eco-svg"
                xmlns="http://www.w3.org/2000/svg"
                role="img"
-               aria-label="Ecosystem diagram: AI model nodes on the left connect through the MCP Marketplace Router to private data nodes on the right, with a micro-billing clearinghouse below.">
-            <title>MCP Marketplace Ecosystem Architecture</title>
+               aria-label="Ecosystem diagram showing 5 AI model nodes (left) routing through the MCP Marketplace Router (center) to 5 private data nodes (right). Hugging Face appears on both sides as a dual-role Bridge Node, connected by a bridge arc at the bottom.">
+            <title>MCP Marketplace Ecosystem Architecture — with Hugging Face Bridge Node</title>
 
             <defs>
-              <!-- Dot-grid background pattern -->
               <pattern id="dotgrid" x="0" y="0" width="24" height="24" patternUnits="userSpaceOnUse">
                 <circle cx="1" cy="1" r="0.8" fill="#101028"/>
               </pattern>
-
-              <!-- Router glow filter -->
               <filter id="f-router" x="-40%" y="-40%" width="180%" height="180%">
                 <feGaussianBlur stdDeviation="7" result="b"/>
                 <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
               </filter>
-
-              <!-- Particle glow filter -->
               <filter id="f-ptcl" x="-150%" y="-150%" width="400%" height="400%">
                 <feGaussianBlur stdDeviation="2.5" result="b"/>
                 <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
               </filter>
-
-              <!-- Router border gradient -->
+              <filter id="f-bridge" x="-30%" y="-60%" width="160%" height="220%">
+                <feGaussianBlur stdDeviation="4" result="b"/>
+                <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+              </filter>
               <linearGradient id="g-router-border" x1="0%" y1="0%" x2="100%" y2="100%">
                 <stop offset="0%"   stop-color="#00d4ff" stop-opacity=".9"/>
-                <stop offset="45%"  stop-color="#9b6dff" stop-opacity="1"/>
+                <stop offset="45%"  stop-color="#9b6dff"/>
                 <stop offset="100%" stop-color="#00ff88" stop-opacity=".8"/>
               </linearGradient>
-
-              <!-- Router top accent -->
               <linearGradient id="g-router-top" x1="0%" y1="0%" x2="100%" y2="0%">
                 <stop offset="0%"   stop-color="#00d4ff" stop-opacity=".7"/>
                 <stop offset="50%"  stop-color="#9b6dff"/>
                 <stop offset="100%" stop-color="#00ff88" stop-opacity=".7"/>
               </linearGradient>
-
-              <!-- Router inner fill -->
               <linearGradient id="g-router-fill" x1="0%" y1="0%" x2="100%" y2="100%">
                 <stop offset="0%"   stop-color="#0d0d24"/>
                 <stop offset="100%" stop-color="#090918"/>
               </linearGradient>
+              <!-- Bridge arc gradient: purple → amber → green -->
+              <linearGradient id="g-bridge" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%"   stop-color="#9b6dff" stop-opacity=".6"/>
+                <stop offset="50%"  stop-color="#fbbf24" stop-opacity=".9"/>
+                <stop offset="100%" stop-color="#00ff88" stop-opacity=".6"/>
+              </linearGradient>
             </defs>
 
-            <!-- ── BACKGROUND ── -->
-            <rect width="740" height="360" fill="url(#dotgrid)" rx="14"/>
+            <!-- BACKGROUND -->
+            <rect width="740" height="410" fill="url(#dotgrid)" rx="14"/>
 
-            <!-- ── CONNECTION PATHS — background (always-visible dim guides) ── -->
+            <!-- ══ DIM GUIDE PATHS ══ -->
             <!-- Model → Router -->
-            <path class="p-bg" d="M175,58  C222,58  222,155 270,155"/>
-            <path class="p-bg" d="M175,124 C222,124 222,155 270,155"/>
-            <path class="p-bg" d="M175,190 C222,190 222,155 270,155"/>
-            <path class="p-bg" d="M175,256 C222,256 222,155 270,155"/>
+            <path class="p-bg" d="M175,42  C222,42  222,158 270,158"/>
+            <path class="p-bg" d="M175,100 C222,100 222,158 270,158"/>
+            <path class="p-bg" d="M175,158 L270,158"/>
+            <path class="p-bg" d="M175,216 C222,216 222,158 270,158"/>
+            <path class="p-bg" d="M175,274 C222,274 222,158 270,158"/>
             <!-- Router → Data -->
-            <path class="p-bg" d="M470,155 C518,155 518,58  565,58"/>
-            <path class="p-bg" d="M470,155 C518,155 518,124 565,124"/>
-            <path class="p-bg" d="M470,155 C518,155 518,190 565,190"/>
-            <path class="p-bg" d="M470,155 C518,155 518,256 565,256"/>
-            <!-- Billing connector -->
-            <line x1="370" y1="207" x2="370" y2="302" stroke="#1a1a3a" stroke-width="1" stroke-dasharray="3 5"/>
+            <path class="p-bg" d="M470,158 C518,158 518,42  565,42"/>
+            <path class="p-bg" d="M470,158 C518,158 518,100 565,100"/>
+            <path class="p-bg" d="M470,158 L565,158"/>
+            <path class="p-bg" d="M470,158 C518,158 518,216 565,216"/>
+            <path class="p-bg" d="M470,158 C518,158 518,274 565,274"/>
+            <!-- Billing connector (dashed, dim) -->
+            <line x1="370" y1="208" x2="370" y2="372" stroke="#1c1c42" stroke-width="1" stroke-dasharray="3 5"/>
 
-            <!-- ── CONNECTION PATHS — animated marching dashes ── -->
+            <!-- ══ ANIMATED MARCHING DASHES ══ -->
             <!-- Model → Router (purple) -->
-            <path class="p-anim p-model d0" d="M175,58  C222,58  222,155 270,155"/>
-            <path class="p-anim p-model d1" d="M175,124 C222,124 222,155 270,155"/>
-            <path class="p-anim p-model d2" d="M175,190 C222,190 222,155 270,155"/>
-            <path class="p-anim p-model d3" d="M175,256 C222,256 222,155 270,155"/>
+            <path class="p-anim p-model d0" d="M175,42  C222,42  222,158 270,158"/>
+            <path class="p-anim p-model d1" d="M175,100 C222,100 222,158 270,158"/>
+            <path class="p-anim p-model d2" d="M175,158 L270,158"/>
+            <path class="p-anim p-model d3" d="M175,216 C222,216 222,158 270,158"/>
+            <path class="p-anim p-model d1" d="M175,274 C222,274 222,158 270,158"/>
             <!-- Router → Data (green) -->
-            <path class="p-anim p-data d1" d="M470,155 C518,155 518,58  565,58"/>
-            <path class="p-anim p-data d2" d="M470,155 C518,155 518,124 565,124"/>
-            <path class="p-anim p-data d0" d="M470,155 C518,155 518,190 565,190"/>
-            <path class="p-anim p-data d3" d="M470,155 C518,155 518,256 565,256"/>
+            <path class="p-anim p-data d2" d="M470,158 C518,158 518,42  565,42"/>
+            <path class="p-anim p-data d0" d="M470,158 C518,158 518,100 565,100"/>
+            <path class="p-anim p-data d3" d="M470,158 L565,158"/>
+            <path class="p-anim p-data d1" d="M470,158 C518,158 518,216 565,216"/>
+            <path class="p-anim p-data d2" d="M470,158 C518,158 518,274 565,274"/>
 
-            <!-- ── PARTICLES — model → router (purple) ── -->
-            <!-- Path 1 (y=58) -->
+            <!-- ══ PARTICLES — model → router (purple) ══ -->
             <circle r="4" class="ptcl-m" filter="url(#f-ptcl)">
-              <animateMotion dur="1.7s" begin="0s"     repeatCount="indefinite" path="M175,58 C222,58 222,155 270,155"/>
-            </circle>
-            <circle r="3" class="ptcl-m" filter="url(#f-ptcl)" opacity=".55">
-              <animateMotion dur="1.7s" begin="-0.85s" repeatCount="indefinite" path="M175,58 C222,58 222,155 270,155"/>
-            </circle>
-            <!-- Path 2 (y=124) -->
-            <circle r="4" class="ptcl-m" filter="url(#f-ptcl)">
-              <animateMotion dur="1.9s" begin="-0.3s"  repeatCount="indefinite" path="M175,124 C222,124 222,155 270,155"/>
+              <animateMotion dur="1.7s" begin="0s"    repeatCount="indefinite" path="M175,42 C222,42 222,158 270,158"/>
             </circle>
             <circle r="3" class="ptcl-m" filter="url(#f-ptcl)" opacity=".5">
-              <animateMotion dur="1.9s" begin="-1.2s"  repeatCount="indefinite" path="M175,124 C222,124 222,155 270,155"/>
+              <animateMotion dur="1.7s" begin="-0.85s" repeatCount="indefinite" path="M175,42 C222,42 222,158 270,158"/>
             </circle>
-            <!-- Path 3 (y=190) -->
             <circle r="4" class="ptcl-m" filter="url(#f-ptcl)">
-              <animateMotion dur="1.8s" begin="-0.6s"  repeatCount="indefinite" path="M175,190 C222,190 222,155 270,155"/>
+              <animateMotion dur="1.9s" begin="-0.3s" repeatCount="indefinite" path="M175,100 C222,100 222,158 270,158"/>
             </circle>
             <circle r="3" class="ptcl-m" filter="url(#f-ptcl)" opacity=".5">
-              <animateMotion dur="1.8s" begin="-1.4s"  repeatCount="indefinite" path="M175,190 C222,190 222,155 270,155"/>
+              <animateMotion dur="1.9s" begin="-1.2s" repeatCount="indefinite" path="M175,100 C222,100 222,158 270,158"/>
             </circle>
-            <!-- Path 4 (y=256) -->
             <circle r="4" class="ptcl-m" filter="url(#f-ptcl)">
-              <animateMotion dur="2.1s" begin="-0.9s"  repeatCount="indefinite" path="M175,256 C222,256 222,155 270,155"/>
+              <animateMotion dur="1.4s" begin="-0.2s" repeatCount="indefinite" path="M175,158 L270,158"/>
+            </circle>
+            <circle r="4" class="ptcl-m" filter="url(#f-ptcl)">
+              <animateMotion dur="1.8s" begin="-0.6s" repeatCount="indefinite" path="M175,216 C222,216 222,158 270,158"/>
             </circle>
             <circle r="3" class="ptcl-m" filter="url(#f-ptcl)" opacity=".5">
-              <animateMotion dur="2.1s" begin="-1.7s"  repeatCount="indefinite" path="M175,256 C222,256 222,155 270,155"/>
+              <animateMotion dur="1.8s" begin="-1.4s" repeatCount="indefinite" path="M175,216 C222,216 222,158 270,158"/>
+            </circle>
+            <!-- HF Inference → Router (amber particle) -->
+            <circle r="4.5" fill="#fbbf24" filter="url(#f-ptcl)">
+              <animateMotion dur="2.1s" begin="-0.9s" repeatCount="indefinite" path="M175,274 C222,274 222,158 270,158"/>
+            </circle>
+            <circle r="3" fill="#fbbf24" filter="url(#f-ptcl)" opacity=".5">
+              <animateMotion dur="2.1s" begin="-1.7s" repeatCount="indefinite" path="M175,274 C222,274 222,158 270,158"/>
             </circle>
 
-            <!-- ── PARTICLES — router → data (green) ── -->
-            <!-- Path 1 (y=58) -->
+            <!-- ══ PARTICLES — router → data (green) ══ -->
             <circle r="4" class="ptcl-d" filter="url(#f-ptcl)">
-              <animateMotion dur="1.7s" begin="-0.1s"  repeatCount="indefinite" path="M470,155 C518,155 518,58 565,58"/>
+              <animateMotion dur="1.7s" begin="-0.1s" repeatCount="indefinite" path="M470,158 C518,158 518,42 565,42"/>
             </circle>
             <circle r="3" class="ptcl-d" filter="url(#f-ptcl)" opacity=".5">
-              <animateMotion dur="1.7s" begin="-1.0s"  repeatCount="indefinite" path="M470,155 C518,155 518,58 565,58"/>
+              <animateMotion dur="1.7s" begin="-1.0s" repeatCount="indefinite" path="M470,158 C518,158 518,42 565,42"/>
             </circle>
-            <!-- Path 2 (y=124) -->
             <circle r="4" class="ptcl-d" filter="url(#f-ptcl)">
-              <animateMotion dur="2.0s" begin="-0.5s"  repeatCount="indefinite" path="M470,155 C518,155 518,124 565,124"/>
+              <animateMotion dur="2.0s" begin="-0.5s" repeatCount="indefinite" path="M470,158 C518,158 518,100 565,100"/>
             </circle>
             <circle r="3" class="ptcl-d" filter="url(#f-ptcl)" opacity=".5">
-              <animateMotion dur="2.0s" begin="-1.5s"  repeatCount="indefinite" path="M470,155 C518,155 518,124 565,124"/>
+              <animateMotion dur="2.0s" begin="-1.5s" repeatCount="indefinite" path="M470,158 C518,158 518,100 565,100"/>
             </circle>
-            <!-- Path 3 (y=190) -->
             <circle r="4" class="ptcl-d" filter="url(#f-ptcl)">
-              <animateMotion dur="1.85s" begin="-0.2s" repeatCount="indefinite" path="M470,155 C518,155 518,190 565,190"/>
+              <animateMotion dur="1.4s" begin="-0.7s" repeatCount="indefinite" path="M470,158 L565,158"/>
+            </circle>
+            <circle r="4" class="ptcl-d" filter="url(#f-ptcl)">
+              <animateMotion dur="1.85s" begin="-0.2s" repeatCount="indefinite" path="M470,158 C518,158 518,216 565,216"/>
             </circle>
             <circle r="3" class="ptcl-d" filter="url(#f-ptcl)" opacity=".5">
-              <animateMotion dur="1.85s" begin="-1.1s" repeatCount="indefinite" path="M470,155 C518,155 518,190 565,190"/>
+              <animateMotion dur="1.85s" begin="-1.1s" repeatCount="indefinite" path="M470,158 C518,158 518,216 565,216"/>
             </circle>
-            <!-- Path 4 (y=256) -->
-            <circle r="4" class="ptcl-d" filter="url(#f-ptcl)">
-              <animateMotion dur="2.2s" begin="-0.7s"  repeatCount="indefinite" path="M470,155 C518,155 518,256 565,256"/>
+            <!-- Router → HF Spaces (amber particle) -->
+            <circle r="4.5" fill="#fbbf24" filter="url(#f-ptcl)">
+              <animateMotion dur="2.2s" begin="-0.7s" repeatCount="indefinite" path="M470,158 C518,158 518,274 565,274"/>
             </circle>
-            <circle r="3" class="ptcl-d" filter="url(#f-ptcl)" opacity=".5">
-              <animateMotion dur="2.2s" begin="-1.8s"  repeatCount="indefinite" path="M470,155 C518,155 518,256 565,256"/>
+            <circle r="3" fill="#fbbf24" filter="url(#f-ptcl)" opacity=".5">
+              <animateMotion dur="2.2s" begin="-1.8s" repeatCount="indefinite" path="M470,158 C518,158 518,274 565,274"/>
             </circle>
 
-            <!-- ── COLUMN HEADERS ── -->
-            <text x="97"  y="20" class="svg-col-hd" text-anchor="middle">AI MODEL NODES</text>
-            <text x="642" y="20" class="svg-col-hd" text-anchor="middle">PRIVATE DATA NODES</text>
+            <!-- ══ COLUMN HEADERS ══ -->
+            <text x="97"  y="16" class="svg-col-hd" text-anchor="middle">AI MODEL NODES</text>
+            <text x="642" y="16" class="svg-col-hd" text-anchor="middle">PRIVATE DATA NODES</text>
 
-            <!-- ── MCP PROTOCOL LABELS (center of paths) ── -->
-            <text x="223" y="149" class="proto-lbl" font-size="8">MCP</text>
-            <text x="517" y="149" class="proto-lbl" font-size="8">MCP</text>
+            <!-- MCP protocol labels -->
+            <text x="223" y="152" class="proto-lbl" font-size="8">MCP</text>
+            <text x="517" y="152" class="proto-lbl" font-size="8">MCP</text>
 
-            <!-- ═══════════════════════════════════════
-                 MODEL NODES  (left column)
-                 Node rect: x=20 w=155 h=42 rx=8
-                 Badge: x=26 y=node_y+7 w=24 h=28 rx=5
-                 Badge center: x=38 y=node_y+21
-                 Name:  x=57 y=node_y+17
-                 Sub:   x=57 y=node_y+31
-            ═══════════════════════════════════════ -->
+            <!-- ══════════════════════════════════════════
+                 MODEL NODES (LEFT)
+                 x=20 w=155  badge x=26 w=24 h=26
+                 badge-center x=38   name x=57
+                 Row y: 22/80/138/196/254  (center: 42/100/158/216/274)
+            ══════════════════════════════════════════ -->
 
-            <!-- Node 1: Llama 3 70B (y=37) -->
-            <rect x="20" y="37" width="155" height="42" rx="8" fill="#0b0b1c" stroke="#9b6dff" stroke-width=".8" stroke-opacity=".4"/>
-            <rect x="26" y="44" width="24" height="28" rx="5" fill="rgba(155,109,255,.1)" stroke="rgba(155,109,255,.22)" stroke-width=".6"/>
-            <text x="38" y="62" class="badge-txt" font-size="9" fill="#9b6dff">L3</text>
-            <text x="57" y="54" class="node-name" font-size="12">Llama 3 70B</text>
-            <text x="57" y="68" class="node-sub" font-size="10">Meta AI</text>
+            <!-- Llama 3 70B (y=22) -->
+            <rect x="20" y="22" width="155" height="40" rx="8" fill="#0b0b1c" stroke="#9b6dff" stroke-width=".8" stroke-opacity=".4"/>
+            <rect x="26" y="29" width="24" height="26" rx="5" fill="rgba(155,109,255,.1)" stroke="rgba(155,109,255,.22)" stroke-width=".6"/>
+            <text x="38" y="46" class="badge-txt" font-size="9" fill="#9b6dff">L3</text>
+            <text x="57" y="39" class="node-name" font-size="12">Llama 3 70B</text>
+            <text x="57" y="53" class="node-sub"  font-size="10">Meta AI</text>
 
-            <!-- Node 2: Claude (y=103) -->
-            <rect x="20" y="103" width="155" height="42" rx="8" fill="#0b0b1c" stroke="#9b6dff" stroke-width=".8" stroke-opacity=".4"/>
-            <rect x="26" y="110" width="24" height="28" rx="5" fill="rgba(155,109,255,.1)" stroke="rgba(155,109,255,.22)" stroke-width=".6"/>
-            <text x="38" y="128" class="badge-txt" font-size="9" fill="#9b6dff">CL</text>
-            <text x="57" y="120" class="node-name" font-size="12">Claude 3.5</text>
-            <text x="57" y="134" class="node-sub" font-size="10">Anthropic</text>
+            <!-- Claude 3.5 (y=80) -->
+            <rect x="20" y="80" width="155" height="40" rx="8" fill="#0b0b1c" stroke="#9b6dff" stroke-width=".8" stroke-opacity=".4"/>
+            <rect x="26" y="87" width="24" height="26" rx="5" fill="rgba(155,109,255,.1)" stroke="rgba(155,109,255,.22)" stroke-width=".6"/>
+            <text x="38" y="104" class="badge-txt" font-size="9" fill="#9b6dff">CL</text>
+            <text x="57" y="97" class="node-name" font-size="12">Claude 3.5 Haiku</text>
+            <text x="57" y="111" class="node-sub" font-size="10">Anthropic</text>
 
-            <!-- Node 3: Qwen 2.5 (y=169) -->
-            <rect x="20" y="169" width="155" height="42" rx="8" fill="#0b0b1c" stroke="#9b6dff" stroke-width=".8" stroke-opacity=".4"/>
-            <rect x="26" y="176" width="24" height="28" rx="5" fill="rgba(155,109,255,.1)" stroke="rgba(155,109,255,.22)" stroke-width=".6"/>
-            <text x="38" y="194" class="badge-txt" font-size="9" fill="#9b6dff">Q2</text>
-            <text x="57" y="186" class="node-name" font-size="12">Qwen 2.5 72B</text>
-            <text x="57" y="200" class="node-sub" font-size="10">Alibaba Cloud</text>
+            <!-- Qwen 2.5 (y=138) -->
+            <rect x="20" y="138" width="155" height="40" rx="8" fill="#0b0b1c" stroke="#9b6dff" stroke-width=".8" stroke-opacity=".4"/>
+            <rect x="26" y="145" width="24" height="26" rx="5" fill="rgba(155,109,255,.1)" stroke="rgba(155,109,255,.22)" stroke-width=".6"/>
+            <text x="38" y="162" class="badge-txt" font-size="9" fill="#9b6dff">Q2</text>
+            <text x="57" y="155" class="node-name" font-size="12">Qwen 2.5 72B</text>
+            <text x="57" y="169" class="node-sub" font-size="10">Alibaba Cloud</text>
 
-            <!-- Node 4: HF Inference (y=235) -->
-            <rect x="20" y="235" width="155" height="42" rx="8" fill="#0b0b1c" stroke="#9b6dff" stroke-width=".8" stroke-opacity=".4"/>
-            <rect x="26" y="242" width="24" height="28" rx="5" fill="rgba(155,109,255,.1)" stroke="rgba(155,109,255,.22)" stroke-width=".6"/>
-            <text x="38" y="260" class="badge-txt" font-size="9" fill="#9b6dff">HF</text>
-            <text x="57" y="252" class="node-name" font-size="12">HF Inference</text>
-            <text x="57" y="266" class="node-sub" font-size="10">Hugging Face</text>
+            <!-- DeepSeek R1 (y=196) -->
+            <rect x="20" y="196" width="155" height="40" rx="8" fill="#0b0b1c" stroke="#9b6dff" stroke-width=".8" stroke-opacity=".4"/>
+            <rect x="26" y="203" width="24" height="26" rx="5" fill="rgba(155,109,255,.1)" stroke="rgba(155,109,255,.22)" stroke-width=".6"/>
+            <text x="38" y="220" class="badge-txt" font-size="9" fill="#9b6dff">DS</text>
+            <text x="57" y="213" class="node-name" font-size="12">DeepSeek R1</text>
+            <text x="57" y="227" class="node-sub" font-size="10">DeepSeek</text>
 
-            <!-- ═══════════════════════════════════════
-                 CENTRAL ROUTER
-                 Outer glow rect: x=268 y=101 w=204 h=108 rx=15
-                 Main rect:       x=270 y=103 w=200 h=104 rx=13
-                 Center: x=370 y=155
-            ═══════════════════════════════════════ -->
+            <!-- HF Inference — BRIDGE NODE (y=254, amber) -->
+            <rect x="20" y="254" width="155" height="40" rx="8" fill="#0e0c06" stroke="#fbbf24" stroke-width="1" stroke-opacity=".55"/>
+            <rect x="26" y="261" width="24" height="26" rx="5" fill="rgba(251,191,36,.1)" stroke="rgba(251,191,36,.28)" stroke-width=".6"/>
+            <text x="38" y="278" class="badge-txt" font-size="9" fill="#fbbf24">HF</text>
+            <text x="57" y="271" class="node-name" font-size="11.5">HF Inference API</text>
+            <text x="57" y="285" font-family="'SF Mono',monospace" font-size="9" fill="#5a6380">Hugging Face · <tspan fill="#fbbf24" font-weight="700">BRIDGE</tspan></text>
 
-            <!-- Aura -->
-            <rect x="265" y="98" width="210" height="114" rx="17" fill="#9b6dff" opacity=".035" filter="url(#f-router)"/>
-            <!-- Outer gradient border -->
-            <rect x="268" y="101" width="204" height="108" rx="15" fill="none" stroke="url(#g-router-border)" stroke-width="1.5"/>
-            <!-- Background fill -->
-            <rect x="270" y="103" width="200" height="104" rx="13" fill="url(#g-router-fill)"/>
-            <!-- Top accent bar -->
-            <rect x="270" y="103" width="200" height="3" rx="1.5" fill="url(#g-router-top)" opacity=".8"/>
+            <!-- ══ CENTRAL ROUTER ══
+                 x=270 y=108 w=200 h=100  center (370,158) ══ -->
+            <rect x="265" y="103" width="210" height="110" rx="17" fill="#9b6dff" opacity=".03" filter="url(#f-router)"/>
+            <rect x="268" y="106" width="204" height="104" rx="15" fill="none" stroke="url(#g-router-border)" stroke-width="1.5"/>
+            <rect x="270" y="108" width="200" height="100" rx="13" fill="url(#g-router-fill)"/>
+            <rect x="270" y="108" width="200" height="3"   rx="1.5" fill="url(#g-router-top)" opacity=".8"/>
 
-            <!-- Router hex icon -->
-            <text x="370" y="131" font-family="system-ui" font-size="22" fill="#9b6dff" text-anchor="middle" opacity=".7">⬡</text>
+            <text x="370" y="134" font-family="system-ui" font-size="22" fill="#9b6dff" text-anchor="middle" opacity=".65">⬡</text>
+            <text x="370" y="152" class="router-title" font-size="11">MCP MARKETPLACE ROUTER</text>
+            <text x="370" y="166" class="router-sub"   font-size="9">JSON-RPC 2.0 · SSE Transport</text>
+            <rect x="325" y="173" width="90" height="17" rx="8.5" fill="rgba(0,255,136,.06)" stroke="rgba(0,255,136,.25)" stroke-width=".8"/>
+            <text x="370" y="185" font-family="'SF Mono',monospace" font-size="8" font-weight="800" fill="#00ff88" text-anchor="middle" letter-spacing="1">5% ROUTING FEE</text>
 
-            <!-- Router text -->
-            <text x="370" y="149" class="router-title" font-size="11">MCP MARKETPLACE ROUTER</text>
-            <text x="370" y="163" class="router-sub"   font-size="9">JSON-RPC 2.0 · SSE Transport</text>
+            <!-- ══════════════════════════════════════════
+                 DATA NODES (RIGHT)
+                 x=565 w=155  badge x=571 w=24 h=26
+                 badge-center x=583  name x=602
+            ══════════════════════════════════════════ -->
 
-            <!-- Fee badge -->
-            <rect x="325" y="170" width="90" height="18" rx="9" fill="rgba(0,255,136,.06)" stroke="rgba(0,255,136,.25)" stroke-width=".8"/>
-            <text x="370" y="182" font-family="'SF Mono',monospace" font-size="8" font-weight="800" fill="#00ff88" text-anchor="middle" letter-spacing="1">5% ROUTING FEE</text>
+            <!-- PostgreSQL (y=22) -->
+            <rect x="565" y="22" width="155" height="40" rx="8" fill="#0b0b1c" stroke="#00ff88" stroke-width=".8" stroke-opacity=".4"/>
+            <rect x="571" y="29" width="24" height="26" rx="5" fill="rgba(0,255,136,.08)" stroke="rgba(0,255,136,.2)" stroke-width=".6"/>
+            <text x="583" y="46" class="badge-txt" font-size="9" fill="#00ff88">PG</text>
+            <text x="602" y="39" class="node-name" font-size="12">PostgreSQL</text>
+            <text x="602" y="53" class="node-sub"  font-size="10">Relational DB</text>
 
-            <!-- ═══════════════════════════════════════
-                 DATA NODES  (right column)
-                 Node rect: x=565 w=155
-                 Badge: x=571 w=24
-                 Badge center: x=583
-                 Name: x=602
-            ═══════════════════════════════════════ -->
+            <!-- Notion (y=80) -->
+            <rect x="565" y="80" width="155" height="40" rx="8" fill="#0b0b1c" stroke="#00ff88" stroke-width=".8" stroke-opacity=".4"/>
+            <rect x="571" y="87" width="24" height="26" rx="5" fill="rgba(0,255,136,.08)" stroke="rgba(0,255,136,.2)" stroke-width=".6"/>
+            <text x="583" y="104" class="badge-txt" font-size="9" fill="#00ff88">NT</text>
+            <text x="602" y="97" class="node-name" font-size="12">Notion</text>
+            <text x="602" y="111" class="node-sub" font-size="10">Knowledge Base</text>
 
-            <!-- Node 1: PostgreSQL (y=37) -->
-            <rect x="565" y="37" width="155" height="42" rx="8" fill="#0b0b1c" stroke="#00ff88" stroke-width=".8" stroke-opacity=".4"/>
-            <rect x="571" y="44" width="24" height="28" rx="5" fill="rgba(0,255,136,.08)" stroke="rgba(0,255,136,.2)" stroke-width=".6"/>
-            <text x="583" y="62" class="badge-txt" font-size="9" fill="#00ff88">PG</text>
-            <text x="602" y="54" class="node-name" font-size="12">PostgreSQL</text>
-            <text x="602" y="68" class="node-sub" font-size="10">Relational DB</text>
+            <!-- Supabase (y=138) -->
+            <rect x="565" y="138" width="155" height="40" rx="8" fill="#0b0b1c" stroke="#00ff88" stroke-width=".8" stroke-opacity=".4"/>
+            <rect x="571" y="145" width="24" height="26" rx="5" fill="rgba(0,255,136,.08)" stroke="rgba(0,255,136,.2)" stroke-width=".6"/>
+            <text x="583" y="162" class="badge-txt" font-size="9" fill="#00ff88">SB</text>
+            <text x="602" y="155" class="node-name" font-size="12">Supabase</text>
+            <text x="602" y="169" class="node-sub" font-size="10">BaaS Platform</text>
 
-            <!-- Node 2: Notion (y=103) -->
-            <rect x="565" y="103" width="155" height="42" rx="8" fill="#0b0b1c" stroke="#00ff88" stroke-width=".8" stroke-opacity=".4"/>
-            <rect x="571" y="110" width="24" height="28" rx="5" fill="rgba(0,255,136,.08)" stroke="rgba(0,255,136,.2)" stroke-width=".6"/>
-            <text x="583" y="128" class="badge-txt" font-size="9" fill="#00ff88">NT</text>
-            <text x="602" y="120" class="node-name" font-size="12">Notion</text>
-            <text x="602" y="134" class="node-sub" font-size="10">Knowledge Base</text>
+            <!-- MongoDB Atlas (y=196) -->
+            <rect x="565" y="196" width="155" height="40" rx="8" fill="#0b0b1c" stroke="#00ff88" stroke-width=".8" stroke-opacity=".4"/>
+            <rect x="571" y="203" width="24" height="26" rx="5" fill="rgba(0,255,136,.08)" stroke="rgba(0,255,136,.2)" stroke-width=".6"/>
+            <text x="583" y="220" class="badge-txt" font-size="9" fill="#00ff88">MA</text>
+            <text x="602" y="213" class="node-name" font-size="12">MongoDB Atlas</text>
+            <text x="602" y="227" class="node-sub" font-size="10">Document DB</text>
 
-            <!-- Node 3: Supabase (y=169) -->
-            <rect x="565" y="169" width="155" height="42" rx="8" fill="#0b0b1c" stroke="#00ff88" stroke-width=".8" stroke-opacity=".4"/>
-            <rect x="571" y="176" width="24" height="28" rx="5" fill="rgba(0,255,136,.08)" stroke="rgba(0,255,136,.2)" stroke-width=".6"/>
-            <text x="583" y="194" class="badge-txt" font-size="9" fill="#00ff88">SB</text>
-            <text x="602" y="186" class="node-name" font-size="12">Supabase</text>
-            <text x="602" y="200" class="node-sub" font-size="10">BaaS Platform</text>
+            <!-- HF Spaces — BRIDGE NODE (y=254, amber) -->
+            <rect x="565" y="254" width="155" height="40" rx="8" fill="#0e0c06" stroke="#fbbf24" stroke-width="1" stroke-opacity=".55"/>
+            <rect x="571" y="261" width="24" height="26" rx="5" fill="rgba(251,191,36,.1)" stroke="rgba(251,191,36,.28)" stroke-width=".6"/>
+            <text x="583" y="278" class="badge-txt" font-size="9" fill="#fbbf24">HF</text>
+            <text x="602" y="271" class="node-name" font-size="11.5">HF Spaces</text>
+            <text x="602" y="285" font-family="'SF Mono',monospace" font-size="9" fill="#5a6380">Hugging Face · <tspan fill="#fbbf24" font-weight="700">BRIDGE</tspan></text>
 
-            <!-- Node 4: MongoDB (y=235) -->
-            <rect x="565" y="235" width="155" height="42" rx="8" fill="#0b0b1c" stroke="#00ff88" stroke-width=".8" stroke-opacity=".4"/>
-            <rect x="571" y="242" width="24" height="28" rx="5" fill="rgba(0,255,136,.08)" stroke="rgba(0,255,136,.2)" stroke-width=".6"/>
-            <text x="583" y="260" class="badge-txt" font-size="9" fill="#00ff88">MA</text>
-            <text x="602" y="252" class="node-name" font-size="12">MongoDB Atlas</text>
-            <text x="602" y="266" class="node-sub" font-size="10">Document DB</text>
+            <!-- ══ HF BRIDGE ARC ══
+                 Connects HF Inference (left, center 97,274) to HF Spaces (right, center 642,274)
+                 arching below both nodes. Quadratic bezier M97,294 Q370,348 642,294
+                 Glow + gradient stroke to show the dual-role nature.
+            ══ -->
+            <!-- Glow shadow under the arc -->
+            <path d="M97,294 Q370,348 642,294" fill="none" stroke="#fbbf24" stroke-width="4" stroke-opacity=".12" filter="url(#f-bridge)"/>
+            <!-- Main arc -->
+            <path d="M97,294 Q370,348 642,294" fill="none" stroke="url(#g-bridge)" stroke-width="1.8" stroke-dasharray="5 7" stroke-opacity=".7"/>
+            <!-- Animated dot along bridge arc (amber) -->
+            <circle r="4" fill="#fbbf24" filter="url(#f-ptcl)">
+              <animateMotion dur="3.2s" begin="0s"    repeatCount="indefinite" path="M97,294 Q370,348 642,294"/>
+            </circle>
+            <circle r="3" fill="#fbbf24" filter="url(#f-ptcl)" opacity=".5">
+              <animateMotion dur="3.2s" begin="-1.6s" repeatCount="indefinite" path="M97,294 Q370,348 642,294"/>
+            </circle>
+            <!-- Bridge label -->
+            <text x="370" y="363" font-family="'SF Mono',monospace" font-size="8.5" font-weight="800"
+                  fill="#fbbf24" text-anchor="middle" letter-spacing="1.2" opacity=".75">
+              ⟷  HUGGING FACE · DUAL-ROLE BRIDGE NODE
+            </text>
 
-            <!-- ── BILLING CLEARINGHOUSE ── -->
-            <rect x="210" y="303" width="320" height="30" rx="15"
-                  fill="rgba(0,255,136,.04)" stroke="rgba(0,255,136,.2)" stroke-width="1"/>
-            <text x="370" y="322" class="billing-txt" font-size="8.5">
+            <!-- ══ BILLING CLEARINGHOUSE ══ -->
+            <rect x="210" y="376" width="320" height="27" rx="13.5"
+                  fill="rgba(0,255,136,.04)" stroke="rgba(0,255,136,.18)" stroke-width="1"/>
+            <text x="370" y="393" class="billing-txt" font-size="8.5">
               ⚡ REAL-TIME MICRO-BILLING CLEARINGHOUSE
             </text>
           </svg>
@@ -632,6 +667,22 @@
             <div class="stat-label">Vendor Lock-in</div>
             <div class="stat-sub">Swap any node at any time</div>
           </div>
+
+        </div>
+
+        <!-- HF Bridge callout -->
+        <div style="margin-top:14px;padding:14px 18px;border-radius:var(--r-md);background:rgba(251,191,36,.04);border:1px solid rgba(251,191,36,.18);display:flex;align-items:flex-start;gap:14px;">
+          <div style="font-size:20px;flex-shrink:0;padding-top:2px;">⟷</div>
+          <div>
+            <div style="font-size:12px;font-weight:700;color:#fbbf24;margin-bottom:4px;">Hugging Face is a Bridge Node — it appears on both sides</div>
+            <div style="font-size:11px;color:var(--text-500);line-height:1.65;">
+              <strong style="color:var(--text-400)">As an MCP Client (left):</strong> HF Inference API runs open models (Zephyr, Phi-3, Mistral) as the reasoning brain making tool calls.&nbsp;
+              <strong style="color:var(--text-400)">As an MCP Server (right):</strong> HF Spaces expose specialized ML pipelines — image generation, embeddings, audio processing, custom classifiers — that any MCP client can call as tools.
+              HF is the only actor in this architecture that can be both the caller and the callee in the same pipeline.
+            </div>
+          </div>
+        </div>
+
 
         </div>
       </section>

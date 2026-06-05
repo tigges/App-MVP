@@ -256,8 +256,9 @@
     }
     .opt:hover { border-color: var(--border-mid); background: var(--bg-card-hi); }
 
-    .opt.sel-model { border-color: var(--accent-cyan);  background: rgba(0,212,255,.06); }
-    .opt.sel-data  { border-color: var(--accent-green); background: rgba(0,255,136,.06); }
+    .opt.sel-model  { border-color: var(--accent-cyan);   background: rgba(0,212,255,.06); }
+    .opt.sel-data   { border-color: var(--accent-green);  background: rgba(0,255,136,.06); }
+    .opt.sel-bridge { border-color: var(--accent-yellow); background: rgba(251,191,36,.06); }
 
     .opt-badge {
       width: 30px; height: 30px; border-radius: var(--r-sm);
@@ -267,8 +268,9 @@
       background: var(--border-dim); color: var(--text-secondary);
       transition: all .18s ease;
     }
-    .opt.sel-model .opt-badge { background: rgba(0,212,255,.14); color: var(--accent-cyan); }
-    .opt.sel-data  .opt-badge { background: rgba(0,255,136,.14); color: var(--accent-green); }
+    .opt.sel-model  .opt-badge { background: rgba(0,212,255,.14);  color: var(--accent-cyan); }
+    .opt.sel-data   .opt-badge { background: rgba(0,255,136,.14);  color: var(--accent-green); }
+    .opt.sel-bridge .opt-badge { background: rgba(251,191,36,.14); color: var(--accent-yellow); }
 
     .opt-info { flex: 1; min-width: 0; }
     .opt-name { font-size: 12px; font-weight: 600; color: var(--text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -279,10 +281,21 @@
       border: 2px solid var(--text-dim); flex-shrink: 0;
       position: relative; transition: all .18s ease;
     }
-    .opt.sel-model .opt-radio { border-color: var(--accent-cyan); }
-    .opt.sel-model .opt-radio::after { content:''; position:absolute; inset:2px; border-radius:50%; background:var(--accent-cyan); }
-    .opt.sel-data  .opt-radio { border-color: var(--accent-green); }
-    .opt.sel-data  .opt-radio::after { content:''; position:absolute; inset:2px; border-radius:50%; background:var(--accent-green); }
+    .opt.sel-model  .opt-radio { border-color: var(--accent-cyan); }
+    .opt.sel-model  .opt-radio::after { content:''; position:absolute; inset:2px; border-radius:50%; background:var(--accent-cyan); }
+    .opt.sel-data   .opt-radio { border-color: var(--accent-green); }
+    .opt.sel-data   .opt-radio::after { content:''; position:absolute; inset:2px; border-radius:50%; background:var(--accent-green); }
+    .opt.sel-bridge .opt-radio { border-color: var(--accent-yellow); }
+    .opt.sel-bridge .opt-radio::after { content:''; position:absolute; inset:2px; border-radius:50%; background:var(--accent-yellow); }
+
+    /* Bridge node badge shown on HF items (both sides) */
+    .bridge-tag {
+      font-family: var(--mono); font-size: 9px; font-weight: 800;
+      letter-spacing: .06em; padding: 1px 6px; border-radius: 4px;
+      background: rgba(251,191,36,.1); color: var(--accent-yellow);
+      border: 1px solid rgba(251,191,36,.25);
+      flex-shrink: 0;
+    }
 
     /* ================================================================
        SPECS PANEL
@@ -921,6 +934,14 @@ const DATA_SOURCES = [
     type: 'Document DB', protocol: 'mcp-mongo v1.1',
     queryCost: 0.0009,
     description: 'Document-oriented queries'
+  },
+  {
+    id: 'hf-spaces', badge: 'HF',
+    name: 'HF Spaces', creator: 'Hugging Face',
+    type: 'ML Tool Platform', protocol: 'mcp-hf-spaces v0.8',
+    queryCost: 0.0005,
+    description: 'Specialized ML inference spaces',
+    bridge: true   // HF spans both MCP Client and MCP Server roles
   }
 ];
 
@@ -1011,12 +1032,15 @@ function buildModelPicker() {
     const div = document.createElement('div');
     div.className = 'opt';
     div.dataset.mid = m.id;
+    const bridgeTag = m.id === 'hf'
+      ? `<span class="bridge-tag">⟷ BRIDGE</span>` : '';
     div.innerHTML = `
       <div class="opt-badge">${m.badge}</div>
       <div class="opt-info">
         <div class="opt-name">${m.name}</div>
         <div class="opt-sub">${m.creator}</div>
       </div>
+      ${bridgeTag}
       <div class="opt-radio"></div>`;
     div.addEventListener('click', () => pickModel(m.id));
     el.appendChild(div);
@@ -1029,12 +1053,15 @@ function buildSourcePicker() {
     const div = document.createElement('div');
     div.className = 'opt';
     div.dataset.sid = s.id;
+    const bridgeTag = s.bridge
+      ? `<span class="bridge-tag">⟷ BRIDGE</span>` : '';
     div.innerHTML = `
       <div class="opt-badge">${s.badge}</div>
       <div class="opt-info">
         <div class="opt-name">${s.name}</div>
         <div class="opt-sub">${s.type}</div>
       </div>
+      ${bridgeTag}
       <div class="opt-radio"></div>`;
     div.addEventListener('click', () => pickSource(s.id));
     el.appendChild(div);
@@ -1053,13 +1080,17 @@ function pickModel(id) {
     el.classList.toggle('sel-model', el.dataset.mid === id);
   });
 
+  const modelBridgeRow = selModel.id === 'hf'
+    ? `<div class="spec-row"><span class="sk">Role</span><span class="sv" style="color:var(--accent-yellow)">⟷ Bridge Node</span></div>`
+    : '';
   $('model-specs').innerHTML = `
     <div class="spec-row"><span class="sk">Model</span><span class="sv hi-model">${selModel.name}</span></div>
     <div class="spec-row"><span class="sk">Creator</span><span class="sv">${selModel.creator}</span></div>
     <div class="spec-row"><span class="sk">Context</span><span class="sv">${selModel.context}</span></div>
     <div class="spec-row"><span class="sk">License</span><span class="sv">${selModel.license}</span></div>
     <div class="spec-row"><span class="sk">Input cost</span><span class="sv">$${selModel.inputCost.toFixed(5)} / 1K tok</span></div>
-    <div class="spec-row"><span class="sk">Output cost</span><span class="sv">$${selModel.outputCost.toFixed(5)} / 1K tok</span></div>`;
+    <div class="spec-row"><span class="sk">Output cost</span><span class="sv">$${selModel.outputCost.toFixed(5)} / 1K tok</span></div>
+    ${modelBridgeRow}`;
 
   $('model-btn').disabled = false;
 }
@@ -1067,17 +1098,23 @@ function pickModel(id) {
 function pickSource(id) {
   if (state >= S.DATA) return;
   selSource = DATA_SOURCES.find(s => s.id === id);
+  const selClass = selSource.bridge ? 'sel-bridge' : 'sel-data';
 
   QA('#source-picker .opt').forEach(el => {
-    el.classList.toggle('sel-data', el.dataset.sid === id);
+    el.classList.remove('sel-data', 'sel-bridge');
+    if (el.dataset.sid === id) el.classList.add(selClass);
   });
 
+  const bridgeRow = selSource.bridge
+    ? `<div class="spec-row"><span class="sk">Role</span><span class="sv" style="color:var(--accent-yellow)">⟷ Bridge Node</span></div>`
+    : '';
   $('data-specs').innerHTML = `
     <div class="spec-row"><span class="sk">Source</span><span class="sv hi-data">${selSource.name}</span></div>
     <div class="spec-row"><span class="sk">Creator</span><span class="sv">${selSource.creator}</span></div>
     <div class="spec-row"><span class="sk">Type</span><span class="sv">${selSource.type}</span></div>
     <div class="spec-row"><span class="sk">Protocol</span><span class="sv">${selSource.protocol}</span></div>
-    <div class="spec-row"><span class="sk">Query rate</span><span class="sv">$${selSource.queryCost.toFixed(4)} / call</span></div>`;
+    <div class="spec-row"><span class="sk">Query rate</span><span class="sv">$${selSource.queryCost.toFixed(4)} / call</span></div>
+    ${bridgeRow}`;
 
   if (state === S.MODEL) $('data-btn').disabled = false;
 }
@@ -1142,6 +1179,10 @@ function onData() {
   animatePath('path-r-lit', 'path-r-bg', 'glow-g');
   clog('sys', `Data Server authenticated — ${selSource.name} (${selSource.creator})`);
   clog('sys', `Protocol: ${selSource.protocol}`);
+  if (selModel.id === 'hf' && selSource.id === 'hf-spaces') {
+    clog('sys', '⟷ HuggingFace Bridge detected — MCP Client (HF Inference) routing through HF Spaces MCP Server');
+    clog('sys', 'Full Hugging Face ecosystem pipeline active — dual-role bridge node engaged');
+  }
   clog('ok',  'Status: ACTIVE (MCP Connected) — full-duplex routing established');
 }
 
