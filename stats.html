@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hub Intelligence · AI App Marketplace</title>
+  <style>
+    /* ================================================================
+       TOKENS
+    ================================================================ */
+    :root {
+      --bg:           #06060f;
+      --bg-card:      #0b0b1c;
+      --bg-card-hi:   #101028;
+      --bg-deep:      #040410;
+      --border-dim:   #16163a;
+      --border-mid:   #222244;
+      --text:         #e4e8f5;
+      --text-sec:     #7a85a0;
+      --text-dim:     #4a5270;
+      --text-faint:   #272745;
+      --cyan:         #00d4ff;
+      --green:        #00ff88;
+      --purple:       #9b6dff;
+      --orange:       #f97316;
+      --indigo:       #818cf8;
+      --teal:         #22d3a5;
+      --yellow:       #fbbf24;
+      --red:          #f87171;
+      --r-sm:  6px;  --r-md: 10px;  --r-lg: 16px;  --r-xl: 20px;
+      --mono: 'SF Mono','JetBrains Mono','Cascadia Code','Fira Code',monospace;
+      --sans: 'Inter',system-ui,-apple-system,sans-serif;
+    }
+
+    /* ================================================================
+       BASE
+    ================================================================ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { color-scheme: dark; }
+    body {
+      min-height: 100vh;
+      background: var(--bg);
+      background-image:
+        radial-gradient(ellipse 50% 30% at 0% 0%,   rgba(0,212,255,.05) 0%, transparent 55%),
+        radial-gradient(ellipse 50% 30% at 100% 10%, rgba(155,109,255,.05) 0%, transparent 55%),
+        radial-gradient(ellipse 40% 25% at 50% 100%, rgba(0,255,136,.03) 0%, transparent 55%);
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: 14px;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+    #app { min-height: 100vh; display: flex; flex-direction: column; }
+
+    /* ================================================================
+       HEADER / NAV
+    ================================================================ */
+    .app-header {
+      position: sticky; top: 0; z-index: 200;
+      border-bottom: 1px solid var(--border-dim);
+      background: rgba(6,6,15,.88);
+      backdrop-filter: blur(16px) saturate(1.4);
+      padding: 14px 28px;
+    }
+    .header-inner {
+      max-width: 1440px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    }
+    .brand { display: flex; align-items: center; gap: 14px; text-decoration: none; }
+    .brand-hex {
+      width: 38px; height: 38px; border-radius: 10px; font-size: 20px; flex-shrink: 0;
+      background: linear-gradient(135deg, var(--cyan), var(--purple));
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 0 16px rgba(0,212,255,.28), 0 0 32px rgba(155,109,255,.18);
+    }
+    .brand-name { font-size: 15px; font-weight: 700; color: var(--text); letter-spacing: -.025em; }
+    .brand-tag  { font-size: 11px; color: var(--text-sec); font-family: var(--mono); margin-top: 1px; }
+    .app-nav { display: flex; align-items: center; gap: 4px; }
+    .nav-a {
+      padding: 6px 13px; border-radius: var(--r-sm);
+      font-size: 12px; font-weight: 600; text-decoration: none;
+      color: var(--text-sec); border: 1px solid transparent;
+      font-family: var(--mono); transition: all .2s ease;
+    }
+    .nav-a:hover { color: var(--text); border-color: var(--border-mid); background: var(--bg-card-hi); }
+    .nav-a.active { color: var(--teal); border-color: rgba(34,211,165,.3); background: rgba(34,211,165,.07); }
+
+    /* ================================================================
+       MAIN
+    ================================================================ */
+    .app-main {
+      flex: 1; padding: 32px 28px 56px;
+      max-width: 1200px; margin: 0 auto; width: 100%;
+      display: flex; flex-direction: column; gap: 28px;
+    }
+
+    /* ================================================================
+       PAGE HEADER + SCRAPER STATUS BAR
+    ================================================================ */
+    .page-hd {
+      display: flex; align-items: flex-end; justify-content: space-between;
+      gap: 16px; flex-wrap: wrap;
+    }
+    .page-eyebrow {
+      font-family: var(--mono); font-size: 9px; font-weight: 700;
+      letter-spacing: .16em; text-transform: uppercase; color: var(--teal);
+      display: block; margin-bottom: 6px;
+    }
+    .page-title {
+      font-size: 26px; font-weight: 800; color: var(--text);
+      letter-spacing: -.03em; line-height: 1.1;
+    }
+    .page-sub { font-size: 13px; color: var(--text-sec); margin-top: 5px; line-height: 1.6; }
+
+    /* Scraper status pill */
+    .scraper-status {
+      display: flex; align-items: center; gap: 8px; flex-shrink: 0;
+      padding: 8px 14px; border-radius: var(--r-md);
+      background: var(--bg-card); border: 1px solid var(--border-dim);
+      font-family: var(--mono); font-size: 10px; color: var(--text-sec);
+    }
+    .status-led {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--teal); animation: blink 2s ease infinite; flex-shrink: 0;
+    }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.35} }
+    .status-led.stale { background: var(--yellow); animation: none; }
+
+    /* ================================================================
+       SECTION WRAPPER
+    ================================================================ */
+    .section {
+      background: var(--bg-card); border: 1px solid var(--border-dim);
+      border-radius: var(--r-xl); padding: 24px 28px;
+      display: flex; flex-direction: column; gap: 18px;
+    }
+    .section-hd {
+      display: flex; align-items: baseline; justify-content: space-between; gap: 12px;
+    }
+    .section-title {
+      font-size: 13px; font-weight: 700; color: var(--text); letter-spacing: -.01em;
+    }
+    .section-meta { font-family: var(--mono); font-size: 10px; color: var(--text-dim); }
+
+    /* ================================================================
+       SUMMARY STAT CARDS
+    ================================================================ */
+    .summary-grid {
+      display: grid; grid-template-columns: repeat(5,1fr); gap: 12px;
+    }
+    .stat-card {
+      background: var(--bg-deep); border: 1px solid var(--border-dim);
+      border-radius: var(--r-lg); padding: 18px 16px;
+      display: flex; flex-direction: column; gap: 4px;
+      transition: border-color .25s ease;
+      animation: fadeUp .4s ease both;
+    }
+    .stat-card:nth-child(1){animation-delay:.05s}
+    .stat-card:nth-child(2){animation-delay:.10s}
+    .stat-card:nth-child(3){animation-delay:.15s}
+    .stat-card:nth-child(4){animation-delay:.20s}
+    .stat-card:nth-child(5){animation-delay:.25s}
+    @keyframes fadeUp { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+
+    .stat-card:hover { border-color: var(--border-mid); }
+    .stat-val {
+      font-family: var(--mono); font-size: 26px; font-weight: 900;
+      color: var(--text); letter-spacing: -.02em; line-height: 1;
+    }
+    .stat-lbl  { font-size: 11px; color: var(--text-sec); font-weight: 600; margin-top: 5px; }
+    .stat-trend {
+      font-family: var(--mono); font-size: 10px; margin-top: 2px;
+      display: flex; align-items: center; gap: 4px;
+    }
+    .trend-up   { color: var(--green); }
+    .trend-pill {
+      padding: 1px 6px; border-radius: 4px; font-weight: 700;
+    }
+    .trend-up   .trend-pill { background: rgba(0,255,136,.1);  border: 1px solid rgba(0,255,136,.2);  color: var(--green); }
+
+    /* ================================================================
+       HORIZONTAL BAR ROWS
+    ================================================================ */
+    .bar-list { display: flex; flex-direction: column; gap: 10px; }
+
+    .bar-row {
+      display: grid; align-items: center; gap: 10px;
+      grid-template-columns: 190px 1fr 70px;
+    }
+    .bar-name {
+      font-size: 12px; color: var(--text); white-space: nowrap;
+      overflow: hidden; text-overflow: ellipsis;
+    }
+    .bar-track {
+      height: 6px; background: var(--border-dim);
+      border-radius: 3px; overflow: hidden;
+    }
+    .bar-fill {
+      height: 100%; border-radius: 3px;
+      width: 0; transition: width 1s cubic-bezier(.4,0,.2,1);
+    }
+    .bar-count {
+      font-family: var(--mono); font-size: 11px;
+      color: var(--text-sec); text-align: right;
+    }
+
+    /* Narrower bars for split sections */
+    .bar-row-sm {
+      display: grid; align-items: center; gap: 10px;
+      grid-template-columns: 120px 1fr 36px;
+    }
+    .bar-row-sm .bar-name { font-size: 11px; }
+    .bar-row-sm .bar-count { font-family: var(--mono); font-size: 10px; color: var(--text-sec); text-align: right; }
+
+    /* ================================================================
+       TWO-COL LAYOUT
+    ================================================================ */
+    .two-col {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+    }
+
+    /* ================================================================
+       GROWTH CARDS
+    ================================================================ */
+    .growth-grid {
+      display: grid; grid-template-columns: repeat(5,1fr); gap: 10px;
+    }
+    .growth-card {
+      background: var(--bg-deep); border: 1px solid var(--border-dim);
+      border-radius: var(--r-lg); padding: 16px 14px;
+      text-align: center; transition: border-color .2s ease;
+    }
+    .growth-card:hover { border-color: var(--border-mid); }
+    .growth-yoy {
+      font-family: var(--mono); font-size: 22px; font-weight: 900;
+      color: var(--green); line-height: 1;
+      text-shadow: 0 0 20px rgba(0,255,136,.35);
+    }
+    .growth-lbl { font-size: 11px; color: var(--text-sec); margin-top: 6px; }
+    .growth-sub { font-family: var(--mono); font-size: 9px; color: var(--text-dim); margin-top: 3px; }
+
+    /* ================================================================
+       OPPORTUNITY MATRIX
+    ================================================================ */
+    .opp-grid {
+      display: grid; grid-template-columns: repeat(3,1fr); gap: 14px;
+    }
+    .opp-card {
+      background: var(--bg-deep); border: 1px solid var(--border-dim);
+      border-radius: var(--r-lg); padding: 18px;
+      display: flex; flex-direction: column; gap: 12px;
+      transition: border-color .25s ease;
+    }
+    .opp-card:hover { border-color: var(--border-mid); }
+
+    .opp-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
+    .opp-title { font-size: 13px; font-weight: 700; color: var(--text); line-height: 1.35; }
+    .gap-badge {
+      font-family: var(--mono); font-size: 9px; font-weight: 800;
+      letter-spacing: .08em; padding: 2px 7px; border-radius: 5px;
+      flex-shrink: 0; margin-top: 1px;
+    }
+    .gap-high   { background: rgba(248,113,113,.1); color: var(--red);    border: 1px solid rgba(248,113,113,.25); }
+    .gap-medium { background: rgba(251,191,36,.1);  color: var(--yellow); border: 1px solid rgba(251,191,36,.25); }
+    .gap-low    { background: rgba(0,255,136,.08);  color: var(--green);  border: 1px solid rgba(0,255,136,.2); }
+
+    .opp-bars { display: flex; flex-direction: column; gap: 6px; }
+    .opp-bar-row { display: flex; align-items: center; gap: 8px; }
+    .opp-bar-lbl { font-family: var(--mono); font-size: 9px; color: var(--text-dim); width: 50px; flex-shrink: 0; }
+    .opp-bar-track { flex: 1; height: 5px; background: var(--border-dim); border-radius: 3px; overflow: hidden; }
+    .opp-bar-fill  { height: 100%; border-radius: 3px; width: 0; transition: width 1.2s cubic-bezier(.4,0,.2,1); }
+    .opp-bar-num { font-family: var(--mono); font-size: 9px; color: var(--text-sec); width: 24px; text-align: right; flex-shrink: 0; }
+
+    .opp-tags { display: flex; flex-wrap: wrap; gap: 5px; }
+    .opp-tag {
+      font-family: var(--mono); font-size: 9px; font-weight: 600;
+      padding: 2px 7px; border-radius: 4px;
+      background: var(--border-dim); color: var(--text-sec);
+    }
+
+    /* ================================================================
+       TABLE: TOP MODELS
+    ================================================================ */
+    .models-table {
+      width: 100%; border-collapse: collapse; font-size: 12px;
+    }
+    .models-table thead th {
+      text-align: left; padding: 8px 10px 10px;
+      font-size: 10px; font-weight: 700; color: var(--text-dim);
+      text-transform: uppercase; letter-spacing: .1em;
+      font-family: var(--mono); border-bottom: 1px solid var(--border-mid);
+      white-space: nowrap;
+    }
+    .models-table thead th:last-child { text-align: right; }
+    .models-table tbody td {
+      padding: 10px 10px; border-bottom: 1px solid rgba(22,22,58,.5);
+      vertical-align: middle;
+    }
+    .models-table tbody tr:last-child td { border-bottom: none; }
+    .models-table tbody tr:hover td { background: rgba(255,255,255,.015); }
+    .model-name { font-weight: 600; color: var(--text); }
+    .model-creator { font-family: var(--mono); font-size: 10px; color: var(--text-sec); margin-top: 2px; }
+    .model-task-pill {
+      font-family: var(--mono); font-size: 9px; font-weight: 600;
+      padding: 2px 8px; border-radius: 4px; border: 1px solid;
+      display: inline-block;
+    }
+    .model-stat { font-family: var(--mono); font-size: 11px; color: var(--text-sec); }
+    .model-stat.big { color: var(--text); font-weight: 700; }
+
+    /* licence dots */
+    .lic-dot {
+      display: inline-flex; align-items: center; gap: 5px;
+      font-family: var(--mono); font-size: 10px; color: var(--text-sec);
+    }
+    .lic-dot::before {
+      content: ''; width: 6px; height: 6px; border-radius: 50%;
+      background: var(--dot-color, var(--text-dim));
+      flex-shrink: 0;
+    }
+
+    /* ================================================================
+       FOOTER
+    ================================================================ */
+    .app-footer {
+      border-top: 1px solid var(--border-dim); padding: 13px 28px;
+      text-align: center; font-size: 11px; color: var(--text-faint);
+      font-family: var(--mono);
+    }
+
+    /* ================================================================
+       RESPONSIVE
+    ================================================================ */
+    @media (max-width: 1100px) {
+      .summary-grid { grid-template-columns: repeat(3,1fr); }
+      .growth-grid  { grid-template-columns: repeat(3,1fr); }
+      .opp-grid     { grid-template-columns: repeat(2,1fr); }
+    }
+    @media (max-width: 760px) {
+      .app-main { padding: 20px 16px 40px; }
+      .section { padding: 18px 18px; }
+      .summary-grid { grid-template-columns: 1fr 1fr; }
+      .two-col      { grid-template-columns: 1fr; }
+      .growth-grid  { grid-template-columns: 1fr 1fr; }
+      .opp-grid     { grid-template-columns: 1fr; }
+      .bar-row      { grid-template-columns: 120px 1fr 56px; }
+      .page-hd      { flex-direction: column; align-items: flex-start; }
+    }
+    @media (max-width: 480px) {
+      .app-header { padding: 12px 16px; }
+      .summary-grid { grid-template-columns: 1fr; }
+      .models-table thead th:nth-child(4),
+      .models-table tbody td:nth-child(4) { display: none; }
+    }
+  </style>
+</head>
+<body>
+<div id="app">
+
+  <!-- ══════════ HEADER ══════════ -->
+  <header class="app-header">
+    <div class="header-inner">
+      <a href="index.html" class="brand">
+        <div class="brand-hex">⬡</div>
+        <div>
+          <div class="brand-name">AI App Marketplace</div>
+          <div class="brand-tag">MCP Connection Sandbox · Validation MVP v0.1</div>
+        </div>
+      </a>
+      <nav class="app-nav" aria-label="Site navigation">
+        <a href="index.html"  class="nav-a">Sandbox</a>
+        <a href="about.html"  class="nav-a">About</a>
+        <a href="about2.html" class="nav-a">Explainer</a>
+        <a href="stats.html"  class="nav-a active" aria-current="page">Hub Stats</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ══════════ MAIN ══════════ -->
+  <main class="app-main">
+
+    <!-- Page header + scraper status -->
+    <div class="page-hd">
+      <div>
+        <span class="page-eyebrow">Hugging Face Hub Scraper</span>
+        <h1 class="page-title">Hub Market Intelligence</h1>
+        <p class="page-sub">Live model, dataset, and Space category data — powering the open AI marketplace supply map.</p>
+      </div>
+      <div class="scraper-status" id="scraper-status">
+        <div class="status-led"></div>
+        <span id="scraper-meta">Loading…</span>
+      </div>
+    </div>
+
+    <!-- ── SUMMARY STATS ── -->
+    <section class="section" id="section-summary">
+      <div class="section-hd">
+        <span class="section-title">Registry Overview</span>
+        <span class="section-meta" id="summary-ts"></span>
+      </div>
+      <div class="summary-grid" id="summary-grid"><!-- JS renders --></div>
+    </section>
+
+    <!-- ── MODEL TASK DISTRIBUTION ── -->
+    <section class="section" id="section-tasks">
+      <div class="section-hd">
+        <span class="section-title">Model Task Distribution — Top 10</span>
+        <span class="section-meta" id="tasks-total"></span>
+      </div>
+      <div class="bar-list" id="task-bars"><!-- JS renders --></div>
+    </section>
+
+    <!-- ── SPACES / APP CATEGORIES ── -->
+    <section class="section" id="section-spaces">
+      <div class="section-hd">
+        <span class="section-title">Space (App) Categories — Top 10</span>
+        <span class="section-meta" id="spaces-total"></span>
+      </div>
+      <div class="bar-list" id="space-bars"><!-- JS renders --></div>
+    </section>
+
+    <!-- ── FRAMEWORK + LICENSE (two-col) ── -->
+    <div class="two-col">
+
+      <section class="section" id="section-frameworks">
+        <div class="section-hd">
+          <span class="section-title">Space Frameworks</span>
+          <span class="section-meta">by share of Spaces</span>
+        </div>
+        <div class="bar-list" id="fw-bars"><!-- JS renders --></div>
+      </section>
+
+      <section class="section" id="section-licenses">
+        <div class="section-hd">
+          <span class="section-title">Model License Distribution</span>
+          <span class="section-meta">by share of models</span>
+        </div>
+        <div class="bar-list" id="lic-bars"><!-- JS renders --></div>
+      </section>
+
+    </div>
+
+    <!-- ── YoY GROWTH ── -->
+    <section class="section" id="section-growth">
+      <div class="section-hd">
+        <span class="section-title">Year-over-Year Growth</span>
+        <span class="section-meta">2025 → 2026</span>
+      </div>
+      <div class="growth-grid" id="growth-grid"><!-- JS renders --></div>
+    </section>
+
+    <!-- ── TOP MODELS TABLE ── -->
+    <section class="section" id="section-models">
+      <div class="section-hd">
+        <span class="section-title">Most-Downloaded Models</span>
+        <span class="section-meta">Top 8 by 30-day downloads</span>
+      </div>
+      <div style="overflow-x:auto">
+        <table class="models-table">
+          <thead>
+            <tr>
+              <th>#</th><th>Model</th><th>Task</th>
+              <th>30d Downloads</th><th>Likes</th><th>License</th>
+            </tr>
+          </thead>
+          <tbody id="models-tbody"><!-- JS renders --></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ── MARKETPLACE OPPORTUNITY ── -->
+    <section class="section" id="section-opp">
+      <div class="section-hd">
+        <span class="section-title">Marketplace Opportunity Matrix</span>
+        <span class="section-meta">Demand score vs. supply coverage (0–100)</span>
+      </div>
+      <div class="opp-grid" id="opp-grid"><!-- JS renders --></div>
+    </section>
+
+  </main>
+
+  <footer class="app-footer">
+    AI App Marketplace · HF Hub Scraper · Simulated data for validation MVP · Open MCP Protocol
+  </footer>
+</div>
+
+<!-- ================================================================
+     DATA CONFIG + RENDERER
+================================================================ -->
+<script>
+'use strict';
+
+/* ================================================================
+   HUB_DATA — all values replaceable with live scraper output.
+   To update: edit the arrays below, re-deploy. No layout changes needed.
+================================================================ */
+const HUB_DATA = {
+
+  meta: {
+    scraped:     '2026-06-05T14:18:00Z',
+    source:      'huggingface.co',
+    totalRecords: 2113482,
+    runDuration: '4m 12s',
+    nextRun:     '2026-06-06T14:18:00Z',
+  },
+
+  summary: [
+    { label: 'Models',        value: '1.24M',  raw: 1240000, trend: '+18%', period: 'mo'  },
+    { label: 'Spaces (Apps)', value: '624K',   raw:  624000, trend: '+22%', period: 'mo'  },
+    { label: 'Datasets',      value: '248K',   raw:  248000, trend: '+9%',  period: 'mo'  },
+    { label: 'Organizations', value: '112K',   raw:  112000, trend: '+14%', period: 'mo'  },
+    { label: 'Contributors',  value: '318K',   raw:  318000, trend: '+11%', period: 'mo'  },
+  ],
+
+  modelTasks: [
+    { task: 'Text Generation',             count: 384200, color: '#00d4ff' },
+    { task: 'Image Classification',        count: 118400, color: '#22d3a5' },
+    { task: 'Text Classification',         count: 112800, color: '#00d4ff' },
+    { task: 'Image Generation',            count:  94800, color: '#a855f7' },
+    { task: 'Question Answering',          count:  85100, color: '#6366f1' },
+    { task: 'Object Detection',            count:  72400, color: '#22d3a5' },
+    { task: 'Translation',                 count:  68200, color: '#00d4ff' },
+    { task: 'Automatic Speech Recognition',count:  38200, color: '#f97316' },
+    { task: 'Summarization',               count:  44200, color: '#6366f1' },
+    { task: 'Text-to-Speech',              count:  28400, color: '#f97316' },
+  ],
+
+  spaceCategories: [
+    { category: 'Image Generation & Editing',  count: 156200, color: '#a855f7' },
+    { category: 'Chatbots & Assistants',       count: 137400, color: '#00d4ff' },
+    { category: 'Code Tools',                  count:  75000, color: '#f97316' },
+    { category: 'Audio & Speech',              count:  62400, color: '#f97316' },
+    { category: 'Document Processing',         count:  56200, color: '#6366f1' },
+    { category: 'Video Generation',            count:  43800, color: '#a855f7' },
+    { category: 'Multimodal',                  count:  49600, color: '#00d4ff' },
+    { category: 'Data & Analytics',            count:  38200, color: '#22d3a5' },
+    { category: 'Healthcare / Life Sciences',  count:  24400, color: '#22d3a5' },
+    { category: 'Finance & Legal',             count:  18600, color: '#fbbf24' },
+  ],
+
+  frameworks: [
+    { name: 'Gradio',    pct: 55, color: '#f97316' },
+    { name: 'Streamlit', pct: 20, color: '#6366f1' },
+    { name: 'Docker',    pct: 15, color: '#00d4ff' },
+    { name: 'Static',    pct:  8, color: '#22d3a5' },
+    { name: 'Other',     pct:  2, color: '#4a5270' },
+  ],
+
+  licenses: [
+    { name: 'Apache 2.0',        pct: 35, color: '#00d4ff' },
+    { name: 'MIT',               pct: 28, color: '#22d3a5' },
+    { name: 'Other Open Source', pct: 15, color: '#6366f1' },
+    { name: 'Llama Community',   pct:  8, color: '#f97316' },
+    { name: 'Non-commercial',    pct:  7, color: '#a855f7' },
+    { name: 'Unknown / Custom',  pct:  7, color: '#4a5270' },
+  ],
+
+  growth: [
+    { label: 'Models',         yoy: '+180%', sub: 'vs 2025 baseline' },
+    { label: 'Spaces',         yoy: '+220%', sub: 'fastest growing segment' },
+    { label: 'Datasets',       yoy: '+95%',  sub: 'sustained growth' },
+    { label: 'Contributors',   yoy: '+145%', sub: 'new registrations' },
+    { label: 'Daily Downloads',yoy: '+310%', sub: 'inference demand surge' },
+  ],
+
+  topModels: [
+    { rank:1, name:'Llama 3.1 405B Instruct', creator:'meta-llama',    task:'Text Generation', taskColor:'#00d4ff', dl:'48.2M', likes:'92.4K', lic:'Llama Community', licColor:'#f97316' },
+    { rank:2, name:'Qwen2.5-72B-Instruct',    creator:'Qwen',          task:'Text Generation', taskColor:'#00d4ff', dl:'36.1M', likes:'54.2K', lic:'Apache 2.0',      licColor:'#00d4ff' },
+    { rank:3, name:'DeepSeek-R1',             creator:'deepseek-ai',   task:'Text Generation', taskColor:'#00d4ff', dl:'31.8M', likes:'47.8K', lic:'MIT',             licColor:'#22d3a5' },
+    { rank:4, name:'Mistral-7B-Instruct-v0.3',creator:'mistralai',     task:'Text Generation', taskColor:'#00d4ff', dl:'28.4M', likes:'38.1K', lic:'Apache 2.0',      licColor:'#00d4ff' },
+    { rank:5, name:'FLUX.1-dev',              creator:'black-forest-labs',task:'Image Generation',taskColor:'#a855f7',dl:'22.6M',likes:'61.3K',lic:'Non-commercial',  licColor:'#a855f7' },
+    { rank:6, name:'Whisper Large v3',        creator:'openai',        task:'Speech Recognition',taskColor:'#f97316',dl:'19.4M',likes:'29.8K',lic:'MIT',             licColor:'#22d3a5' },
+    { rank:7, name:'Stable Diffusion 3.5',    creator:'stabilityai',   task:'Image Generation', taskColor:'#a855f7', dl:'17.2M', likes:'44.1K', lic:'Stability AI',   licColor:'#a855f7' },
+    { rank:8, name:'Janus-Pro-7B',            creator:'deepseek-ai',   task:'Multimodal',       taskColor:'#6366f1', dl:'14.8M', likes:'18.4K', lic:'MIT',             licColor:'#22d3a5' },
+  ],
+
+  opportunities: [
+    {
+      title:  'Enterprise RAG & Knowledge Search',
+      demand: 94, supply: 28,
+      gap:    'HIGH',
+      tags:   ['NLP','Enterprise','Retrieval','B2B'],
+    },
+    {
+      title:  'Contract & Legal Document Analysis',
+      demand: 88, supply: 18,
+      gap:    'HIGH',
+      tags:   ['NLP','Legal','Document','Compliance'],
+    },
+    {
+      title:  'Medical Transcription & Coding',
+      demand: 82, supply: 22,
+      gap:    'HIGH',
+      tags:   ['Speech','Healthcare','NLP','Regulated'],
+    },
+    {
+      title:  'Automated Code Review Pipelines',
+      demand: 78, supply: 45,
+      gap:    'MEDIUM',
+      tags:   ['Code','DevTools','CI/CD','Multi-model'],
+    },
+    {
+      title:  'Financial Report Summarisation',
+      demand: 74, supply: 32,
+      gap:    'MEDIUM',
+      tags:   ['NLP','Finance','Document','B2B'],
+    },
+    {
+      title:  'Multilingual Customer Support',
+      demand: 70, supply: 58,
+      gap:    'LOW',
+      tags:   ['NLP','Translation','Chat','CX'],
+    },
+  ],
+};
+
+/* ================================================================
+   FORMAT HELPERS
+================================================================ */
+
+function fmtCount(n) {
+  if (n >= 1e6) return (n/1e6).toFixed(1)+'M';
+  if (n >= 1e3) return (n/1e3).toFixed(0)+'K';
+  return n.toLocaleString();
+}
+
+function fmtDate(iso) {
+  const d = new Date(iso);
+  return d.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})
+    + ' · ' + d.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'}) + ' UTC';
+}
+
+/* ================================================================
+   SCRAPER STATUS BAR
+================================================================ */
+
+function renderScraperStatus() {
+  const m = HUB_DATA.meta;
+  document.getElementById('scraper-meta').textContent =
+    `Scraped ${fmtDate(m.scraped)} · ${(m.totalRecords/1e6).toFixed(2)}M records · Run: ${m.runDuration}`;
+  document.getElementById('summary-ts').textContent =
+    `Source: ${m.source}`;
+}
+
+/* ================================================================
+   SUMMARY STATS
+================================================================ */
+
+function renderSummary() {
+  const grid = document.getElementById('summary-grid');
+  grid.innerHTML = HUB_DATA.summary.map(s => `
+    <div class="stat-card">
+      <div class="stat-val">${s.value}</div>
+      <div class="stat-lbl">${s.label}</div>
+      <div class="stat-trend trend-up">
+        <span class="trend-pill">${s.trend}</span>
+        <span style="color:var(--text-dim)">this ${s.period}</span>
+      </div>
+    </div>`).join('');
+}
+
+/* ================================================================
+   BAR LISTS (tasks, spaces, frameworks, licenses)
+================================================================ */
+
+function renderBars(containerId, items, nameKey, countKey, colorKey, pctKey) {
+  const container = document.getElementById(containerId);
+  const maxCount = Math.max(...items.map(i => i[countKey] ?? i.pct ?? 0));
+
+  container.innerHTML = items.map((item, i) => {
+    const val   = item[countKey] ?? item.pct;
+    const pct   = pctKey ? item[pctKey] : ((val / maxCount) * 100);
+    const color = item[colorKey] || '#00d4ff';
+    const label = item[nameKey];
+    const disp  = countKey === 'pct' ? val+'%' : fmtCount(val);
+
+    return `
+      <div class="${containerId.startsWith('fw') || containerId.startsWith('lic') ? 'bar-row-sm' : 'bar-row'}"
+           style="animation: fadeUp .35s ease ${i*0.04}s both">
+        <span class="bar-name" title="${label}">${label}</span>
+        <div class="bar-track">
+          <div class="bar-fill" data-w="${pct.toFixed(1)}" style="background:${color}"></div>
+        </div>
+        <span class="bar-count">${disp}</span>
+      </div>`;
+  }).join('');
+
+  document.getElementById(
+    containerId === 'task-bars'  ? 'tasks-total' :
+    containerId === 'space-bars' ? 'spaces-total' : ''
+  || '_noop').textContent =
+    containerId === 'task-bars'  ? fmtCount(items.reduce((a,i)=>a+i.count,0)) + ' models'  :
+    containerId === 'space-bars' ? fmtCount(items.reduce((a,i)=>a+i.count,0)) + ' Spaces'  : '';
+}
+
+/* ================================================================
+   GROWTH CARDS
+================================================================ */
+
+function renderGrowth() {
+  const grid = document.getElementById('growth-grid');
+  grid.innerHTML = HUB_DATA.growth.map((g,i) => `
+    <div class="growth-card" style="animation: fadeUp .35s ease ${i*.06}s both">
+      <div class="growth-yoy">${g.yoy}</div>
+      <div class="growth-lbl">${g.label}</div>
+      <div class="growth-sub">${g.sub}</div>
+    </div>`).join('');
+}
+
+/* ================================================================
+   TOP MODELS TABLE
+================================================================ */
+
+function renderModels() {
+  const tbody = document.getElementById('models-tbody');
+  tbody.innerHTML = HUB_DATA.topModels.map(m => `
+    <tr>
+      <td><span class="model-stat" style="color:var(--text-dim)">${m.rank}</span></td>
+      <td>
+        <div class="model-name">${m.name}</div>
+        <div class="model-creator">${m.creator}</div>
+      </td>
+      <td>
+        <span class="model-task-pill"
+              style="color:${m.taskColor};border-color:${m.taskColor}30;background:${m.taskColor}12">
+          ${m.task}
+        </span>
+      </td>
+      <td><span class="model-stat big">${m.dl}</span></td>
+      <td><span class="model-stat">${m.likes}</span></td>
+      <td><span class="lic-dot" style="--dot-color:${m.licColor}">${m.lic}</span></td>
+    </tr>`).join('');
+}
+
+/* ================================================================
+   OPPORTUNITY MATRIX
+================================================================ */
+
+function renderOpportunities() {
+  const grid = document.getElementById('opp-grid');
+  grid.innerHTML = HUB_DATA.opportunities.map((o,i) => {
+    const gapClass = o.gap === 'HIGH' ? 'gap-high' : o.gap === 'MEDIUM' ? 'gap-medium' : 'gap-low';
+    const demandColor = o.gap === 'HIGH' ? 'var(--red)' : o.gap === 'MEDIUM' ? 'var(--yellow)' : 'var(--green)';
+    const supplyColor = 'var(--cyan)';
+    const tags = o.tags.map(t => `<span class="opp-tag">${t}</span>`).join('');
+    return `
+      <div class="opp-card" style="animation: fadeUp .35s ease ${i*.06}s both">
+        <div class="opp-header">
+          <div class="opp-title">${o.title}</div>
+          <span class="gap-badge ${gapClass}">${o.gap}</span>
+        </div>
+        <div class="opp-bars">
+          <div class="opp-bar-row">
+            <span class="opp-bar-lbl">DEMAND</span>
+            <div class="opp-bar-track">
+              <div class="opp-bar-fill" data-w="${o.demand}" style="background:${demandColor}"></div>
+            </div>
+            <span class="opp-bar-num">${o.demand}</span>
+          </div>
+          <div class="opp-bar-row">
+            <span class="opp-bar-lbl">SUPPLY</span>
+            <div class="opp-bar-track">
+              <div class="opp-bar-fill" data-w="${o.supply}" style="background:${supplyColor}"></div>
+            </div>
+            <span class="opp-bar-num">${o.supply}</span>
+          </div>
+        </div>
+        <div class="opp-tags">${tags}</div>
+      </div>`;
+  }).join('');
+}
+
+/* ================================================================
+   ANIMATED BAR WIDTHS (IntersectionObserver)
+================================================================ */
+
+function animateBars(root) {
+  const target = root || document;
+  const fills = target.querySelectorAll('.bar-fill, .opp-bar-fill');
+
+  if (!('IntersectionObserver' in window)) {
+    fills.forEach(el => el.style.width = (el.dataset.w ?? 0) + '%');
+    return;
+  }
+
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.width = (e.target.dataset.w ?? 0) + '%';
+        obs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  fills.forEach(el => obs.observe(el));
+}
+
+/* ================================================================
+   INIT
+================================================================ */
+
+document.addEventListener('DOMContentLoaded', () => {
+  renderScraperStatus();
+  renderSummary();
+
+  renderBars('task-bars',  HUB_DATA.modelTasks,      'task',     'count', 'color');
+  renderBars('space-bars', HUB_DATA.spaceCategories,  'category', 'count', 'color');
+  renderBars('fw-bars',    HUB_DATA.frameworks,        'name',     'pct',   'color');
+  renderBars('lic-bars',   HUB_DATA.licenses,          'name',     'pct',   'color');
+
+  renderGrowth();
+  renderModels();
+  renderOpportunities();
+
+  /* Slight delay so rendered bars are in the DOM before IntersectionObserver starts */
+  requestAnimationFrame(() => requestAnimationFrame(animateBars));
+});
+</script>
+</body>
+</html>
