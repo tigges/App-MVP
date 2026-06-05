@@ -27,10 +27,7 @@
       --glow-cyan:      0 0 24px rgba(0,212,255,.35), 0 0 48px rgba(0,212,255,.12);
       --glow-green:     0 0 24px rgba(0,255,136,.35), 0 0 48px rgba(0,255,136,.12);
       --glow-purple:    0 0 24px rgba(155,109,255,.35), 0 0 48px rgba(155,109,255,.12);
-      --r-sm:  6px;
-      --r-md:  10px;
-      --r-lg:  16px;
-      --r-xl:  20px;
+      --r-sm:  6px; --r-md:  10px; --r-lg:  16px; --r-xl:  20px;
       --mono: 'SF Mono','JetBrains Mono','Cascadia Code','Fira Code',monospace;
       --sans: 'Inter',system-ui,-apple-system,sans-serif;
     }
@@ -40,7 +37,6 @@
     ================================================================ */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { color-scheme: dark; }
-
     body {
       min-height: 100vh;
       background: var(--bg-base);
@@ -53,11 +49,10 @@
       font-size: 14px;
       line-height: 1.5;
     }
-
     #app { min-height: 100vh; display: flex; flex-direction: column; }
 
     /* ================================================================
-       HEADER — matches index.html exactly
+       HEADER — exact match to index.html
     ================================================================ */
     .app-header {
       position: sticky; top: 0; z-index: 200;
@@ -66,14 +61,11 @@
       backdrop-filter: blur(16px) saturate(1.4);
       padding: 14px 28px;
     }
-
     .header-inner {
       max-width: 1440px; margin: 0 auto;
       display: flex; align-items: center; justify-content: space-between; gap: 16px;
     }
-
     .brand { display: flex; align-items: center; gap: 14px; }
-
     .brand-hex {
       width: 38px; height: 38px; border-radius: 10px;
       background: linear-gradient(135deg, var(--accent-cyan) 0%, var(--accent-purple) 100%);
@@ -82,35 +74,17 @@
       box-shadow: 0 0 16px rgba(0,212,255,.3), 0 0 32px rgba(155,109,255,.2);
       text-decoration: none;
     }
-
     .brand-name { font-size: 15px; font-weight: 700; color: var(--text-primary); letter-spacing: -.025em; }
     .brand-tag  { font-size: 11px; color: var(--text-400); font-family: var(--mono); margin-top: 1px; }
-
-    /* ================================================================
-       NAV LINKS
-    ================================================================ */
     .app-nav { display: flex; align-items: center; gap: 4px; }
-
     .nav-link {
-      padding: 6px 14px;
-      border-radius: var(--r-sm);
-      font-size: 12px; font-weight: 600;
-      text-decoration: none;
-      color: var(--text-400);
-      border: 1px solid transparent;
-      transition: all .2s ease;
-      letter-spacing: .01em;
+      padding: 6px 14px; border-radius: var(--r-sm);
+      font-size: 12px; font-weight: 600; text-decoration: none;
+      color: var(--text-400); border: 1px solid transparent;
+      transition: all .2s ease; letter-spacing: .01em;
     }
-    .nav-link:hover {
-      color: var(--text-primary);
-      border-color: var(--border-mid);
-      background: var(--bg-card-hi);
-    }
-    .nav-link.active {
-      color: var(--accent-purple);
-      border-color: rgba(155,109,255,.3);
-      background: rgba(155,109,255,.07);
-    }
+    .nav-link:hover { color: var(--text-primary); border-color: var(--border-mid); background: var(--bg-card-hi); }
+    .nav-link.active { color: var(--accent-purple); border-color: rgba(155,109,255,.3); background: rgba(155,109,255,.07); }
 
     /* ================================================================
        MAIN
@@ -118,232 +92,176 @@
     .app-main {
       flex: 1;
       padding: 36px 28px 52px;
-      max-width: 1040px;
-      margin: 0 auto;
-      width: 100%;
+      max-width: 1060px;
+      margin: 0 auto; width: 100%;
     }
 
     /* ================================================================
-       PAGE CARD CONTAINER
+       PAGE CARD
     ================================================================ */
     .page-card {
       background: var(--bg-card);
       border: 1px solid var(--border-dim);
       border-radius: var(--r-xl);
       padding: 40px 44px;
-      position: relative;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      gap: 36px;
+      position: relative; overflow: hidden;
+      display: flex; flex-direction: column; gap: 40px;
     }
-
-    /* Decorative blobs (match the Tailwind version's gradient backdrops) */
-    .blob {
-      position: absolute; border-radius: 50%;
-      pointer-events: none; filter: blur(90px);
-    }
+    .blob { position: absolute; border-radius: 50%; pointer-events: none; filter: blur(90px); }
     .blob-tr { top: -120px; right: -120px; width: 380px; height: 380px; background: rgba(155,109,255,.07); }
     .blob-bl { bottom: -120px; left: -120px; width: 380px; height: 380px; background: rgba(0,255,136,.07); }
-
-    /* Ensure content sits above blobs */
     .page-card > *:not(.blob) { position: relative; z-index: 1; }
 
     /* ================================================================
        ABOUT HEADER
     ================================================================ */
-    .about-hd {
-      border-bottom: 1px solid var(--border-dim);
-      padding-bottom: 26px;
-    }
-
+    .about-hd { border-bottom: 1px solid var(--border-dim); padding-bottom: 28px; }
     .manifest-tag {
-      display: block;
-      font-family: var(--mono);
-      font-size: 9px; font-weight: 800;
-      letter-spacing: .2em;
-      color: var(--accent-purple);
-      text-transform: uppercase;
-      margin-bottom: 8px;
+      display: block; font-family: var(--mono);
+      font-size: 9px; font-weight: 800; letter-spacing: .2em;
+      color: var(--accent-purple); text-transform: uppercase; margin-bottom: 8px;
     }
-
     .about-title {
-      font-size: 32px; font-weight: 900;
-      color: var(--text-primary);
-      letter-spacing: -.04em; line-height: 1.05;
+      font-size: 34px; font-weight: 900;
+      color: var(--text-primary); letter-spacing: -.04em; line-height: 1.05;
     }
-
     .about-desc {
       font-size: 14px; color: var(--text-400);
-      margin-top: 12px; max-width: 600px;
-      line-height: 1.7;
+      margin-top: 12px; max-width: 620px; line-height: 1.7;
     }
 
     /* ================================================================
-       SECTION HEADING
+       ECOSYSTEM DIAGRAM SECTION
     ================================================================ */
+    .diagram-section {}
     .section-lbl {
-      font-family: var(--mono);
-      font-size: 9px; font-weight: 800;
-      letter-spacing: .14em;
-      color: var(--text-500);
-      text-transform: uppercase;
-      text-align: center;
+      font-family: var(--mono); font-size: 9px; font-weight: 800;
+      letter-spacing: .14em; color: var(--text-500); text-transform: uppercase;
       margin-bottom: 16px;
     }
-    .section-lbl.left { text-align: left; }
+    .section-lbl.center { text-align: center; }
 
-    /* ================================================================
-       PIPELINE DIAGRAM
-    ================================================================ */
-    .pipeline-section {}
-
-    .pipeline-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 14px;
-      align-items: center;
-      background: rgba(6,6,15,.65);
+    /* Outer scroll wrapper for narrow screens */
+    .svg-outer {
+      overflow-x: auto;
       border: 1px solid var(--border-dim);
       border-radius: var(--r-lg);
-      padding: 20px;
-    }
-
-    /* Side node cards */
-    .p-node {
       background: var(--bg-console);
-      border: 1px solid var(--border-dim);
-      border-radius: var(--r-md);
-      padding: 18px 16px;
-      text-align: center;
+      -webkit-overflow-scrolling: touch;
     }
 
-    .p-node-type {
-      font-family: var(--mono);
-      font-size: 11px; font-weight: 800;
-      letter-spacing: .08em; margin-bottom: 5px;
-    }
-
-    .p-node-sub  { font-size: 11px; color: var(--text-300); }
-    .p-node-tag  { font-size: 10px; color: var(--text-500); margin-top: 8px; font-style: italic; }
-
-    /* Center: flow labels + router box */
-    .p-center {
-      display: flex; flex-direction: column;
-      align-items: center; gap: 6px;
-    }
-
-    .flow-badge {
-      display: flex; align-items: center; justify-content: center; gap: 6px;
+    /* The SVG itself */
+    .eco-svg {
+      display: block;
+      min-width: 620px;
       width: 100%;
     }
 
-    .flow-arrow { color: var(--text-dim); font-size: 11px; }
-
-    .flow-tag {
-      font-family: var(--mono);
-      font-size: 9px; font-weight: 700;
-      letter-spacing: .08em; color: var(--text-400);
-      background: var(--border-dim);
-      padding: 3px 8px; border-radius: 4px;
-      white-space: nowrap;
+    /* SVG path animations */
+    .p-bg {
+      fill: none; stroke: #1e1e42; stroke-width: 1.2;
     }
-
-    .p-router {
-      width: 100%;
-      background: rgba(155,109,255,.08);
-      border: 1px solid rgba(155,109,255,.28);
-      border-radius: var(--r-md);
-      padding: 14px 16px;
-      text-align: center;
+    .p-anim {
+      fill: none; stroke-dasharray: 5 8;
+      animation: march 1.3s linear infinite;
     }
+    .p-model { stroke: rgba(155,109,255,.65); stroke-width: 1.8; }
+    .p-data  { stroke: rgba(0,255,136,.55);   stroke-width: 1.8; }
+    .d0 { animation-delay:  0.0s; }
+    .d1 { animation-delay: -0.32s; }
+    .d2 { animation-delay: -0.64s; }
+    .d3 { animation-delay: -0.96s; }
 
-    .p-router-title {
-      font-family: var(--mono);
-      font-size: 11px; font-weight: 800;
-      letter-spacing: .07em; color: var(--text-primary);
+    @keyframes march { to { stroke-dashoffset: -13; } }
+
+    /* SVG particle dots */
+    .ptcl-m { fill: #9b6dff; }
+    .ptcl-d { fill: #00ff88; }
+
+    /* SVG text helpers (inline styles used for specificity, but shared classes here) */
+    .svg-col-hd {
+      font-family: var(--mono); fill: #2e2e5a;
+      font-size: 10px; font-weight: 700; letter-spacing: 2px;
     }
-
-    .p-router-sub { font-size: 10px; color: var(--accent-purple); margin-top: 5px; }
-
-    /* Settlement bar */
-    .settlement {
-      display: flex; flex-direction: column;
-      align-items: center; gap: 0;
-      margin-top: 6px;
-    }
-
-    .settlement-wire {
-      width: 1px; height: 16px;
-      background: linear-gradient(to bottom, var(--border-mid), transparent);
-    }
-
-    .settlement-pill {
-      background: rgba(0,255,136,.05);
-      border: 1px solid rgba(0,255,136,.2);
-      border-radius: 24px;
-      padding: 7px 24px;
-      font-family: var(--mono);
-      font-size: 9px; font-weight: 800;
-      letter-spacing: .1em;
-      color: var(--accent-green);
-      text-align: center;
-      max-width: 420px; width: 100%;
-    }
+    .node-name { font-family: var(--sans); fill: #e4e8f5; font-weight: 600; }
+    .node-sub  { font-family: var(--sans); fill: #5a6380; }
+    .badge-txt { font-family: var(--mono); font-weight: 800; text-anchor: middle; }
+    .router-title { font-family: var(--mono); fill: #e4e8f5; font-weight: 800; letter-spacing: 0.5px; text-anchor: middle; }
+    .router-sub   { font-family: var(--mono); fill: #9b6dff; text-anchor: middle; }
+    .billing-txt  { font-family: var(--mono); fill: #00ff88; font-weight: 800; letter-spacing: 1.5px; text-anchor: middle; }
+    .proto-lbl    { font-family: var(--mono); fill: #272745; font-weight: 700; letter-spacing: 1px; text-anchor: middle; }
 
     /* ================================================================
-       VALUE DRIVERS MATRIX
+       KEY METRICS ROW
     ================================================================ */
-    .value-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 14px;
+    .stats-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px;
     }
+    .stat-card {
+      background: var(--bg-base);
+      border: 1px solid var(--border-dim);
+      border-radius: var(--r-lg);
+      padding: 18px 16px 14px;
+      display: flex; flex-direction: column; gap: 4px;
+      transition: border-color .25s ease;
+    }
+    .stat-card:hover { border-color: var(--border-mid); }
+    .stat-val {
+      font-family: var(--mono); font-size: 26px; font-weight: 900;
+      line-height: 1; letter-spacing: -.02em;
+    }
+    .stat-val.green  { color: var(--accent-green);  text-shadow: 0 0 20px rgba(0,255,136,.4); }
+    .stat-val.purple { color: var(--accent-purple);  text-shadow: 0 0 20px rgba(155,109,255,.4); }
+    .stat-val.cyan   { color: var(--accent-cyan);    text-shadow: 0 0 20px rgba(0,212,255,.4); }
+    .stat-val.orange { color: var(--accent-orange);  text-shadow: 0 0 20px rgba(255,107,53,.35); }
+    .stat-label { font-size: 12px; font-weight: 700; color: var(--text-primary); margin-top: 4px; }
+    .stat-sub   { font-size: 11px; color: var(--text-500); font-family: var(--mono); }
 
+    /* ================================================================
+       VALUE DRIVERS SECTION
+    ================================================================ */
+    .value-section {}
+    .value-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px;
+    }
     .v-card {
       background: rgba(6,6,15,.45);
       border: 1px solid var(--border-dim);
       border-radius: var(--r-lg);
       padding: 20px;
-      display: flex; flex-direction: column;
-      gap: 14px;
+      display: flex; flex-direction: column; gap: 14px;
       transition: border-color .25s ease;
     }
     .v-card:hover { border-color: var(--border-mid); }
-
-    .v-card-hd {
-      display: flex; align-items: center; gap: 9px;
+    .v-card-hd { display: flex; align-items: center; gap: 9px; }
+    .v-emoji-wrap {
+      width: 34px; height: 34px; flex-shrink: 0;
+      border-radius: var(--r-sm); display: flex; align-items: center; justify-content: center;
+      font-size: 15px;
     }
-
-    .v-emoji { font-size: 15px; }
-
-    .v-title {
-      font-size: 13px; font-weight: 700;
-      color: var(--text-primary); letter-spacing: -.01em;
-    }
-
-    .v-body {
+    .v-emoji-wrap.purple { background: rgba(155,109,255,.1); border: 1px solid rgba(155,109,255,.2); }
+    .v-emoji-wrap.green  { background: rgba(0,255,136,.1);   border: 1px solid rgba(0,255,136,.2); }
+    .v-emoji-wrap.cyan   { background: rgba(0,212,255,.1);   border: 1px solid rgba(0,212,255,.2); }
+    .v-title { font-size: 13px; font-weight: 700; color: var(--text-primary); letter-spacing: -.01em; }
+    .v-friction {
       font-size: 11px; color: var(--text-400); line-height: 1.7;
-      flex: 1;
+      padding: 10px 12px;
+      background: rgba(255,107,53,.04);
+      border: 1px solid rgba(255,107,53,.12);
+      border-radius: var(--r-sm);
     }
-
-    .v-body strong { color: var(--accent-orange); font-weight: 700; }
-
-    .v-footer {
+    .v-friction strong { color: var(--accent-orange); font-weight: 700; }
+    .v-outcome {
       background: var(--bg-console);
       border: 1px solid var(--border-dim);
       border-radius: var(--r-sm);
       padding: 12px 13px;
-      font-size: 11px;
-      color: var(--text-300);
-      line-height: 1.65;
+      font-size: 11px; color: var(--text-300); line-height: 1.65;
+      margin-top: auto;
     }
-
-    .v-footer-label {
-      display: block; font-weight: 700; margin-bottom: 4px;
-    }
-    .v-footer-label.green  { color: var(--accent-green); }
-    .v-footer-label.purple { color: var(--accent-purple); }
+    .v-outcome-label { display: block; font-weight: 700; margin-bottom: 4px; }
+    .v-outcome-label.green  { color: var(--accent-green); }
+    .v-outcome-label.purple { color: var(--accent-purple); }
 
     /* ================================================================
        FOOTER NOTES
@@ -351,20 +269,11 @@
     .about-footer {
       border-top: 1px solid var(--border-dim);
       padding-top: 24px;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 0;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 0;
     }
-
-    .af-col {
-      font-size: 11px; color: var(--text-500);
-      line-height: 1.7; padding: 0 20px;
-    }
+    .af-col { font-size: 11px; color: var(--text-500); line-height: 1.7; padding: 0 22px; }
     .af-col:first-child { padding-left: 0; }
-    .af-col + .af-col {
-      border-left: 1px solid var(--border-dim);
-    }
-
+    .af-col + .af-col { border-left: 1px solid var(--border-dim); }
     .af-title { display: block; font-weight: 700; margin-bottom: 5px; font-size: 12px; }
     .af-title.white  { color: var(--text-400); }
     .af-title.purple { color: var(--accent-purple); }
@@ -373,41 +282,32 @@
        FOOTER
     ================================================================ */
     .app-footer {
-      border-top: 1px solid var(--border-dim);
-      padding: 13px 28px;
-      text-align: center;
-      font-size: 11px; color: var(--text-dim);
-      font-family: var(--mono);
+      border-top: 1px solid var(--border-dim); padding: 13px 28px;
+      text-align: center; font-size: 11px; color: var(--text-dim); font-family: var(--mono);
     }
 
     /* ================================================================
        RESPONSIVE
     ================================================================ */
-    @media (max-width: 800px) {
-      .pipeline-grid { grid-template-columns: 1fr; }
-      .flow-arrow { display: none; }
-      .p-center { width: 100%; }
+    @media (max-width: 860px) {
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
       .value-grid { grid-template-columns: 1fr; }
       .about-footer { grid-template-columns: 1fr; }
-      .af-col + .af-col {
-        border-left: none;
-        border-top: 1px solid var(--border-dim);
-        padding-left: 0; padding-top: 20px; margin-top: 20px;
-      }
-      .about-title { font-size: 24px; }
+      .af-col + .af-col { border-left: none; border-top: 1px solid var(--border-dim); padding-left: 0; padding-top: 18px; margin-top: 18px; }
+      .about-title { font-size: 26px; }
     }
-
     @media (max-width: 600px) {
-      .app-main { padding: 20px 16px 36px; }
-      .page-card { padding: 24px 20px; gap: 28px; }
-      .app-header { padding: 14px 16px; }
+      .app-main { padding: 18px 14px 36px; }
+      .page-card { padding: 22px 18px; gap: 28px; }
+      .app-header { padding: 12px 16px; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
     }
   </style>
 </head>
 <body>
 <div id="app">
 
-  <!-- ══════════════════════ HEADER ══════════════════════ -->
+  <!-- ══════════ HEADER ══════════ -->
   <header class="app-header">
     <div class="header-inner">
       <div class="brand">
@@ -424,10 +324,9 @@
     </div>
   </header>
 
-  <!-- ══════════════════════ MAIN ══════════════════════ -->
+  <!-- ══════════ MAIN ══════════ -->
   <main class="app-main">
     <div class="page-card">
-      <!-- Background blobs -->
       <div class="blob blob-tr"></div>
       <div class="blob blob-bl"></div>
 
@@ -440,72 +339,319 @@
         </p>
       </header>
 
-      <!-- ── PIPELINE DIAGRAM ── -->
-      <section class="pipeline-section">
-        <p class="section-lbl">The Interconnected Value Flywheel</p>
+      <!-- ── ECOSYSTEM DIAGRAM ── -->
+      <section class="diagram-section">
+        <p class="section-lbl center">Live Architecture · The Interconnected Value Flywheel</p>
 
-        <div class="pipeline-grid">
+        <div class="svg-outer">
+          <!--
+            SVG coordinate plan
+            viewBox:  0 0 740 360
+            Left nodes  (x=20, w=155): right edge = 175, node centers y = 58,124,190,256
+            Router      (x=270, w=200, y=103, h=104): center x=370 y=155; left=270 right=470
+            Right nodes (x=565, w=155): left edge = 565, node centers y = 58,124,190,256
+            Billing pill: y=305, centered x=370
+          -->
+          <svg viewBox="0 0 740 360" class="eco-svg"
+               xmlns="http://www.w3.org/2000/svg"
+               role="img"
+               aria-label="Ecosystem diagram: AI model nodes on the left connect through the MCP Marketplace Router to private data nodes on the right, with a micro-billing clearinghouse below.">
+            <title>MCP Marketplace Ecosystem Architecture</title>
 
-          <!-- Left: AI Client Node -->
-          <div class="p-node">
-            <div class="p-node-type" style="color:var(--accent-purple)">AI CLIENT NODE</div>
-            <div class="p-node-sub">Single LLM / HF Space</div>
-            <div class="p-node-tag">"The Context-Aware Brain"</div>
-          </div>
+            <defs>
+              <!-- Dot-grid background pattern -->
+              <pattern id="dotgrid" x="0" y="0" width="24" height="24" patternUnits="userSpaceOnUse">
+                <circle cx="1" cy="1" r="0.8" fill="#101028"/>
+              </pattern>
 
-          <!-- Center: Router -->
-          <div class="p-center">
-            <div class="flow-badge">
-              <span class="flow-arrow">→</span>
-              <span class="flow-tag">JSON-RPC LOOP</span>
-              <span class="flow-arrow">→</span>
-            </div>
+              <!-- Router glow filter -->
+              <filter id="f-router" x="-40%" y="-40%" width="180%" height="180%">
+                <feGaussianBlur stdDeviation="7" result="b"/>
+                <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+              </filter>
 
-            <div class="p-router">
-              <div class="p-router-title">STATELESS SSE ROUTER</div>
-              <div class="p-router-sub">Universal Schema Registry</div>
-            </div>
+              <!-- Particle glow filter -->
+              <filter id="f-ptcl" x="-150%" y="-150%" width="400%" height="400%">
+                <feGaussianBlur stdDeviation="2.5" result="b"/>
+                <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+              </filter>
 
-            <div class="flow-badge">
-              <span class="flow-arrow">←</span>
-              <span class="flow-tag">2-CLICK STREAM</span>
-              <span class="flow-arrow">←</span>
-            </div>
-          </div>
+              <!-- Router border gradient -->
+              <linearGradient id="g-router-border" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%"   stop-color="#00d4ff" stop-opacity=".9"/>
+                <stop offset="45%"  stop-color="#9b6dff" stop-opacity="1"/>
+                <stop offset="100%" stop-color="#00ff88" stop-opacity=".8"/>
+              </linearGradient>
 
-          <!-- Right: Data & Tool Node -->
-          <div class="p-node">
-            <div class="p-node-type" style="color:var(--accent-green)">DATA &amp; TOOL NODE</div>
-            <div class="p-node-sub">Private DB / Specialized API</div>
-            <div class="p-node-tag">"The Executing Muscle"</div>
-          </div>
+              <!-- Router top accent -->
+              <linearGradient id="g-router-top" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%"   stop-color="#00d4ff" stop-opacity=".7"/>
+                <stop offset="50%"  stop-color="#9b6dff"/>
+                <stop offset="100%" stop-color="#00ff88" stop-opacity=".7"/>
+              </linearGradient>
 
+              <!-- Router inner fill -->
+              <linearGradient id="g-router-fill" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%"   stop-color="#0d0d24"/>
+                <stop offset="100%" stop-color="#090918"/>
+              </linearGradient>
+            </defs>
+
+            <!-- ── BACKGROUND ── -->
+            <rect width="740" height="360" fill="url(#dotgrid)" rx="14"/>
+
+            <!-- ── CONNECTION PATHS — background (always-visible dim guides) ── -->
+            <!-- Model → Router -->
+            <path class="p-bg" d="M175,58  C222,58  222,155 270,155"/>
+            <path class="p-bg" d="M175,124 C222,124 222,155 270,155"/>
+            <path class="p-bg" d="M175,190 C222,190 222,155 270,155"/>
+            <path class="p-bg" d="M175,256 C222,256 222,155 270,155"/>
+            <!-- Router → Data -->
+            <path class="p-bg" d="M470,155 C518,155 518,58  565,58"/>
+            <path class="p-bg" d="M470,155 C518,155 518,124 565,124"/>
+            <path class="p-bg" d="M470,155 C518,155 518,190 565,190"/>
+            <path class="p-bg" d="M470,155 C518,155 518,256 565,256"/>
+            <!-- Billing connector -->
+            <line x1="370" y1="207" x2="370" y2="302" stroke="#1a1a3a" stroke-width="1" stroke-dasharray="3 5"/>
+
+            <!-- ── CONNECTION PATHS — animated marching dashes ── -->
+            <!-- Model → Router (purple) -->
+            <path class="p-anim p-model d0" d="M175,58  C222,58  222,155 270,155"/>
+            <path class="p-anim p-model d1" d="M175,124 C222,124 222,155 270,155"/>
+            <path class="p-anim p-model d2" d="M175,190 C222,190 222,155 270,155"/>
+            <path class="p-anim p-model d3" d="M175,256 C222,256 222,155 270,155"/>
+            <!-- Router → Data (green) -->
+            <path class="p-anim p-data d1" d="M470,155 C518,155 518,58  565,58"/>
+            <path class="p-anim p-data d2" d="M470,155 C518,155 518,124 565,124"/>
+            <path class="p-anim p-data d0" d="M470,155 C518,155 518,190 565,190"/>
+            <path class="p-anim p-data d3" d="M470,155 C518,155 518,256 565,256"/>
+
+            <!-- ── PARTICLES — model → router (purple) ── -->
+            <!-- Path 1 (y=58) -->
+            <circle r="4" class="ptcl-m" filter="url(#f-ptcl)">
+              <animateMotion dur="1.7s" begin="0s"     repeatCount="indefinite" path="M175,58 C222,58 222,155 270,155"/>
+            </circle>
+            <circle r="3" class="ptcl-m" filter="url(#f-ptcl)" opacity=".55">
+              <animateMotion dur="1.7s" begin="-0.85s" repeatCount="indefinite" path="M175,58 C222,58 222,155 270,155"/>
+            </circle>
+            <!-- Path 2 (y=124) -->
+            <circle r="4" class="ptcl-m" filter="url(#f-ptcl)">
+              <animateMotion dur="1.9s" begin="-0.3s"  repeatCount="indefinite" path="M175,124 C222,124 222,155 270,155"/>
+            </circle>
+            <circle r="3" class="ptcl-m" filter="url(#f-ptcl)" opacity=".5">
+              <animateMotion dur="1.9s" begin="-1.2s"  repeatCount="indefinite" path="M175,124 C222,124 222,155 270,155"/>
+            </circle>
+            <!-- Path 3 (y=190) -->
+            <circle r="4" class="ptcl-m" filter="url(#f-ptcl)">
+              <animateMotion dur="1.8s" begin="-0.6s"  repeatCount="indefinite" path="M175,190 C222,190 222,155 270,155"/>
+            </circle>
+            <circle r="3" class="ptcl-m" filter="url(#f-ptcl)" opacity=".5">
+              <animateMotion dur="1.8s" begin="-1.4s"  repeatCount="indefinite" path="M175,190 C222,190 222,155 270,155"/>
+            </circle>
+            <!-- Path 4 (y=256) -->
+            <circle r="4" class="ptcl-m" filter="url(#f-ptcl)">
+              <animateMotion dur="2.1s" begin="-0.9s"  repeatCount="indefinite" path="M175,256 C222,256 222,155 270,155"/>
+            </circle>
+            <circle r="3" class="ptcl-m" filter="url(#f-ptcl)" opacity=".5">
+              <animateMotion dur="2.1s" begin="-1.7s"  repeatCount="indefinite" path="M175,256 C222,256 222,155 270,155"/>
+            </circle>
+
+            <!-- ── PARTICLES — router → data (green) ── -->
+            <!-- Path 1 (y=58) -->
+            <circle r="4" class="ptcl-d" filter="url(#f-ptcl)">
+              <animateMotion dur="1.7s" begin="-0.1s"  repeatCount="indefinite" path="M470,155 C518,155 518,58 565,58"/>
+            </circle>
+            <circle r="3" class="ptcl-d" filter="url(#f-ptcl)" opacity=".5">
+              <animateMotion dur="1.7s" begin="-1.0s"  repeatCount="indefinite" path="M470,155 C518,155 518,58 565,58"/>
+            </circle>
+            <!-- Path 2 (y=124) -->
+            <circle r="4" class="ptcl-d" filter="url(#f-ptcl)">
+              <animateMotion dur="2.0s" begin="-0.5s"  repeatCount="indefinite" path="M470,155 C518,155 518,124 565,124"/>
+            </circle>
+            <circle r="3" class="ptcl-d" filter="url(#f-ptcl)" opacity=".5">
+              <animateMotion dur="2.0s" begin="-1.5s"  repeatCount="indefinite" path="M470,155 C518,155 518,124 565,124"/>
+            </circle>
+            <!-- Path 3 (y=190) -->
+            <circle r="4" class="ptcl-d" filter="url(#f-ptcl)">
+              <animateMotion dur="1.85s" begin="-0.2s" repeatCount="indefinite" path="M470,155 C518,155 518,190 565,190"/>
+            </circle>
+            <circle r="3" class="ptcl-d" filter="url(#f-ptcl)" opacity=".5">
+              <animateMotion dur="1.85s" begin="-1.1s" repeatCount="indefinite" path="M470,155 C518,155 518,190 565,190"/>
+            </circle>
+            <!-- Path 4 (y=256) -->
+            <circle r="4" class="ptcl-d" filter="url(#f-ptcl)">
+              <animateMotion dur="2.2s" begin="-0.7s"  repeatCount="indefinite" path="M470,155 C518,155 518,256 565,256"/>
+            </circle>
+            <circle r="3" class="ptcl-d" filter="url(#f-ptcl)" opacity=".5">
+              <animateMotion dur="2.2s" begin="-1.8s"  repeatCount="indefinite" path="M470,155 C518,155 518,256 565,256"/>
+            </circle>
+
+            <!-- ── COLUMN HEADERS ── -->
+            <text x="97"  y="20" class="svg-col-hd" text-anchor="middle">AI MODEL NODES</text>
+            <text x="642" y="20" class="svg-col-hd" text-anchor="middle">PRIVATE DATA NODES</text>
+
+            <!-- ── MCP PROTOCOL LABELS (center of paths) ── -->
+            <text x="223" y="149" class="proto-lbl" font-size="8">MCP</text>
+            <text x="517" y="149" class="proto-lbl" font-size="8">MCP</text>
+
+            <!-- ═══════════════════════════════════════
+                 MODEL NODES  (left column)
+                 Node rect: x=20 w=155 h=42 rx=8
+                 Badge: x=26 y=node_y+7 w=24 h=28 rx=5
+                 Badge center: x=38 y=node_y+21
+                 Name:  x=57 y=node_y+17
+                 Sub:   x=57 y=node_y+31
+            ═══════════════════════════════════════ -->
+
+            <!-- Node 1: Llama 3 70B (y=37) -->
+            <rect x="20" y="37" width="155" height="42" rx="8" fill="#0b0b1c" stroke="#9b6dff" stroke-width=".8" stroke-opacity=".4"/>
+            <rect x="26" y="44" width="24" height="28" rx="5" fill="rgba(155,109,255,.1)" stroke="rgba(155,109,255,.22)" stroke-width=".6"/>
+            <text x="38" y="62" class="badge-txt" font-size="9" fill="#9b6dff">L3</text>
+            <text x="57" y="54" class="node-name" font-size="12">Llama 3 70B</text>
+            <text x="57" y="68" class="node-sub" font-size="10">Meta AI</text>
+
+            <!-- Node 2: Claude (y=103) -->
+            <rect x="20" y="103" width="155" height="42" rx="8" fill="#0b0b1c" stroke="#9b6dff" stroke-width=".8" stroke-opacity=".4"/>
+            <rect x="26" y="110" width="24" height="28" rx="5" fill="rgba(155,109,255,.1)" stroke="rgba(155,109,255,.22)" stroke-width=".6"/>
+            <text x="38" y="128" class="badge-txt" font-size="9" fill="#9b6dff">CL</text>
+            <text x="57" y="120" class="node-name" font-size="12">Claude 3.5</text>
+            <text x="57" y="134" class="node-sub" font-size="10">Anthropic</text>
+
+            <!-- Node 3: Qwen 2.5 (y=169) -->
+            <rect x="20" y="169" width="155" height="42" rx="8" fill="#0b0b1c" stroke="#9b6dff" stroke-width=".8" stroke-opacity=".4"/>
+            <rect x="26" y="176" width="24" height="28" rx="5" fill="rgba(155,109,255,.1)" stroke="rgba(155,109,255,.22)" stroke-width=".6"/>
+            <text x="38" y="194" class="badge-txt" font-size="9" fill="#9b6dff">Q2</text>
+            <text x="57" y="186" class="node-name" font-size="12">Qwen 2.5 72B</text>
+            <text x="57" y="200" class="node-sub" font-size="10">Alibaba Cloud</text>
+
+            <!-- Node 4: HF Inference (y=235) -->
+            <rect x="20" y="235" width="155" height="42" rx="8" fill="#0b0b1c" stroke="#9b6dff" stroke-width=".8" stroke-opacity=".4"/>
+            <rect x="26" y="242" width="24" height="28" rx="5" fill="rgba(155,109,255,.1)" stroke="rgba(155,109,255,.22)" stroke-width=".6"/>
+            <text x="38" y="260" class="badge-txt" font-size="9" fill="#9b6dff">HF</text>
+            <text x="57" y="252" class="node-name" font-size="12">HF Inference</text>
+            <text x="57" y="266" class="node-sub" font-size="10">Hugging Face</text>
+
+            <!-- ═══════════════════════════════════════
+                 CENTRAL ROUTER
+                 Outer glow rect: x=268 y=101 w=204 h=108 rx=15
+                 Main rect:       x=270 y=103 w=200 h=104 rx=13
+                 Center: x=370 y=155
+            ═══════════════════════════════════════ -->
+
+            <!-- Aura -->
+            <rect x="265" y="98" width="210" height="114" rx="17" fill="#9b6dff" opacity=".035" filter="url(#f-router)"/>
+            <!-- Outer gradient border -->
+            <rect x="268" y="101" width="204" height="108" rx="15" fill="none" stroke="url(#g-router-border)" stroke-width="1.5"/>
+            <!-- Background fill -->
+            <rect x="270" y="103" width="200" height="104" rx="13" fill="url(#g-router-fill)"/>
+            <!-- Top accent bar -->
+            <rect x="270" y="103" width="200" height="3" rx="1.5" fill="url(#g-router-top)" opacity=".8"/>
+
+            <!-- Router hex icon -->
+            <text x="370" y="131" font-family="system-ui" font-size="22" fill="#9b6dff" text-anchor="middle" opacity=".7">⬡</text>
+
+            <!-- Router text -->
+            <text x="370" y="149" class="router-title" font-size="11">MCP MARKETPLACE ROUTER</text>
+            <text x="370" y="163" class="router-sub"   font-size="9">JSON-RPC 2.0 · SSE Transport</text>
+
+            <!-- Fee badge -->
+            <rect x="325" y="170" width="90" height="18" rx="9" fill="rgba(0,255,136,.06)" stroke="rgba(0,255,136,.25)" stroke-width=".8"/>
+            <text x="370" y="182" font-family="'SF Mono',monospace" font-size="8" font-weight="800" fill="#00ff88" text-anchor="middle" letter-spacing="1">5% ROUTING FEE</text>
+
+            <!-- ═══════════════════════════════════════
+                 DATA NODES  (right column)
+                 Node rect: x=565 w=155
+                 Badge: x=571 w=24
+                 Badge center: x=583
+                 Name: x=602
+            ═══════════════════════════════════════ -->
+
+            <!-- Node 1: PostgreSQL (y=37) -->
+            <rect x="565" y="37" width="155" height="42" rx="8" fill="#0b0b1c" stroke="#00ff88" stroke-width=".8" stroke-opacity=".4"/>
+            <rect x="571" y="44" width="24" height="28" rx="5" fill="rgba(0,255,136,.08)" stroke="rgba(0,255,136,.2)" stroke-width=".6"/>
+            <text x="583" y="62" class="badge-txt" font-size="9" fill="#00ff88">PG</text>
+            <text x="602" y="54" class="node-name" font-size="12">PostgreSQL</text>
+            <text x="602" y="68" class="node-sub" font-size="10">Relational DB</text>
+
+            <!-- Node 2: Notion (y=103) -->
+            <rect x="565" y="103" width="155" height="42" rx="8" fill="#0b0b1c" stroke="#00ff88" stroke-width=".8" stroke-opacity=".4"/>
+            <rect x="571" y="110" width="24" height="28" rx="5" fill="rgba(0,255,136,.08)" stroke="rgba(0,255,136,.2)" stroke-width=".6"/>
+            <text x="583" y="128" class="badge-txt" font-size="9" fill="#00ff88">NT</text>
+            <text x="602" y="120" class="node-name" font-size="12">Notion</text>
+            <text x="602" y="134" class="node-sub" font-size="10">Knowledge Base</text>
+
+            <!-- Node 3: Supabase (y=169) -->
+            <rect x="565" y="169" width="155" height="42" rx="8" fill="#0b0b1c" stroke="#00ff88" stroke-width=".8" stroke-opacity=".4"/>
+            <rect x="571" y="176" width="24" height="28" rx="5" fill="rgba(0,255,136,.08)" stroke="rgba(0,255,136,.2)" stroke-width=".6"/>
+            <text x="583" y="194" class="badge-txt" font-size="9" fill="#00ff88">SB</text>
+            <text x="602" y="186" class="node-name" font-size="12">Supabase</text>
+            <text x="602" y="200" class="node-sub" font-size="10">BaaS Platform</text>
+
+            <!-- Node 4: MongoDB (y=235) -->
+            <rect x="565" y="235" width="155" height="42" rx="8" fill="#0b0b1c" stroke="#00ff88" stroke-width=".8" stroke-opacity=".4"/>
+            <rect x="571" y="242" width="24" height="28" rx="5" fill="rgba(0,255,136,.08)" stroke="rgba(0,255,136,.2)" stroke-width=".6"/>
+            <text x="583" y="260" class="badge-txt" font-size="9" fill="#00ff88">MA</text>
+            <text x="602" y="252" class="node-name" font-size="12">MongoDB Atlas</text>
+            <text x="602" y="266" class="node-sub" font-size="10">Document DB</text>
+
+            <!-- ── BILLING CLEARINGHOUSE ── -->
+            <rect x="210" y="303" width="320" height="30" rx="15"
+                  fill="rgba(0,255,136,.04)" stroke="rgba(0,255,136,.2)" stroke-width="1"/>
+            <text x="370" y="322" class="billing-txt" font-size="8.5">
+              ⚡ REAL-TIME MICRO-BILLING CLEARINGHOUSE
+            </text>
+          </svg>
         </div>
+      </section>
 
-        <!-- Settlement bar -->
-        <div class="settlement">
-          <div class="settlement-wire"></div>
-          <div class="settlement-pill">⚡ REAL-TIME MICRO-BILLING CLEARINGHOUSE (5–10% FEE)</div>
+      <!-- ── KEY METRICS ── -->
+      <section>
+        <p class="section-lbl">Platform at a Glance</p>
+        <div class="stats-grid">
+
+          <div class="stat-card">
+            <div class="stat-val green">5%</div>
+            <div class="stat-label">Platform Routing Fee</div>
+            <div class="stat-sub">vs. 30% closed-platform avg</div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-val purple">Open</div>
+            <div class="stat-label">MCP Protocol Standard</div>
+            <div class="stat-sub">JSON-RPC 2.0 · SSE Transport</div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-val cyan">2-Click</div>
+            <div class="stat-label">Connection Loop</div>
+            <div class="stat-sub">Model Node → Data Node</div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-val orange">Zero</div>
+            <div class="stat-label">Vendor Lock-in</div>
+            <div class="stat-sub">Swap any node at any time</div>
+          </div>
+
         </div>
       </section>
 
       <!-- ── VALUE DRIVERS MATRIX ── -->
-      <section>
-        <p class="section-lbl left">Top Value Drivers &amp; Fulfillment Matrix</p>
-
+      <section class="value-section">
+        <p class="section-lbl">Top Value Drivers &amp; Fulfillment Matrix</p>
         <div class="value-grid">
 
           <!-- Card 1: Component Creators -->
           <div class="v-card">
             <div class="v-card-hd">
-              <span class="v-emoji">🛠️</span>
+              <div class="v-emoji-wrap green"><span>🛠️</span></div>
               <span class="v-title">Component Creators</span>
             </div>
-            <p class="v-body">
+            <div class="v-friction">
               <strong>The Friction:</strong> High tolls and SDK debt. Handing over 30% of tight compute margins to traditional app stores while manually rebuilding plugins for isolated gardens.
-            </p>
-            <div class="v-footer">
-              <span class="v-footer-label green">Build Once, Own the Margin</span>
+            </div>
+            <div class="v-outcome">
+              <span class="v-outcome-label green">Build Once, Own the Margin</span>
               Deploy 1 open MCP manifest. Gain native global connectivity across all frontends. Keep 90–95% gross.
             </div>
           </div>
@@ -513,14 +659,14 @@
           <!-- Card 2: App Builders -->
           <div class="v-card">
             <div class="v-card-hd">
-              <span class="v-emoji">🧩</span>
+              <div class="v-emoji-wrap purple"><span>🧩</span></div>
               <span class="v-title">App Builders</span>
             </div>
-            <p class="v-body">
+            <div class="v-friction">
               <strong>The Friction:</strong> Siloed integration code. Wasting 70% of product iteration cycle timelines configuring redundant custom backend routers and authentication keys.
-            </p>
-            <div class="v-footer">
-              <span class="v-footer-label purple">Software Lego Composability</span>
+            </div>
+            <div class="v-outcome">
+              <span class="v-outcome-label purple">Software Lego Composability</span>
               Chain micro-utilities into comprehensive pipelines on the fly. Rely on our platform backplane for multi-hop billing.
             </div>
           </div>
@@ -528,14 +674,14 @@
           <!-- Card 3: Single-Sub Users -->
           <div class="v-card">
             <div class="v-card-hd">
-              <span class="v-emoji">🔑</span>
+              <div class="v-emoji-wrap cyan"><span>🔑</span></div>
               <span class="v-title">Single-Sub Users</span>
             </div>
-            <p class="v-body">
+            <div class="v-friction">
               <strong>The Friction:</strong> Utility capture. Trapped inside the feature roadmap limits of a single provider while handing over private memories to remote monolithic corporate silos.
-            </p>
-            <div class="v-footer">
-              <span class="v-footer-label green">Infinite Tooling &amp; Sovereignty</span>
+            </div>
+            <div class="v-outcome">
+              <span class="v-outcome-label green">Infinite Tooling &amp; Sovereignty</span>
               Hook missing data arrays straight to your primary model of choice. Keep historical data private in a local <strong style="color:var(--text-300)">Context Vault</strong>.
             </div>
           </div>
@@ -543,7 +689,7 @@
         </div>
       </section>
 
-      <!-- ── FOOTER NOTES ── -->
+      <!-- ── ARCHITECTURE NOTES ── -->
       <footer class="about-footer">
         <div class="af-col">
           <span class="af-title white">Programmatic Agentic Discovery</span>
