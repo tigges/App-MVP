@@ -1,0 +1,1535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MCP Connection Sandbox · AI App Marketplace</title>
+  <style>
+    /* ================================================================
+       DESIGN TOKENS
+    ================================================================ */
+    :root {
+      --bg-base:         #06060f;
+      --bg-card:         #0b0b1c;
+      --bg-card-hi:      #101028;
+      --bg-console:      #040410;
+      --border-dim:      #16163a;
+      --border-mid:      #222244;
+      --accent-cyan:     #00d4ff;
+      --accent-green:    #00ff88;
+      --accent-purple:   #9b6dff;
+      --accent-orange:   #ff6b35;
+      --accent-yellow:   #fbbf24;
+      --text-primary:    #e4e8f5;
+      --text-secondary:  #5a6380;
+      --text-dim:        #272745;
+      --glow-cyan:       0 0 24px rgba(0,212,255,.35), 0 0 48px rgba(0,212,255,.12);
+      --glow-green:      0 0 24px rgba(0,255,136,.35), 0 0 48px rgba(0,255,136,.12);
+      --glow-purple:     0 0 20px rgba(155,109,255,.35);
+      --r-sm:  6px;
+      --r-md:  10px;
+      --r-lg:  16px;
+      --r-xl:  20px;
+      --mono:  'SF Mono','JetBrains Mono','Cascadia Code','Fira Code',monospace;
+      --sans:  'Inter',system-ui,-apple-system,sans-serif;
+    }
+
+    /* ================================================================
+       BASE
+    ================================================================ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { color-scheme: dark; }
+
+    body {
+      min-height: 100vh;
+      background: var(--bg-base);
+      background-image:
+        radial-gradient(ellipse 60% 40% at 15% -5%, rgba(0,212,255,.07) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 40% at 85% -5%, rgba(155,109,255,.07) 0%, transparent 60%),
+        radial-gradient(ellipse 40% 30% at 50% 100%, rgba(0,255,136,.04) 0%, transparent 60%);
+      color: var(--text-primary);
+      font-family: var(--sans);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    #app { min-height: 100vh; display: flex; flex-direction: column; }
+
+    /* ================================================================
+       HEADER
+    ================================================================ */
+    .app-header {
+      position: sticky; top: 0; z-index: 200;
+      border-bottom: 1px solid var(--border-dim);
+      background: rgba(6,6,15,.88);
+      backdrop-filter: blur(16px) saturate(1.4);
+      padding: 14px 28px;
+    }
+
+    .header-inner {
+      max-width: 1440px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .brand-hex {
+      width: 38px; height: 38px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--accent-cyan) 0%, var(--accent-purple) 100%);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px; line-height: 1;
+      flex-shrink: 0;
+      box-shadow: 0 0 16px rgba(0,212,255,.3), 0 0 32px rgba(155,109,255,.2);
+    }
+
+    .brand-name {
+      font-size: 15px; font-weight: 700;
+      color: var(--text-primary); letter-spacing: -.025em;
+    }
+
+    .brand-tag {
+      font-size: 11px; color: var(--text-secondary);
+      font-family: var(--mono); margin-top: 1px;
+    }
+
+    .header-right { display: flex; align-items: center; gap: 10px; }
+
+    .status-pill {
+      display: inline-flex; align-items: center; gap: 7px;
+      padding: 5px 14px;
+      border-radius: 24px;
+      font-family: var(--mono); font-size: 11px; font-weight: 700;
+      letter-spacing: .1em; border: 1px solid;
+      transition: all .35s ease;
+    }
+    .status-pill.offline  { border-color: var(--text-dim); color: var(--text-secondary); }
+    .status-pill.routing  { border-color: var(--accent-cyan); color: var(--accent-cyan); box-shadow: var(--glow-cyan); }
+    .status-pill.active   { border-color: var(--accent-green); color: var(--accent-green); box-shadow: var(--glow-green); }
+
+    .pill-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: currentColor;
+    }
+    .status-pill.routing .pill-dot,
+    .status-pill.active  .pill-dot { animation: blink 1.4s ease infinite; }
+
+    @keyframes blink {
+      0%,100% { opacity: 1; transform: scale(1); }
+      50%      { opacity: .4; transform: scale(.7); }
+    }
+
+    .reset-btn {
+      background: none; border: 1px solid var(--border-mid);
+      color: var(--text-secondary); cursor: pointer;
+      padding: 5px 13px; border-radius: var(--r-sm);
+      font-size: 12px; font-family: var(--mono);
+      transition: all .2s ease; line-height: 1.6;
+    }
+    .reset-btn:hover { border-color: var(--accent-orange); color: var(--accent-orange); }
+
+    /* ================================================================
+       MAIN + WORKSPACE
+    ================================================================ */
+    .app-main {
+      flex: 1;
+      padding: 28px 28px 40px;
+      max-width: 1440px;
+      margin: 0 auto; width: 100%;
+    }
+
+    .workspace {
+      position: relative;
+      margin-bottom: 28px;
+    }
+
+    /* SVG overlay */
+    .conn-svg {
+      position: absolute; top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none; z-index: 10;
+      overflow: visible;
+    }
+
+    /* ================================================================
+       THREE-COLUMN GRID
+    ================================================================ */
+    .columns {
+      display: grid;
+      grid-template-columns: 1fr 1.5fr 1fr;
+      gap: 18px;
+    }
+
+    /* ================================================================
+       COLUMN CARD
+    ================================================================ */
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-dim);
+      border-radius: var(--r-xl);
+      padding: 22px;
+      display: flex; flex-direction: column; gap: 16px;
+      transition: border-color .45s ease, box-shadow .45s ease;
+      position: relative;
+    }
+
+    .card.lit-model { border-color: var(--accent-cyan);  box-shadow: var(--glow-cyan),  inset 0 0 60px rgba(0,212,255,.025); }
+    .card.lit-data  { border-color: var(--accent-green); box-shadow: var(--glow-green), inset 0 0 60px rgba(0,255,136,.025); }
+
+    /* ================================================================
+       NODE HEADER (icon + label + dot)
+    ================================================================ */
+    .node-hd {
+      display: flex; align-items: center; gap: 11px;
+    }
+
+    .node-icon {
+      width: 38px; height: 38px; border-radius: var(--r-sm);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .node-icon svg { width: 18px; height: 18px; }
+
+    .ni-model  { background: rgba(0,212,255,.09);  color: var(--accent-cyan);   border: 1px solid rgba(0,212,255,.18); }
+    .ni-router { background: rgba(155,109,255,.09); color: var(--accent-purple); border: 1px solid rgba(155,109,255,.18); }
+    .ni-data   { background: rgba(0,255,136,.09);  color: var(--accent-green);  border: 1px solid rgba(0,255,136,.18); }
+
+    .node-meta { flex: 1; }
+
+    .node-type-tag {
+      font-family: var(--mono); font-size: 9px; font-weight: 700;
+      letter-spacing: .14em; color: var(--text-secondary); display: block;
+    }
+
+    .node-title {
+      font-size: 14px; font-weight: 700;
+      color: var(--text-primary); letter-spacing: -.015em;
+    }
+
+    .nd-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      flex-shrink: 0; transition: all .3s ease;
+    }
+    .nd-dot.off      { background: var(--text-dim); }
+    .nd-dot.routing  { background: var(--accent-cyan);  animation: blink 1.4s infinite; }
+    .nd-dot.live     { background: var(--accent-green); animation: blink 2s infinite; }
+
+    /* ================================================================
+       DIVIDER
+    ================================================================ */
+    .divider {
+      height: 1px;
+      background: var(--border-dim);
+      margin: 0 -2px;
+    }
+
+    /* ================================================================
+       OPTION PICKER
+    ================================================================ */
+    .picker-label {
+      font-size: 10px; font-weight: 700;
+      color: var(--text-secondary); letter-spacing: .1em;
+      text-transform: uppercase; display: block;
+      margin-bottom: 8px;
+    }
+
+    .picker { display: flex; flex-direction: column; gap: 6px; }
+
+    .opt {
+      display: flex; align-items: center; gap: 10px;
+      padding: 9px 11px;
+      border-radius: var(--r-sm);
+      border: 1px solid var(--border-dim);
+      background: var(--bg-base);
+      cursor: pointer;
+      transition: all .18s ease;
+      user-select: none;
+    }
+    .opt:hover { border-color: var(--border-mid); background: var(--bg-card-hi); }
+
+    .opt.sel-model { border-color: var(--accent-cyan);  background: rgba(0,212,255,.06); }
+    .opt.sel-data  { border-color: var(--accent-green); background: rgba(0,255,136,.06); }
+
+    .opt-badge {
+      width: 30px; height: 30px; border-radius: var(--r-sm);
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--mono); font-size: 10px; font-weight: 800;
+      flex-shrink: 0;
+      background: var(--border-dim); color: var(--text-secondary);
+      transition: all .18s ease;
+    }
+    .opt.sel-model .opt-badge { background: rgba(0,212,255,.14); color: var(--accent-cyan); }
+    .opt.sel-data  .opt-badge { background: rgba(0,255,136,.14); color: var(--accent-green); }
+
+    .opt-info { flex: 1; min-width: 0; }
+    .opt-name { font-size: 12px; font-weight: 600; color: var(--text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .opt-sub  { font-size: 11px; color: var(--text-secondary); }
+
+    .opt-radio {
+      width: 14px; height: 14px; border-radius: 50%;
+      border: 2px solid var(--text-dim); flex-shrink: 0;
+      position: relative; transition: all .18s ease;
+    }
+    .opt.sel-model .opt-radio { border-color: var(--accent-cyan); }
+    .opt.sel-model .opt-radio::after { content:''; position:absolute; inset:2px; border-radius:50%; background:var(--accent-cyan); }
+    .opt.sel-data  .opt-radio { border-color: var(--accent-green); }
+    .opt.sel-data  .opt-radio::after { content:''; position:absolute; inset:2px; border-radius:50%; background:var(--accent-green); }
+
+    /* ================================================================
+       SPECS PANEL
+    ================================================================ */
+    .specs-panel {
+      flex: 1;
+      background: var(--bg-base);
+      border: 1px solid var(--border-dim);
+      border-radius: var(--r-sm);
+      padding: 12px;
+      min-height: 96px;
+    }
+
+    .specs-empty {
+      display: flex; align-items: center; justify-content: center;
+      height: 100%;
+      color: var(--text-dim); font-size: 11px;
+      font-family: var(--mono); font-style: italic;
+    }
+
+    .spec-row {
+      display: flex; justify-content: space-between; align-items: baseline;
+      padding: 4px 0;
+      border-bottom: 1px solid var(--border-dim);
+    }
+    .spec-row:last-child { border-bottom: none; }
+    .sk { font-size: 10px; color: var(--text-secondary); font-family: var(--mono); }
+    .sv { font-size: 10px; font-family: var(--mono); font-weight: 700; color: var(--text-primary); }
+    .sv.hi-model { color: var(--accent-cyan); }
+    .sv.hi-data  { color: var(--accent-green); }
+
+    /* ================================================================
+       CONNECT BUTTON
+    ================================================================ */
+    .conn-btn {
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      width: 100%; padding: 12px 18px;
+      border-radius: var(--r-md);
+      font-size: 13px; font-weight: 700;
+      cursor: pointer; border: 1px solid;
+      letter-spacing: .01em;
+      transition: all .25s ease;
+      position: relative; overflow: hidden;
+    }
+    .conn-btn::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,.06) 50%, transparent 70%);
+      transform: translateX(-100%);
+    }
+    .conn-btn:not(:disabled):hover::after { transition: transform .4s ease; transform: translateX(100%); }
+    .conn-btn:disabled { opacity: .35; cursor: not-allowed; }
+
+    .btn-model { background: rgba(0,212,255,.08); border-color: var(--accent-cyan); color: var(--accent-cyan); }
+    .btn-model:not(:disabled):hover { background: rgba(0,212,255,.15); box-shadow: var(--glow-cyan); }
+    .btn-model.done { background: rgba(0,212,255,.14); box-shadow: var(--glow-cyan); }
+
+    .btn-data { background: rgba(0,255,136,.08); border-color: var(--accent-green); color: var(--accent-green); }
+    .btn-data:not(:disabled):hover { background: rgba(0,255,136,.15); box-shadow: var(--glow-green); }
+    .btn-data.done { background: rgba(0,255,136,.14); box-shadow: var(--glow-green); }
+
+    /* ================================================================
+       CENTER COLUMN — METRICS
+    ================================================================ */
+    .metrics-row {
+      display: grid; grid-template-columns: repeat(3,1fr); gap: 8px;
+    }
+
+    .metric {
+      background: var(--bg-base);
+      border: 1px solid var(--border-dim);
+      border-radius: var(--r-sm);
+      padding: 10px 11px;
+      display: flex; flex-direction: column; gap: 4px;
+    }
+    .metric-lbl { font-size: 9px; color: var(--text-secondary); font-family: var(--mono); text-transform: uppercase; letter-spacing: .1em; }
+    .metric-val { font-size: 15px; font-weight: 800; font-family: var(--mono); color: var(--text-primary); transition: color .3s ease; }
+    .metric-val.c-dim    { color: var(--text-secondary); }
+    .metric-val.c-cyan   { color: var(--accent-cyan); }
+    .metric-val.c-green  { color: var(--accent-green); }
+
+    /* ================================================================
+       CENTER COLUMN — CONSOLE
+    ================================================================ */
+    .console-wrap {
+      flex: 1;
+      background: var(--bg-console);
+      border: 1px solid var(--border-dim);
+      border-radius: var(--r-md);
+      overflow: hidden;
+      display: flex; flex-direction: column;
+      min-height: 300px;
+    }
+
+    .console-bar {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 7px 12px;
+      border-bottom: 1px solid var(--border-dim);
+      background: rgba(255,255,255,.02);
+      flex-shrink: 0;
+    }
+    .console-title { font-family: var(--mono); font-size: 10px; color: var(--text-secondary); }
+    .console-dots { display: flex; gap: 5px; }
+    .cdot { width: 8px; height: 8px; border-radius: 50%; }
+    .cdot.r { background: #ff5f57; }
+    .cdot.y { background: #ffbd2e; }
+    .cdot.g { background: #28ca41; }
+
+    .console-out {
+      flex: 1;
+      overflow-y: auto;
+      padding: 12px 14px;
+      display: flex; flex-direction: column; gap: 2px;
+      font-family: var(--mono);
+      font-size: 11px; line-height: 1.65;
+      scroll-behavior: smooth;
+    }
+    .console-out::-webkit-scrollbar { width: 3px; }
+    .console-out::-webkit-scrollbar-thumb { background: var(--border-mid); border-radius: 2px; }
+
+    .cline {
+      display: flex; gap: 7px; align-items: flex-start;
+      animation: cline-in .18s ease;
+      word-break: break-all;
+    }
+    @keyframes cline-in { from { opacity:0; transform:translateY(3px); } to { opacity:1; transform:translateY(0); } }
+
+    .cprompt { flex-shrink: 0; color: var(--text-dim); width: 12px; text-align: center; line-height: 1.65; }
+
+    .cline.sys  .cprompt { color: var(--text-dim); }
+    .cline.req  .cprompt { color: var(--accent-cyan); }
+    .cline.res  .cprompt { color: var(--accent-green); }
+    .cline.ok   .cprompt { color: var(--accent-green); }
+    .cline.err  .cprompt { color: var(--accent-orange); }
+
+    .cline.sys  span { color: var(--text-secondary); }
+    .cline.req  span { color: rgba(0,212,255,.85); }
+    .cline.res  span { color: rgba(0,255,136,.85); }
+    .cline.ok   span { color: var(--accent-green); font-weight: 700; }
+    .cline.err  span { color: var(--accent-orange); }
+
+    .ctag {
+      flex-shrink: 0;
+      font-size: 9px; font-weight: 800; padding: 1px 5px;
+      border-radius: 3px; border: 1px solid; letter-spacing: .06em;
+      line-height: 1.65;
+    }
+    .cline.req .ctag { color: var(--accent-cyan);  border-color: rgba(0,212,255,.3);  background: rgba(0,212,255,.07); }
+    .cline.res .ctag { color: var(--accent-green); border-color: rgba(0,255,136,.3); background: rgba(0,255,136,.07); }
+
+    /* ================================================================
+       SIMULATE BUTTON
+    ================================================================ */
+    .sim-btn {
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      width: 100%; padding: 12px 18px;
+      border-radius: var(--r-md);
+      font-size: 13px; font-weight: 700;
+      cursor: pointer;
+      background: rgba(155,109,255,.08);
+      border: 1px solid var(--accent-purple);
+      color: var(--accent-purple);
+      transition: all .25s ease;
+      letter-spacing: .01em;
+    }
+    .sim-btn:disabled { opacity: .3; cursor: not-allowed; }
+    .sim-btn:not(:disabled):hover { background: rgba(155,109,255,.16); box-shadow: var(--glow-purple); }
+    .sim-btn.running {
+      background: rgba(155,109,255,.18);
+      animation: sim-pulse 1.1s ease-in-out infinite alternate;
+    }
+    .sim-btn.done { background: rgba(155,109,255,.12); box-shadow: var(--glow-purple); }
+
+    @keyframes sim-pulse {
+      from { box-shadow: 0 0 10px rgba(155,109,255,.25); }
+      to   { box-shadow: 0 0 36px rgba(155,109,255,.6); }
+    }
+
+    /* ================================================================
+       SVG PATHS
+    ================================================================ */
+    .path-bg    { fill:none; stroke:var(--border-dim); stroke-width:1.5; }
+    .path-lit-l { fill:none; stroke:var(--accent-cyan);  stroke-width:2.5; stroke-linecap:round; opacity:0; filter:drop-shadow(0 0 6px rgba(0,212,255,.9)); }
+    .path-lit-r { fill:none; stroke:var(--accent-green); stroke-width:2.5; stroke-linecap:round; opacity:0; filter:drop-shadow(0 0 6px rgba(0,255,136,.9)); }
+
+    /* ================================================================
+       LEDGER SECTION
+    ================================================================ */
+    .ledger-section {
+      background: var(--bg-card);
+      border: 1px solid var(--border-dim);
+      border-radius: var(--r-xl);
+      overflow: hidden;
+      animation: slide-up .4s cubic-bezier(.2,0,.1,1);
+    }
+    @keyframes slide-up { from { opacity:0; transform:translateY(18px); } to { opacity:1; transform:translateY(0); } }
+
+    .ledger-hd {
+      display: flex; justify-content: space-between; align-items: flex-start;
+      padding: 22px 26px;
+      border-bottom: 1px solid var(--border-dim);
+    }
+    .ledger-title { font-size: 17px; font-weight: 800; color: var(--text-primary); letter-spacing: -.025em; }
+    .ledger-sub { font-size: 12px; color: var(--text-secondary); font-family: var(--mono); margin-top: 3px; }
+    .ledger-meta { font-size: 11px; color: var(--text-secondary); font-family: var(--mono); text-align: right; line-height: 1.7; }
+
+    .ledger-table-wrap { padding: 0 26px 0; overflow-x: auto; }
+
+    .ledger-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 0; }
+    .ledger-table thead th {
+      text-align: left; padding: 14px 10px 10px;
+      font-size: 10px; font-weight: 700;
+      color: var(--text-secondary);
+      text-transform: uppercase; letter-spacing: .1em;
+      font-family: var(--mono);
+      border-bottom: 1px solid var(--border-mid);
+      white-space: nowrap;
+    }
+    .ledger-table thead th:last-child { text-align: right; }
+
+    .ledger-table tbody td {
+      padding: 11px 10px;
+      border-bottom: 1px solid rgba(22,22,58,.7);
+      vertical-align: middle;
+      animation: row-in .25s ease both;
+    }
+    @keyframes row-in { from { opacity:0; transform:translateX(-6px); } to { opacity:1; transform:translateX(0); } }
+
+    .ledger-table tbody td:last-child {
+      text-align: right;
+      font-family: var(--mono); font-weight: 700;
+    }
+
+    .ledger-table tbody tr:last-child td { border-bottom: none; }
+
+    .lbadge {
+      display: inline-flex; align-items: center;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 10px; font-weight: 800;
+      font-family: var(--mono); letter-spacing: .06em;
+      border: 1px solid;
+    }
+    .lbadge.model    { background: rgba(0,212,255,.08);  color: var(--accent-cyan);   border-color: rgba(0,212,255,.22); }
+    .lbadge.data     { background: rgba(0,255,136,.08);  color: var(--accent-green);  border-color: rgba(0,255,136,.22); }
+    .lbadge.platform { background: rgba(155,109,255,.08); color: var(--accent-purple); border-color: rgba(155,109,255,.22); }
+
+    .ledger-table tbody tr.subtotal-row td { color: var(--text-secondary); font-size: 12px; }
+    .ledger-table tbody tr.total-row td {
+      border-top: 2px solid var(--border-mid);
+      padding-top: 14px; font-size: 14px;
+      color: var(--text-primary); font-weight: 800;
+    }
+    .ledger-table tbody tr.total-row td:last-child {
+      color: var(--accent-cyan); font-size: 17px;
+    }
+
+    .lmono { font-family: var(--mono); color: var(--text-secondary); font-size: 11px; }
+
+    /* ================================================================
+       LEDGER HIGHLIGHT (walled garden metric)
+    ================================================================ */
+    .ledger-highlight {
+      display: flex; align-items: center; gap: 18px;
+      margin: 16px 26px 22px;
+      padding: 18px 22px;
+      background: rgba(0,255,136,.04);
+      border: 1px solid rgba(0,255,136,.18);
+      border-radius: var(--r-lg);
+    }
+
+    .hl-shield {
+      width: 46px; height: 46px; flex-shrink: 0;
+      background: rgba(0,255,136,.1);
+      border: 1px solid rgba(0,255,136,.25);
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px;
+    }
+
+    .hl-text { flex: 1; }
+    .hl-title { font-size: 13px; font-weight: 700; color: var(--accent-green); }
+    .hl-desc  { font-size: 11px; color: var(--text-secondary); margin-top: 3px; line-height: 1.5; }
+
+    .hl-amount {
+      font-family: var(--mono); font-size: 28px; font-weight: 900;
+      color: var(--accent-green); flex-shrink: 0;
+      text-shadow: 0 0 24px rgba(0,255,136,.5);
+    }
+
+    /* ================================================================
+       FOOTER
+    ================================================================ */
+    .app-footer {
+      border-top: 1px solid var(--border-dim);
+      padding: 13px 28px;
+      text-align: center;
+      font-size: 11px; color: var(--text-dim);
+      font-family: var(--mono);
+    }
+
+    /* ================================================================
+       UTILITIES
+    ================================================================ */
+    .sr-only { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0,0,0,0); }
+
+    /* ================================================================
+       RESPONSIVE
+    ================================================================ */
+    @media (max-width: 960px) {
+      .columns { grid-template-columns: 1fr; }
+      .conn-svg { display: none; }
+      .app-main { padding: 16px 16px 32px; }
+    }
+    @media (max-width: 600px) {
+      .metrics-row { grid-template-columns: 1fr 1fr; }
+      .ledger-hd { flex-direction: column; gap: 8px; }
+      .ledger-highlight { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+<div id="app">
+
+  <!-- ══════════════════════ HEADER ══════════════════════ -->
+  <header class="app-header">
+    <div class="header-inner">
+      <div class="brand">
+        <div class="brand-hex">⬡</div>
+        <div>
+          <div class="brand-name">AI App Marketplace</div>
+          <div class="brand-tag">MCP Connection Sandbox · Validation MVP v0.1</div>
+        </div>
+      </div>
+      <div class="header-right">
+        <div id="global-pill" class="status-pill offline">
+          <span class="pill-dot"></span>
+          <span id="global-text">OFFLINE</span>
+        </div>
+        <button class="reset-btn" onclick="resetAll()">↺ Reset</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ══════════════════════ MAIN ══════════════════════ -->
+  <main class="app-main">
+
+    <!-- WORKSPACE -->
+    <div class="workspace" id="workspace">
+
+      <!-- SVG Connection Overlay -->
+      <svg class="conn-svg" id="conn-svg" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <filter id="glow-c" x="-60%" y="-60%" width="220%" height="220%">
+            <feGaussianBlur stdDeviation="5" result="b"/>
+            <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+          <filter id="glow-g" x="-60%" y="-60%" width="220%" height="220%">
+            <feGaussianBlur stdDeviation="5" result="b"/>
+            <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+        </defs>
+        <!-- background paths (always visible, dim) -->
+        <path id="path-l-bg" class="path-bg" d="M0,0"/>
+        <path id="path-r-bg" class="path-bg" d="M0,0"/>
+        <!-- active lit paths -->
+        <path id="path-l-lit" class="path-lit-l" d="M0,0"/>
+        <path id="path-r-lit" class="path-lit-r" d="M0,0"/>
+        <!-- particle groups -->
+        <g id="ptcl-left"></g>
+        <g id="ptcl-right"></g>
+      </svg>
+
+      <!-- THREE COLUMNS -->
+      <div class="columns" id="columns">
+
+        <!-- ──── LEFT: MODEL NODE ──── -->
+        <div id="col-model">
+          <div class="card" id="card-model">
+            <!-- Header -->
+            <div class="node-hd">
+              <div class="node-icon ni-model">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                </svg>
+              </div>
+              <div class="node-meta">
+                <span class="node-type-tag">MCP CLIENT</span>
+                <div class="node-title">Model Node</div>
+              </div>
+              <div class="nd-dot off" id="dot-model"></div>
+            </div>
+
+            <div class="divider"></div>
+
+            <!-- Model Picker -->
+            <div>
+              <span class="picker-label">Select Open-Source Model</span>
+              <div class="picker" id="model-picker"></div>
+            </div>
+
+            <!-- Specs -->
+            <div class="specs-panel" id="model-specs">
+              <div class="specs-empty">Select a model to view specs</div>
+            </div>
+
+            <!-- Connect Button -->
+            <button class="conn-btn btn-model" id="model-btn" disabled>
+              <span id="model-btn-icon">⬡</span>
+              <span id="model-btn-text">Connect Model Node</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- ──── CENTER: PLATFORM ROUTER ──── -->
+        <div id="col-router">
+          <div class="card" id="card-router">
+            <!-- Header -->
+            <div class="node-hd">
+              <div class="node-icon ni-router">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <circle cx="12" cy="12" r="3"/>
+                  <path d="M12 2v4M12 18v4M2 12h4M18 12h4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
+                </svg>
+              </div>
+              <div class="node-meta">
+                <span class="node-type-tag">PLATFORM CORE</span>
+                <div class="node-title">Router Node</div>
+              </div>
+              <div class="nd-dot off" id="dot-router"></div>
+            </div>
+
+            <div class="divider"></div>
+
+            <!-- Metrics -->
+            <div class="metrics-row">
+              <div class="metric">
+                <div class="metric-lbl">Network Status</div>
+                <div class="metric-val c-dim" id="m-status">Offline</div>
+              </div>
+              <div class="metric">
+                <div class="metric-lbl">Transfer Rate</div>
+                <div class="metric-val c-dim" id="m-rate">0 B/s</div>
+              </div>
+              <div class="metric">
+                <div class="metric-lbl">Avg Latency</div>
+                <div class="metric-val c-dim" id="m-lat">— ms</div>
+              </div>
+            </div>
+
+            <!-- Console -->
+            <div class="console-wrap">
+              <div class="console-bar">
+                <span class="console-title">// Protocol Console · JSON-RPC 2.0</span>
+                <div class="console-dots">
+                  <span class="cdot r"></span>
+                  <span class="cdot y"></span>
+                  <span class="cdot g"></span>
+                </div>
+              </div>
+              <div class="console-out" id="console-out">
+                <div class="cline sys"><span class="cprompt">·</span><span>MCP Router initialized. Awaiting connections…</span></div>
+                <div class="cline sys"><span class="cprompt">·</span><span>Status: OFFLINE — connect a Model Node to begin.</span></div>
+              </div>
+            </div>
+
+            <!-- Simulate Button -->
+            <button class="sim-btn" id="sim-btn" disabled>
+              <span id="sim-icon">▶</span>
+              <span id="sim-text">Simulate Execution Pipeline</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- ──── RIGHT: DATA NODE ──── -->
+        <div id="col-data">
+          <div class="card" id="card-data">
+            <!-- Header -->
+            <div class="node-hd">
+              <div class="node-icon ni-data">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <ellipse cx="12" cy="5" rx="9" ry="3"/>
+                  <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/>
+                  <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/>
+                </svg>
+              </div>
+              <div class="node-meta">
+                <span class="node-type-tag">MCP SERVER</span>
+                <div class="node-title">Data Node</div>
+              </div>
+              <div class="nd-dot off" id="dot-data"></div>
+            </div>
+
+            <div class="divider"></div>
+
+            <!-- Source Picker -->
+            <div>
+              <span class="picker-label">Select Private Data Source</span>
+              <div class="picker" id="source-picker"></div>
+            </div>
+
+            <!-- Specs -->
+            <div class="specs-panel" id="data-specs">
+              <div class="specs-empty">Select a data source to view specs</div>
+            </div>
+
+            <!-- Connect Button -->
+            <button class="conn-btn btn-data" id="data-btn" disabled>
+              <span id="data-btn-icon">⬡</span>
+              <span id="data-btn-text">Connect Data Server</span>
+            </button>
+          </div>
+        </div>
+
+      </div><!-- /columns -->
+    </div><!-- /workspace -->
+
+    <!-- ══════════════════════ LEDGER ══════════════════════ -->
+    <section class="ledger-section" id="ledger-section" style="display:none" aria-live="polite">
+      <div class="ledger-hd">
+        <div>
+          <div class="ledger-title">Execution Ledger</div>
+          <div class="ledger-sub" id="ledger-sub">Usage-Based Billing Summary</div>
+        </div>
+        <div class="ledger-meta" id="ledger-meta"></div>
+      </div>
+      <div class="ledger-table-wrap">
+        <table class="ledger-table">
+          <thead>
+            <tr>
+              <th>Line Item</th>
+              <th>Node / Party</th>
+              <th>Unit</th>
+              <th style="text-align:right">Qty</th>
+              <th style="text-align:right">Rate</th>
+              <th>Amount</th>
+            </tr>
+          </thead>
+          <tbody id="ledger-body"></tbody>
+        </table>
+      </div>
+      <div class="ledger-highlight" id="ledger-highlight"></div>
+    </section>
+
+  </main>
+
+  <footer class="app-footer">
+    AI App Marketplace · Open MCP Protocol · Protocol Version 2024-11-05 · No Walled Gardens
+  </footer>
+</div>
+
+<!-- ================================================================
+     JAVASCRIPT
+================================================================ -->
+<script>
+'use strict';
+
+/* ──────────────────────────────────────────────────────────────
+   CONFIGURATION (edit freely — drives all downstream UI & math)
+────────────────────────────────────────────────────────────── */
+
+const MODELS = [
+  {
+    id: 'llama3', badge: 'L3',
+    name: 'Llama 3 70B', creator: 'Meta AI',
+    context: '128K tokens', license: 'Meta Community',
+    inputCost: 0.00059, outputCost: 0.00079,
+    description: 'Open-source frontier LLM'
+  },
+  {
+    id: 'qwen25', badge: 'Q2',
+    name: 'Qwen 2.5 72B', creator: 'Alibaba Cloud',
+    context: '32K tokens', license: 'Apache 2.0',
+    inputCost: 0.00035, outputCost: 0.00070,
+    description: 'Multilingual reasoning model'
+  },
+  {
+    id: 'mistral', badge: 'M7',
+    name: 'Mistral 7B Instruct', creator: 'Mistral AI',
+    context: '32K tokens', license: 'Apache 2.0',
+    inputCost: 0.00025, outputCost: 0.00025,
+    description: 'Efficient instruction model'
+  },
+  {
+    id: 'deepseek', badge: 'DS',
+    name: 'DeepSeek R1 32B', creator: 'DeepSeek',
+    context: '64K tokens', license: 'MIT',
+    inputCost: 0.00055, outputCost: 0.00219,
+    description: 'Reasoning-optimized model'
+  }
+];
+
+const DATA_SOURCES = [
+  {
+    id: 'postgres', badge: 'PG',
+    name: 'PostgreSQL', creator: 'Community OSS',
+    type: 'Relational DB', protocol: 'mcp-postgres v1.2',
+    queryCost: 0.0012,
+    description: 'Structured SQL access'
+  },
+  {
+    id: 'notion', badge: 'NT',
+    name: 'Notion', creator: 'Notion Labs',
+    type: 'Knowledge Base', protocol: 'mcp-notion v0.9',
+    queryCost: 0.0008,
+    description: 'Document & page retrieval'
+  },
+  {
+    id: 'supabase', badge: 'SB',
+    name: 'Supabase', creator: 'Supabase Inc.',
+    type: 'BaaS Platform', protocol: 'mcp-supabase v1.0',
+    queryCost: 0.0010,
+    description: 'Real-time database access'
+  },
+  {
+    id: 'mongodb', badge: 'MA',
+    name: 'MongoDB Atlas', creator: 'MongoDB Inc.',
+    type: 'Document DB', protocol: 'mcp-mongo v1.1',
+    queryCost: 0.0009,
+    description: 'Document-oriented queries'
+  }
+];
+
+/* Billing constants */
+const PLATFORM_FEE_RATE      = 0.05;   // 5% open infrastructure routing
+const WALLED_GARDEN_RATE     = 0.30;   // hypothetical closed-platform cut
+const SIM_INPUT_TOKENS       = 4247;
+const SIM_OUTPUT_TOKENS      = 1853;
+const SIM_QUERIES            = 2;
+
+/* JSON-RPC 2.0 frame sequence (delayMs from sim start) */
+const FRAMES = [
+  { ms:    0, type: 'sys', text: 'Initializing MCP protocol handshake…' },
+  { ms:  350, type: 'req', tag: '→ REQ', frame: { jsonrpc:'2.0', method:'initialize', params:{ protocolVersion:'2024-11-05', capabilities:{ roots:{ listChanged:true }, sampling:{} } }, id:1 } },
+  { ms:  800, type: 'res', tag: '← RES', frame: { jsonrpc:'2.0', result:{ protocolVersion:'2024-11-05', capabilities:{ tools:{}, resources:{ subscribe:true } }, serverInfo:{ name:'{{DS}}', version:'1.0.0' } }, id:1 } },
+  { ms: 1050, type: 'sys', text: 'Handshake complete — discovering available tools…' },
+  { ms: 1300, type: 'req', tag: '→ REQ', frame: { jsonrpc:'2.0', method:'tools/list', id:2 } },
+  { ms: 1700, type: 'res', tag: '← RES', frame: { jsonrpc:'2.0', result:{ tools:[{ name:'query', description:'Execute a parameterized query', inputSchema:{ type:'object', properties:{ query:{ type:'string' } } } }, { name:'schema', description:'Retrieve data schema' }] }, id:2 } },
+  { ms: 2000, type: 'sys', text: 'Tool registry loaded. Executing query pipeline…' },
+  { ms: 2300, type: 'req', tag: '→ REQ', frame: { jsonrpc:'2.0', method:'tools/call', params:{ name:'query', arguments:{ query:'SELECT id, name, email FROM users LIMIT 5' } }, id:3 } },
+  { ms: 3050, type: 'res', tag: '← RES', frame: { jsonrpc:'2.0', result:{ content:[{ type:'text', text:'[{"id":1,"name":"Alice Chen","role":"admin"},{"id":2,"name":"Bob Kim","role":"member"},{"id":3,"name":"Carol Dane","role":"member"}]' }] }, id:3 } },
+  { ms: 3400, type: 'req', tag: '→ REQ', frame: { jsonrpc:'2.0', method:'tools/call', params:{ name:'query', arguments:{ query:"SELECT COUNT(*) as total FROM transactions WHERE status='completed'" } }, id:4 } },
+  { ms: 4100, type: 'res', tag: '← RES', frame: { jsonrpc:'2.0', result:{ content:[{ type:'text', text:'[{"total":1247}]' }] }, id:4 } },
+  { ms: 4500, type: 'sys', text: '✓ Pipeline complete — {{TOKENS_IN}} input tokens, {{TOKENS_OUT}} output tokens, {{QUERIES}} queries.' }
+];
+
+/* ──────────────────────────────────────────────────────────────
+   STATE MACHINE
+────────────────────────────────────────────────────────────── */
+
+const S = Object.freeze({ OFF:0, MODEL:1, DATA:2, SIM:3, DONE:4 });
+
+let state          = S.OFF;
+let selModel       = null;
+let selSource      = null;
+let simTimers      = [];
+let particleTmrs   = { l:null, r:null };
+let liveParticles  = [];
+let rateTimer      = null;
+
+/* ──────────────────────────────────────────────────────────────
+   DOM SHORTCUTS
+────────────────────────────────────────────────────────────── */
+
+const $  = id => document.getElementById(id);
+const Q  = s  => document.querySelector(s);
+const QA = s  => [...document.querySelectorAll(s)];
+
+const consoleOut = $('console-out');
+
+/* ──────────────────────────────────────────────────────────────
+   CONSOLE OUTPUT
+────────────────────────────────────────────────────────────── */
+
+function clog(type, text, tag) {
+  const div = document.createElement('div');
+  div.className = `cline ${type}`;
+
+  const prompts = { sys:'·', req:'→', res:'←', ok:'✓', err:'✗' };
+  const p = document.createElement('span');
+  p.className = 'cprompt';
+  p.textContent = prompts[type] ?? '·';
+  div.appendChild(p);
+
+  if (tag) {
+    const t = document.createElement('span');
+    t.className = 'ctag';
+    t.textContent = tag;
+    div.appendChild(t);
+  }
+
+  const s = document.createElement('span');
+  const str = typeof text === 'object' ? JSON.stringify(text) : String(text);
+  s.textContent = str.length > 160 ? str.slice(0, 157) + '…' : str;
+  div.appendChild(s);
+
+  consoleOut.appendChild(div);
+  consoleOut.scrollTop = consoleOut.scrollHeight;
+}
+
+/* ──────────────────────────────────────────────────────────────
+   OPTION BUILDERS
+────────────────────────────────────────────────────────────── */
+
+function buildModelPicker() {
+  const el = $('model-picker');
+  MODELS.forEach(m => {
+    const div = document.createElement('div');
+    div.className = 'opt';
+    div.dataset.mid = m.id;
+    div.innerHTML = `
+      <div class="opt-badge">${m.badge}</div>
+      <div class="opt-info">
+        <div class="opt-name">${m.name}</div>
+        <div class="opt-sub">${m.creator}</div>
+      </div>
+      <div class="opt-radio"></div>`;
+    div.addEventListener('click', () => pickModel(m.id));
+    el.appendChild(div);
+  });
+}
+
+function buildSourcePicker() {
+  const el = $('source-picker');
+  DATA_SOURCES.forEach(s => {
+    const div = document.createElement('div');
+    div.className = 'opt';
+    div.dataset.sid = s.id;
+    div.innerHTML = `
+      <div class="opt-badge">${s.badge}</div>
+      <div class="opt-info">
+        <div class="opt-name">${s.name}</div>
+        <div class="opt-sub">${s.type}</div>
+      </div>
+      <div class="opt-radio"></div>`;
+    div.addEventListener('click', () => pickSource(s.id));
+    el.appendChild(div);
+  });
+}
+
+/* ──────────────────────────────────────────────────────────────
+   SELECTION HANDLERS
+────────────────────────────────────────────────────────────── */
+
+function pickModel(id) {
+  if (state >= S.MODEL) return;
+  selModel = MODELS.find(m => m.id === id);
+
+  QA('#model-picker .opt').forEach(el => {
+    el.classList.toggle('sel-model', el.dataset.mid === id);
+  });
+
+  $('model-specs').innerHTML = `
+    <div class="spec-row"><span class="sk">Model</span><span class="sv hi-model">${selModel.name}</span></div>
+    <div class="spec-row"><span class="sk">Creator</span><span class="sv">${selModel.creator}</span></div>
+    <div class="spec-row"><span class="sk">Context</span><span class="sv">${selModel.context}</span></div>
+    <div class="spec-row"><span class="sk">License</span><span class="sv">${selModel.license}</span></div>
+    <div class="spec-row"><span class="sk">Input cost</span><span class="sv">$${selModel.inputCost.toFixed(5)} / 1K tok</span></div>
+    <div class="spec-row"><span class="sk">Output cost</span><span class="sv">$${selModel.outputCost.toFixed(5)} / 1K tok</span></div>`;
+
+  $('model-btn').disabled = false;
+}
+
+function pickSource(id) {
+  if (state >= S.DATA) return;
+  selSource = DATA_SOURCES.find(s => s.id === id);
+
+  QA('#source-picker .opt').forEach(el => {
+    el.classList.toggle('sel-data', el.dataset.sid === id);
+  });
+
+  $('data-specs').innerHTML = `
+    <div class="spec-row"><span class="sk">Source</span><span class="sv hi-data">${selSource.name}</span></div>
+    <div class="spec-row"><span class="sk">Creator</span><span class="sv">${selSource.creator}</span></div>
+    <div class="spec-row"><span class="sk">Type</span><span class="sv">${selSource.type}</span></div>
+    <div class="spec-row"><span class="sk">Protocol</span><span class="sv">${selSource.protocol}</span></div>
+    <div class="spec-row"><span class="sk">Query rate</span><span class="sv">$${selSource.queryCost.toFixed(4)} / call</span></div>`;
+
+  if (state === S.MODEL) $('data-btn').disabled = false;
+}
+
+/* ──────────────────────────────────────────────────────────────
+   TRANSITIONS
+────────────────────────────────────────────────────────────── */
+
+$('model-btn').addEventListener('click', () => { if (state === S.OFF && selModel)   go(S.MODEL); });
+$('data-btn').addEventListener('click',  () => { if (state === S.MODEL && selSource) go(S.DATA);  });
+$('sim-btn').addEventListener('click',   () => { if (state === S.DATA)              go(S.SIM);   });
+
+function go(next) {
+  state = next;
+  ({ [S.MODEL]: onModel, [S.DATA]: onData, [S.SIM]: onSim, [S.DONE]: onDone }[next])();
+}
+
+/* ── STATE 1: Model connected ── */
+function onModel() {
+  lockPicker('model-picker');
+  $('model-btn').disabled = true;
+  $('model-btn').classList.add('done');
+  $('model-btn-icon').textContent = '✓';
+  $('model-btn-text').textContent = `${selModel.name} Connected`;
+
+  setDot('dot-model', 'routing');
+  setDot('dot-router', 'routing');
+  $('card-model').classList.add('lit-model');
+
+  setGlobal('routing', `MODEL CONNECTED — ${selModel.name}`);
+  setMetric('m-status', 'Routing',  'c-cyan');
+  setMetric('m-rate',   '0 B/s',    'c-cyan');
+  setMetric('m-lat',    '12 ms',    'c-cyan');
+
+  if (selSource) $('data-btn').disabled = false;
+
+  animatePath('path-l-lit', 'path-l-bg', 'glow-c');
+  clog('sys', `Model Node authenticated — ${selModel.name} (${selModel.creator})`);
+  clog('sys', `Protocol: MCP Client · Context window: ${selModel.context}`);
+  clog('sys', 'Awaiting Data Server connection…');
+}
+
+/* ── STATE 2: Data connected ── */
+function onData() {
+  lockPicker('source-picker');
+  $('data-btn').disabled = true;
+  $('data-btn').classList.add('done');
+  $('data-btn-icon').textContent = '✓';
+  $('data-btn-text').textContent = `${selSource.name} Connected`;
+
+  setDot('dot-data',   'live');
+  setDot('dot-router', 'live');
+  $('card-data').classList.add('lit-data');
+
+  setGlobal('active', 'ACTIVE (MCP Connected)');
+  setMetric('m-status', 'ACTIVE',   'c-green');
+  setMetric('m-rate',   '2.4 KB/s', 'c-green');
+  setMetric('m-lat',    '8 ms',     'c-green');
+
+  $('sim-btn').disabled = false;
+
+  animatePath('path-r-lit', 'path-r-bg', 'glow-g');
+  clog('sys', `Data Server authenticated — ${selSource.name} (${selSource.creator})`);
+  clog('sys', `Protocol: ${selSource.protocol}`);
+  clog('ok',  'Status: ACTIVE (MCP Connected) — full-duplex routing established');
+}
+
+/* ── STATE 3: Simulation running ── */
+function onSim() {
+  $('sim-btn').disabled = true;
+  $('sim-btn').classList.add('running');
+  $('sim-text').textContent = 'Executing Pipeline…';
+  $('sim-icon').textContent = '⬛';
+
+  setMetric('m-rate', '18.3 KB/s', 'c-green');
+  setMetric('m-lat',  '6 ms',      'c-green');
+
+  startParticles();
+  startRateCounter();
+
+  /* Build interpolated frame list */
+  const frames = FRAMES.map(f => {
+    const text = f.text
+      ? f.text
+          .replace('{{TOKENS_IN}}',  SIM_INPUT_TOKENS.toLocaleString())
+          .replace('{{TOKENS_OUT}}', SIM_OUTPUT_TOKENS.toLocaleString())
+          .replace('{{QUERIES}}',    SIM_QUERIES)
+      : undefined;
+    const frame = f.frame
+      ? JSON.parse(JSON.stringify(f.frame).replace(/\{\{DS\}\}/g, selSource.name))
+      : undefined;
+    return { ...f, text, frame };
+  });
+
+  frames.forEach(f => {
+    const t = setTimeout(() => {
+      if (f.type === 'sys') clog('sys', f.text);
+      else                  clog(f.type, f.frame, f.tag);
+    }, f.ms);
+    simTimers.push(t);
+  });
+
+  /* Auto-advance to DONE after last frame + buffer */
+  const totalMs = Math.max(...frames.map(f => f.ms)) + 700;
+  simTimers.push(setTimeout(() => go(S.DONE), totalMs));
+}
+
+/* ── STATE 4: Done ── */
+function onDone() {
+  stopParticles();
+  stopRateCounter();
+
+  $('sim-btn').classList.remove('running');
+  $('sim-btn').classList.add('done');
+  $('sim-icon').textContent = '✓';
+  $('sim-text').textContent = 'Pipeline Complete';
+
+  setMetric('m-rate', '0 B/s', 'c-green');
+
+  clog('ok', `Execution complete — ledger generated below`);
+
+  setTimeout(renderLedger, 500);
+}
+
+/* ──────────────────────────────────────────────────────────────
+   SVG PATH ANIMATION
+────────────────────────────────────────────────────────────── */
+
+function computePaths() {
+  const ws  = $('workspace');
+  const svgEl = $('conn-svg');
+  const wsR = ws.getBoundingClientRect();
+
+  svgEl.setAttribute('width',  ws.offsetWidth);
+  svgEl.setAttribute('height', ws.offsetHeight);
+
+  const modelR  = $('col-model').getBoundingClientRect();
+  const routerR = $('col-router').getBoundingClientRect();
+  const dataR   = $('col-data').getBoundingClientRect();
+
+  const oy = wsR.top;
+  const ox = wsR.left;
+
+  /* Left path: right edge of model card → left edge of router card */
+  const lx1 = modelR.right  - ox;
+  const ly1 = modelR.top    - oy + modelR.height * 0.52;
+  const lx2 = routerR.left  - ox;
+  const ly2 = routerR.top   - oy + routerR.height * 0.52;
+  const lmx = (lx1 + lx2) / 2;
+  const leftD = `M${lx1},${ly1} C${lmx},${ly1} ${lmx},${ly2} ${lx2},${ly2}`;
+
+  /* Right path: left edge of data card → right edge of router card */
+  const rx1 = dataR.left    - ox;
+  const ry1 = dataR.top     - oy + dataR.height * 0.52;
+  const rx2 = routerR.right - ox;
+  const ry2 = routerR.top   - oy + routerR.height * 0.52;
+  const rmx = (rx1 + rx2) / 2;
+  const rightD = `M${rx1},${ry1} C${rmx},${ry1} ${rmx},${ry2} ${rx2},${ry2}`;
+
+  ['path-l-bg','path-l-lit'].forEach(id => $(id).setAttribute('d', leftD));
+  ['path-r-bg','path-r-lit'].forEach(id => $(id).setAttribute('d', rightD));
+}
+
+function animatePath(litId, bgId, filterId) {
+  const path = $(litId);
+  path.setAttribute('filter', `url(#${filterId})`);
+
+  const len = path.getTotalLength ? path.getTotalLength() : 250;
+  path.style.strokeDasharray  = len;
+  path.style.strokeDashoffset = len;
+  path.style.opacity = '1';
+
+  /* Force reflow then animate */
+  path.getBoundingClientRect();
+  path.style.transition = 'stroke-dashoffset .85s cubic-bezier(.4,0,.15,1)';
+  path.style.strokeDashoffset = '0';
+}
+
+/* ──────────────────────────────────────────────────────────────
+   PARTICLE SYSTEM (SVG animateMotion via JS RAF)
+────────────────────────────────────────────────────────────── */
+
+function spawnParticle(pathId, groupId, color) {
+  const path  = $(pathId);
+  const group = $(groupId);
+  if (!path || !group) return;
+
+  const len  = path.getTotalLength ? path.getTotalLength() : 250;
+  const dur  = 700 + Math.random() * 500;
+  const circ = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+  circ.setAttribute('r', 4.5);
+  circ.setAttribute('fill', color);
+  circ.style.filter = `drop-shadow(0 0 6px ${color})`;
+  group.appendChild(circ);
+  liveParticles.push(circ);
+
+  let start = null;
+
+  function step(ts) {
+    if (!start) start = ts;
+    const p = Math.min((ts - start) / dur, 1);
+    const ease = p < .5 ? 2*p*p : 1-Math.pow(-2*p+2,2)/2;
+    try {
+      const pt = path.getPointAtLength(ease * len);
+      circ.setAttribute('cx', pt.x);
+      circ.setAttribute('cy', pt.y);
+    } catch(_) {}
+    circ.setAttribute('opacity',
+      p < .12 ? p / .12 :
+      p > .88 ? (1-p) / .12 : 1);
+    if (p < 1) requestAnimationFrame(step);
+    else {
+      circ.remove();
+      const i = liveParticles.indexOf(circ);
+      if (i > -1) liveParticles.splice(i, 1);
+    }
+  }
+  requestAnimationFrame(step);
+}
+
+function startParticles() {
+  particleTmrs.l = setInterval(() => spawnParticle('path-l-lit', 'ptcl-left',  '#00d4ff'), 180);
+  particleTmrs.r = setInterval(() => spawnParticle('path-r-lit', 'ptcl-right', '#00ff88'), 210);
+}
+
+function stopParticles() {
+  clearInterval(particleTmrs.l);
+  clearInterval(particleTmrs.r);
+  particleTmrs.l = particleTmrs.r = null;
+  liveParticles.forEach(c => { c.setAttribute('opacity','0'); setTimeout(()=>c.remove(),300); });
+  liveParticles.length = 0;
+}
+
+/* ──────────────────────────────────────────────────────────────
+   TRANSFER RATE COUNTER (cosmetic during simulation)
+────────────────────────────────────────────────────────────── */
+
+function startRateCounter() {
+  const values = ['18.3 KB/s','21.7 KB/s','15.4 KB/s','24.1 KB/s','19.8 KB/s','22.6 KB/s'];
+  let i = 0;
+  rateTimer = setInterval(() => {
+    i = (i+1) % values.length;
+    setMetric('m-rate', values[i], 'c-green');
+  }, 600);
+}
+
+function stopRateCounter() {
+  clearInterval(rateTimer);
+  rateTimer = null;
+}
+
+/* ──────────────────────────────────────────────────────────────
+   UI HELPERS
+────────────────────────────────────────────────────────────── */
+
+function setGlobal(cls, text) {
+  const pill = $('global-pill');
+  pill.className = `status-pill ${cls}`;
+  $('global-text').textContent = text;
+}
+
+function setMetric(id, val, cls) {
+  const el = $(id);
+  el.textContent = val;
+  el.className   = `metric-val ${cls}`;
+}
+
+function setDot(id, cls) {
+  $(id).className = `nd-dot ${cls}`;
+}
+
+function lockPicker(pickerId) {
+  QA(`#${pickerId} .opt`).forEach(el => el.style.pointerEvents = 'none');
+}
+
+/* ──────────────────────────────────────────────────────────────
+   LEDGER RENDERER
+────────────────────────────────────────────────────────────── */
+
+function renderLedger() {
+  const m = selModel;
+  const s = selSource;
+
+  /* Compute amounts */
+  const inCost  = (SIM_INPUT_TOKENS  / 1000) * m.inputCost;
+  const outCost = (SIM_OUTPUT_TOKENS / 1000) * m.outputCost;
+  const modelTotal = inCost + outCost;
+  const queryTotal = SIM_QUERIES * s.queryCost;
+  const subtotal   = modelTotal + queryTotal;
+  const platformFee = subtotal * PLATFORM_FEE_RATE;
+  const total       = subtotal + platformFee;
+
+  const walledFee   = subtotal * WALLED_GARDEN_RATE;
+  const taxAvoided  = walledFee - platformFee;
+
+  /* Ledger header */
+  const sid = Math.random().toString(36).slice(2, 10).toUpperCase();
+  const ts  = new Date().toLocaleString('en-US', { hour12:false });
+  $('ledger-sub').textContent  = `Usage-Based Billing Summary · Session #${sid}`;
+  $('ledger-meta').innerHTML   = `${ts}<br>${m.name} → ${s.name}`;
+
+  /* Build rows */
+  const rows = [
+    {
+      item: 'Input Token Processing',
+      badge: `<span class="lbadge model">MODEL · ${m.badge}</span>`,
+      unit: '1K tokens',
+      qty:  (SIM_INPUT_TOKENS/1000).toFixed(3),
+      rate: `$${m.inputCost.toFixed(5)}`,
+      amt:  inCost,
+    },
+    {
+      item: 'Output Token Generation',
+      badge: `<span class="lbadge model">MODEL · ${m.badge}</span>`,
+      unit: '1K tokens',
+      qty:  (SIM_OUTPUT_TOKENS/1000).toFixed(3),
+      rate: `$${m.outputCost.toFixed(5)}`,
+      amt:  outCost,
+    },
+    {
+      item: `Query Execution · ${s.name}`,
+      badge: `<span class="lbadge data">DATA · ${s.badge}</span>`,
+      unit: 'query call',
+      qty:  SIM_QUERIES,
+      rate: `$${s.queryCost.toFixed(4)}`,
+      amt:  queryTotal,
+    },
+    {
+      item: 'Infrastructure Routing Fee',
+      badge: `<span class="lbadge platform">PLATFORM</span>`,
+      unit: '% of subtotal',
+      qty:  `${(PLATFORM_FEE_RATE*100).toFixed(0)}%`,
+      rate: `× $${subtotal.toFixed(6)}`,
+      amt:  platformFee,
+      cls:  'subtotal-row',
+    },
+    {
+      item: 'TOTAL',
+      badge: '', unit: '', qty: '', rate: '',
+      amt:  total,
+      cls:  'total-row',
+    }
+  ];
+
+  const tbody = $('ledger-body');
+  tbody.innerHTML = '';
+  rows.forEach((row, i) => {
+    const tr = document.createElement('tr');
+    if (row.cls) tr.className = row.cls;
+    tr.style.animationDelay = `${i * 60}ms`;
+    tr.innerHTML = `
+      <td>${row.item}</td>
+      <td>${row.badge}</td>
+      <td class="lmono">${row.unit}</td>
+      <td class="lmono" style="text-align:right">${row.qty}</td>
+      <td class="lmono" style="text-align:right">${row.rate}</td>
+      <td>$${row.amt.toFixed(6)}</td>`;
+    tbody.appendChild(tr);
+  });
+
+  /* Savings highlight */
+  $('ledger-highlight').innerHTML = `
+    <div class="hl-shield">🛡</div>
+    <div class="hl-text">
+      <div class="hl-title">Walled Garden Platform Tax Avoided</div>
+      <div class="hl-desc">
+        A closed-platform marketplace at ${(WALLED_GARDEN_RATE*100).toFixed(0)}% would have charged
+        <strong style="color:var(--text-primary)">$${walledFee.toFixed(4)}</strong>
+        on this transaction. The open MCP marketplace charges only a
+        ${(PLATFORM_FEE_RATE*100).toFixed(0)}% infrastructure routing fee
+        ($${platformFee.toFixed(4)}), eliminating proprietary lock-in entirely.
+      </div>
+    </div>
+    <div class="hl-amount">$${taxAvoided.toFixed(4)}</div>`;
+
+  const sec = $('ledger-section');
+  sec.style.display = 'block';
+  setTimeout(() => sec.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 80);
+}
+
+/* ──────────────────────────────────────────────────────────────
+   RESET
+────────────────────────────────────────────────────────────── */
+
+function resetAll() {
+  simTimers.forEach(clearTimeout);
+  simTimers = [];
+  stopParticles();
+  stopRateCounter();
+
+  state = S.OFF;
+  selModel  = null;
+  selSource = null;
+
+  /* Cards */
+  $('card-model').classList.remove('lit-model');
+  $('card-data').classList.remove('lit-data');
+
+  /* Dots */
+  ['dot-model','dot-data','dot-router'].forEach(id => setDot(id, 'off'));
+
+  /* Global pill */
+  setGlobal('offline', 'OFFLINE');
+
+  /* Metrics */
+  setMetric('m-status', 'Offline', 'c-dim');
+  setMetric('m-rate',   '0 B/s',   'c-dim');
+  setMetric('m-lat',    '— ms',    'c-dim');
+
+  /* Buttons */
+  const resetBtn = (id, icon, text) => {
+    const btn = $(id);
+    btn.disabled = true;
+    btn.classList.remove('done','running');
+    $(icon).textContent = '⬡';
+    $(text).textContent = id === 'model-btn' ? 'Connect Model Node' :
+                          id === 'data-btn'  ? 'Connect Data Server' : '';
+  };
+  resetBtn('model-btn', 'model-btn-icon', 'model-btn-text');
+  resetBtn('data-btn',  'data-btn-icon',  'data-btn-text');
+
+  const sb = $('sim-btn');
+  sb.disabled = true;
+  sb.classList.remove('running','done');
+  $('sim-icon').textContent = '▶';
+  $('sim-text').textContent = 'Simulate Execution Pipeline';
+
+  /* Pickers */
+  QA('.opt').forEach(el => {
+    el.classList.remove('sel-model','sel-data');
+    el.style.pointerEvents = '';
+  });
+
+  /* Specs */
+  $('model-specs').innerHTML = '<div class="specs-empty">Select a model to view specs</div>';
+  $('data-specs').innerHTML  = '<div class="specs-empty">Select a data source to view specs</div>';
+
+  /* Console */
+  consoleOut.innerHTML = `
+    <div class="cline sys"><span class="cprompt">·</span><span>MCP Router reset. Awaiting connections…</span></div>
+    <div class="cline sys"><span class="cprompt">·</span><span>Status: OFFLINE — connect a Model Node to begin.</span></div>`;
+
+  /* SVG paths */
+  ['path-l-lit','path-r-lit'].forEach(id => {
+    const p = $(id);
+    p.style.transition  = 'none';
+    p.style.opacity     = '0';
+    p.style.strokeDashoffset = p.getTotalLength ? String(p.getTotalLength()) : '250';
+  });
+
+  /* Ledger */
+  $('ledger-section').style.display = 'none';
+}
+
+/* ──────────────────────────────────────────────────────────────
+   INIT & RESIZE
+────────────────────────────────────────────────────────────── */
+
+let resizeTmr;
+window.addEventListener('resize', () => {
+  clearTimeout(resizeTmr);
+  resizeTmr = setTimeout(computePaths, 80);
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+  buildModelPicker();
+  buildSourcePicker();
+  /* Layout must paint before we can read rects */
+  requestAnimationFrame(() => requestAnimationFrame(computePaths));
+});
+</script>
+</body>
+</html>
