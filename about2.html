@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About · AI App Marketplace</title>
+  <!-- Syne (display) + DM Mono. Swap for system fonts if serving offline. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Mono:ital,wght@0,400;0,500&display=swap" rel="stylesheet">
+  <style>
+    /* ================================================================
+       DESIGN TOKENS
+    ================================================================ */
+    :root {
+      --bg:       #0a0a0f;
+      --surface:  #12121a;
+      --border:   #1e1e2e;
+      --text:     #e2e8f0;
+      --muted:    #64748b;
+      --dim:      #2a2a3a;
+      --r-card:   16px;
+      --syne:     'Syne', system-ui, sans-serif;
+      --mono:     'DM Mono', 'SF Mono', 'JetBrains Mono', monospace;
+      /* accent palette */
+      --cyan:     #00e5ff;
+      --orange:   #f97316;
+      --purple:   #a855f7;
+      --teal:     #22d3a5;
+    }
+
+    /* ================================================================
+       BASE
+    ================================================================ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { color-scheme: dark; scroll-behavior: smooth; }
+
+    body {
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--syne);
+      font-size: 15px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ================================================================
+       HEADER / NAV
+    ================================================================ */
+    .site-header {
+      position: sticky; top: 0; z-index: 200;
+      padding: 14px 32px;
+      background: rgba(10,10,15,.85);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+
+    .site-logo {
+      display: flex; align-items: center; gap: 10px;
+      text-decoration: none;
+    }
+    .logo-hex {
+      width: 34px; height: 34px; border-radius: 9px;
+      background: linear-gradient(135deg, var(--cyan), var(--purple));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px; flex-shrink: 0;
+      box-shadow: 0 0 14px rgba(0,229,255,.25);
+    }
+    .logo-name {
+      font-family: var(--syne); font-size: 14px; font-weight: 700;
+      color: var(--text); letter-spacing: -.02em;
+    }
+
+    .site-nav { display: flex; align-items: center; gap: 4px; }
+    .nav-a {
+      padding: 6px 14px; border-radius: 8px;
+      font-family: var(--mono); font-size: 12px; font-weight: 500;
+      text-decoration: none; color: var(--muted);
+      border: 1px solid transparent;
+      transition: all .2s ease;
+    }
+    .nav-a:hover { color: var(--text); border-color: var(--border); background: var(--surface); }
+    .nav-a.active {
+      color: var(--teal); border-color: rgba(34,211,165,.3);
+      background: rgba(34,211,165,.07);
+    }
+
+    /* ================================================================
+       PAGE WRAPPER
+    ================================================================ */
+    .page {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 32px 96px;
+    }
+
+    /* ================================================================
+       HERO
+    ================================================================ */
+    .hero {
+      padding: 96px 0 72px;
+      text-align: center;
+    }
+
+    .hero-eyebrow {
+      font-family: var(--mono); font-size: 11px; font-weight: 500;
+      letter-spacing: .14em; text-transform: uppercase;
+      color: var(--teal); display: block; margin-bottom: 20px;
+    }
+
+    .hero-h1 {
+      font-family: var(--syne); font-size: clamp(32px, 6vw, 54px);
+      font-weight: 800; letter-spacing: -.04em; line-height: 1.05;
+      color: var(--text);
+      margin-bottom: 20px;
+    }
+
+    /* Colour each word */
+    .hero-h1 .w-cyan   { color: var(--cyan);   }
+    .hero-h1 .w-orange { color: var(--orange); }
+    .hero-h1 .w-purple { color: var(--purple); }
+    .hero-h1 .w-plus   { color: var(--muted);  font-weight: 600; }
+
+    .hero-sub {
+      font-family: var(--mono); font-size: 15px;
+      color: var(--muted); max-width: 400px; margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    /* ================================================================
+       DIAGRAM SECTION
+    ================================================================ */
+    .diagram-section {
+      margin-bottom: 80px;
+    }
+
+    /* ── DESKTOP DIAGRAM (>= 640px) ── */
+    .diagram-wrap {
+      position: relative;
+      width: 100%;
+      max-width: 700px;
+      height: 580px;
+      margin: 0 auto;
+    }
+
+    .diagram-svg {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      overflow: visible;
+    }
+
+    /* SVG path styles */
+    .conn-bg   { fill: none; stroke-width: 1; stroke-linecap: round; }
+    .conn-anim { fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-dasharray: 5 13; animation: flow 2.6s linear infinite; }
+    .conn-out  { fill: none; stroke-width: 1.4; stroke-linecap: round; stroke-dasharray: 4 11; animation: flow 3s linear infinite; stroke: var(--teal); stroke-opacity: .45; }
+
+    @keyframes flow { to { stroke-dashoffset: -18; } }
+
+    .conn-anim.is-active { stroke-opacity: .95 !important; stroke-width: 2.2; animation-duration: 1.1s; }
+    .conn-anim.is-dimmed { stroke-opacity: .06 !important; }
+    .conn-bg.is-dimmed   { stroke-opacity: .04 !important; }
+
+    /* ── NODES ── */
+    .d-node {
+      position: absolute;
+      transform: translate(-50%, -50%);
+      display: flex; flex-direction: column; align-items: center; gap: 7px;
+      cursor: pointer;
+      background: none; border: none; padding: 0;
+      opacity: 0;
+    }
+
+    /* Staggered entrance */
+    .d-node.enter { animation: fadeUp .45s ease both; }
+    .d-node:nth-of-type(1) { animation-delay: .08s; }
+    .d-node:nth-of-type(2) { animation-delay: .16s; }
+    .d-node:nth-of-type(3) { animation-delay: .24s; }
+    .d-node-center         { animation-delay: .40s !important; cursor: default; }
+    .d-node-bottom         { animation-delay: 1.1s !important; cursor: default; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translate(-50%, calc(-50% + 14px)); }
+      to   { opacity: 1; transform: translate(-50%, -50%); }
+    }
+
+    .d-circle {
+      border-radius: 50%;
+      background: var(--surface);
+      border: 1.5px solid rgba(255,255,255,.08);
+      display: flex; align-items: center; justify-content: center;
+      transition: box-shadow .3s ease, border-color .3s ease, opacity .3s ease;
+      position: relative;
+    }
+    .d-circle svg { transition: transform .25s ease; }
+
+    .d-node:hover .d-circle svg { transform: scale(1.1); }
+
+    /* Top / bottom nodes: 88×88 */
+    .d-node-top .d-circle,
+    .d-node-bottom .d-circle { width: 88px; height: 88px; }
+
+    /* Center node: 116×116 */
+    .d-node-center .d-circle { width: 116px; height: 116px; }
+
+    /* Active top node */
+    .d-node-top.is-active .d-circle {
+      border-color: var(--node-color);
+      box-shadow: 0 0 0 4px rgba(var(--node-rgb), .12),
+                  0 0 32px rgba(var(--node-rgb), .3);
+    }
+    /* Dimmed top node */
+    .d-node-top.is-dimmed .d-circle { opacity: .28; }
+    .d-node-top.is-dimmed .d-label,
+    .d-node-top.is-dimmed .d-meta   { opacity: .28; }
+
+    .d-label {
+      font-family: var(--syne); font-size: 12px; font-weight: 700;
+      color: var(--text); white-space: nowrap; text-align: center;
+    }
+    .d-meta {
+      font-family: var(--mono); font-size: 10px;
+      color: var(--muted); white-space: nowrap; text-align: center;
+    }
+
+    /* Center node pulse */
+    .d-node-center .d-circle {
+      border-color: rgba(34,211,165,.3);
+      box-shadow: 0 0 0 8px rgba(34,211,165,.06),
+                  0 0 40px rgba(34,211,165,.18);
+    }
+    @keyframes pulse-center {
+      0%,100% { box-shadow: 0 0 0 8px rgba(34,211,165,.06), 0 0 40px rgba(34,211,165,.18); }
+      50%      { box-shadow: 0 0 0 12px rgba(34,211,165,.03), 0 0 52px rgba(34,211,165,.26); }
+    }
+    .d-node-center .d-circle { animation: pulse-center 3.5s ease-in-out infinite; }
+
+    /* Bottom node hover tooltip */
+    .d-node-bottom { cursor: default; }
+    .d-node-bottom .d-circle {
+      transition: box-shadow .3s ease, border-color .3s ease;
+    }
+    .d-node-bottom:hover .d-circle {
+      border-color: var(--node-color);
+      box-shadow: 0 0 24px rgba(var(--node-rgb), .22);
+    }
+    .d-tooltip {
+      position: absolute;
+      bottom: calc(100% + 10px);
+      left: 50%; transform: translateX(-50%);
+      width: 180px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--r-card);
+      padding: 14px 16px;
+      opacity: 0; pointer-events: none;
+      transition: opacity .2s ease, transform .2s ease;
+      transform: translateX(-50%) translateY(4px);
+      z-index: 20;
+    }
+    .d-node-bottom:hover .d-tooltip {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+    .d-tooltip ul {
+      list-style: none;
+      display: flex; flex-direction: column; gap: 6px;
+    }
+    .d-tooltip li {
+      font-family: var(--mono); font-size: 11px; color: var(--muted);
+      padding-left: 14px; position: relative;
+    }
+    .d-tooltip li::before {
+      content: '·'; position: absolute; left: 0;
+      color: var(--node-color);
+    }
+
+    /* ── DETAIL PANEL (expands when a top node is clicked) ── */
+    .d-detail {
+      position: absolute;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--r-card);
+      padding: 14px 16px;
+      width: 185px;
+      opacity: 0; pointer-events: none;
+      transform: translateY(-6px) translateX(-50%);
+      transition: opacity .25s ease, transform .25s ease;
+      z-index: 15;
+    }
+    .d-detail.is-open {
+      opacity: 1; pointer-events: auto;
+      transform: translateY(0) translateX(-50%);
+    }
+    .d-detail-label {
+      font-family: var(--mono); font-size: 9px; font-weight: 500;
+      letter-spacing: .12em; text-transform: uppercase;
+      display: block; margin-bottom: 8px;
+    }
+    .d-detail-text {
+      font-family: var(--mono); font-size: 11px; line-height: 1.65;
+      color: var(--muted);
+    }
+
+    /* ── MOBILE DIAGRAM (<= 640px) ── */
+    .diagram-mobile { display: none; }
+
+    .m-node {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--r-card);
+      padding: 16px 18px;
+      cursor: pointer;
+      transition: border-color .25s ease, box-shadow .25s ease;
+      position: relative;
+    }
+    .m-node.m-center {
+      border-color: rgba(34,211,165,.3);
+      box-shadow: 0 0 24px rgba(34,211,165,.1);
+      cursor: default;
+    }
+    .m-node-header { display: flex; align-items: center; gap: 12px; }
+    .m-icon {
+      width: 36px; height: 36px; border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .m-node-title {
+      font-family: var(--syne); font-size: 13px; font-weight: 700; color: var(--text);
+    }
+    .m-node-sub {
+      font-family: var(--mono); font-size: 10px; color: var(--muted); margin-top: 2px;
+    }
+    .m-chevron {
+      margin-left: auto; color: var(--muted); font-size: 11px;
+      transition: transform .25s ease;
+    }
+    .m-node.is-open .m-chevron { transform: rotate(180deg); }
+    .m-detail {
+      max-height: 0; overflow: hidden;
+      transition: max-height .3s ease, padding .3s ease;
+    }
+    .m-node.is-open .m-detail { max-height: 120px; padding-top: 12px; }
+    .m-detail p { font-family: var(--mono); font-size: 11px; color: var(--muted); line-height: 1.65; }
+
+    .m-connector {
+      height: 32px; display: flex; align-items: center; justify-content: center;
+    }
+    .m-connector-line {
+      width: 2px; height: 100%; background: var(--border); border-radius: 1px;
+    }
+
+    .m-outputs { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .m-output { position: relative; }
+    .m-output .m-node { cursor: default; height: 100%; }
+    .m-bullets { display: none; }
+    .m-output:hover .m-bullets {
+      display: flex; flex-direction: column; gap: 4px;
+      margin-top: 10px;
+    }
+    .m-bullets li {
+      font-family: var(--mono); font-size: 10px; color: var(--muted);
+      list-style: none; padding-left: 12px; position: relative;
+    }
+    .m-bullets li::before { content: '·'; position: absolute; left: 0; }
+
+    /* ================================================================
+       VALUE PILLARS
+    ================================================================ */
+    .pillars-section { margin-bottom: 72px; }
+
+    .pillars-grid {
+      display: grid; grid-template-columns: repeat(3,1fr); gap: 14px;
+    }
+
+    .pillar {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--r-card); padding: 22px 20px;
+      transition: border-color .25s ease;
+    }
+    .pillar:hover { border-color: rgba(255,255,255,.12); }
+
+    .pillar-icon { font-size: 20px; margin-bottom: 12px; display: block; }
+
+    .pillar-title {
+      font-family: var(--syne); font-size: 14px; font-weight: 700;
+      color: var(--text); margin-bottom: 6px;
+    }
+
+    .pillar-sub {
+      font-family: var(--mono); font-size: 11px; color: var(--muted); line-height: 1.6;
+    }
+
+    /* ================================================================
+       CLOSING
+    ================================================================ */
+    .closing {
+      text-align: center;
+      font-family: var(--mono); font-size: 14px;
+      color: var(--muted); line-height: 1.7;
+      max-width: 480px; margin: 0 auto;
+      padding-top: 8px;
+      border-top: 1px solid var(--border);
+      padding-top: 32px;
+    }
+
+    /* ================================================================
+       FOOTER
+    ================================================================ */
+    .site-footer {
+      border-top: 1px solid var(--border);
+      padding: 14px 32px;
+      text-align: center;
+      font-family: var(--mono); font-size: 11px; color: var(--dim);
+      letter-spacing: .05em;
+    }
+
+    /* ================================================================
+       RESPONSIVE
+    ================================================================ */
+    @media (max-width: 640px) {
+      .page { padding: 0 18px 64px; }
+      .hero { padding: 60px 0 48px; }
+      .diagram-wrap { display: none; }
+      .diagram-mobile { display: flex; flex-direction: column; gap: 0; }
+      .pillars-grid { grid-template-columns: 1fr; }
+      .site-header { padding: 12px 18px; }
+    }
+
+    @media (max-width: 420px) {
+      .m-outputs { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ══════════════════════════════════
+       HEADER
+  ══════════════════════════════════ -->
+  <header class="site-header">
+    <a href="index.html" class="site-logo">
+      <div class="logo-hex">⬡</div>
+      <span class="logo-name">AI App Marketplace</span>
+    </a>
+    <nav class="site-nav">
+      <a href="index.html"  class="nav-a">Sandbox</a>
+      <a href="about.html"  class="nav-a">About</a>
+      <a href="about2.html" class="nav-a active" aria-current="page">Explainer</a>
+    </nav>
+  </header>
+
+  <div class="page">
+
+    <!-- ══════════════════════════════════
+         HERO
+    ══════════════════════════════════ -->
+    <section class="hero">
+      <span class="hero-eyebrow">Platform Architecture</span>
+      <h1 class="hero-h1">
+        <span class="w-cyan">Context</span>
+        <span class="w-plus"> + </span>
+        <span class="w-orange">Intelligence</span>
+        <span class="w-plus"> + </span>
+        <span class="w-purple">Distribution</span>
+      </h1>
+      <p class="hero-sub">The three layers nobody has combined — until now</p>
+    </section>
+
+    <!-- ══════════════════════════════════
+         INTERACTIVE DIAGRAM
+    ══════════════════════════════════ -->
+    <section class="diagram-section">
+
+      <!-- ── DESKTOP DIAGRAM ── -->
+      <div class="diagram-wrap" id="diagram-wrap">
+
+        <!--
+          COORDINATE MAP  (container 700 × 580)
+          ────────────────────────────────────────
+          Top nodes    r=44  → cx: 116 / 350 / 584   cy: 60
+          Center node  r=58  → cx: 350               cy: 302
+          Bottom nodes r=44  → cx: 188 / 512          cy: 492
+
+          Path endpoints:
+            top node bottom  = cy + 44 = 104
+            center top       = cy - 58 = 244
+            center bottom    = cy + 58 = 360
+            bottom node top  = cy - 44 = 448
+        -->
+        <svg class="diagram-svg" id="diagram-svg"
+             viewBox="0 0 700 580" xmlns="http://www.w3.org/2000/svg"
+             aria-hidden="true">
+          <defs>
+            <filter id="f-glow-c" x="-60%" y="-60%" width="220%" height="220%">
+              <feGaussianBlur stdDeviation="3.5" result="b"/>
+              <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+            <filter id="f-glow-o" x="-60%" y="-60%" width="220%" height="220%">
+              <feGaussianBlur stdDeviation="3.5" result="b"/>
+              <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+            <filter id="f-glow-p" x="-60%" y="-60%" width="220%" height="220%">
+              <feGaussianBlur stdDeviation="3.5" result="b"/>
+              <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+          </defs>
+
+          <!-- Background dim paths -->
+          <path id="bg-mcp"    class="conn-bg" d="M116,104 Q116,195 350,244"
+                stroke="#00e5ff" stroke-opacity=".12"/>
+          <path id="bg-models" class="conn-bg" d="M350,104 L350,244"
+                stroke="#f97316" stroke-opacity=".12"/>
+          <path id="bg-mkt"    class="conn-bg" d="M584,104 Q584,195 350,244"
+                stroke="#a855f7" stroke-opacity=".12"/>
+          <path class="conn-bg" d="M350,360 Q280,415 188,448"
+                stroke="#22d3a5" stroke-opacity=".14"/>
+          <path class="conn-bg" d="M350,360 Q420,415 512,448"
+                stroke="#22d3a5" stroke-opacity=".14"/>
+
+          <!-- Animated top paths -->
+          <path id="anim-mcp"    class="conn-anim" data-node="mcp"
+                d="M116,104 Q116,195 350,244"
+                stroke="#00e5ff" stroke-opacity=".45" filter="url(#f-glow-c)"/>
+          <path id="anim-models" class="conn-anim" data-node="models"
+                d="M350,104 L350,244"
+                stroke="#f97316" stroke-opacity=".45" filter="url(#f-glow-o)"/>
+          <path id="anim-mkt"    class="conn-anim" data-node="marketplace"
+                d="M584,104 Q584,195 350,244"
+                stroke="#a855f7" stroke-opacity=".45" filter="url(#f-glow-p)"/>
+
+          <!-- Output paths from center (always on) -->
+          <path class="conn-out" d="M350,360 Q280,415 188,448"/>
+          <path class="conn-out" d="M350,360 Q420,415 512,448"/>
+        </svg>
+
+        <!-- ── TOP NODE 1: MCP ── -->
+        <button class="d-node d-node-top enter"
+                id="node-mcp"
+                style="left:116px; top:60px; --node-color:#00e5ff; --node-rgb:0,229,255"
+                aria-label="MCP — Context and Access">
+          <div class="d-circle">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none"
+                 stroke="#00e5ff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 2H8a2 2 0 0 0-2 2v6h12V4a2 2 0 0 0-2-2z"/>
+              <line x1="9" y1="5" x2="9" y2="8"/>
+              <line x1="15" y1="5" x2="15" y2="8"/>
+              <path d="M12 10v12M9 22h6"/>
+            </svg>
+          </div>
+          <span class="d-label">MCP</span>
+          <span class="d-meta">Context & Access</span>
+        </button>
+
+        <!-- Detail panel — MCP -->
+        <div class="d-detail" id="detail-mcp" style="left:116px; top:120px;">
+          <span class="d-detail-label" style="color:#00e5ff">Context Layer</span>
+          <p class="d-detail-text">Connects AI apps to real data — your CRM, inbox, database, calendar. Apps that know your world, not just your prompt.</p>
+        </div>
+
+        <!-- ── TOP NODE 2: Open Models ── -->
+        <button class="d-node d-node-top enter"
+                id="node-models"
+                style="left:350px; top:60px; --node-color:#f97316; --node-rgb:249,115,22"
+                aria-label="Open Models — AI Intelligence">
+          <div class="d-circle">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none"
+                 stroke="#f97316" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9.5 2A6.5 6.5 0 0 1 16 8.5c0 2.5-1.4 4.7-3.5 5.9V18H11v-3.6A6.5 6.5 0 0 1 9.5 2z"/>
+              <path d="M6 14.5a6.5 6.5 0 0 0 12 0"/>
+              <line x1="11" y1="18" x2="11" y2="22"/>
+              <line x1="13" y1="18" x2="13" y2="22"/>
+              <line x1="9"  y1="22" x2="15" y2="22"/>
+            </svg>
+          </div>
+          <span class="d-label">Open Models</span>
+          <span class="d-meta">AI Intelligence</span>
+        </button>
+
+        <!-- Detail panel — Models -->
+        <div class="d-detail" id="detail-models" style="left:350px; top:120px;">
+          <span class="d-detail-label" style="color:#f97316">Intelligence Layer</span>
+          <p class="d-detail-text">Best model for every job. Claude, GPT, Gemini, Llama. Modular and swappable. No lock-in to one provider.</p>
+        </div>
+
+        <!-- ── TOP NODE 3: Marketplace ── -->
+        <button class="d-node d-node-top enter"
+                id="node-marketplace"
+                style="left:584px; top:60px; --node-color:#a855f7; --node-rgb:168,85,247"
+                aria-label="Marketplace — Distribution and Revenue">
+          <div class="d-circle">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none"
+                 stroke="#a855f7" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9z"/>
+              <polyline points="9 22 9 13 15 13 15 22"/>
+            </svg>
+          </div>
+          <span class="d-label">Marketplace</span>
+          <span class="d-meta">Distribution & Revenue</span>
+        </button>
+
+        <!-- Detail panel — Marketplace -->
+        <div class="d-detail" id="detail-marketplace" style="left:584px; top:120px;">
+          <span class="d-detail-label" style="color:#a855f7">Distribution Layer</span>
+          <p class="d-detail-text">Where creators get paid and buyers find trusted, governed AI apps. The missing commercial layer.</p>
+        </div>
+
+        <!-- ── CENTER NODE: The Platform ── -->
+        <div class="d-node d-node-center enter"
+             id="node-center"
+             style="left:350px; top:302px;"
+             aria-label="The Platform">
+          <div class="d-circle">
+            <svg width="42" height="42" viewBox="0 0 24 24" fill="none"
+                 stroke="#22d3a5" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5 12 2"/>
+              <circle cx="12" cy="12" r="3" fill="rgba(34,211,165,.15)" stroke="#22d3a5"/>
+              <line x1="12" y1="2"  x2="12" y2="9"/>
+              <line x1="12" y1="15" x2="12" y2="22"/>
+              <line x1="2"  y1="8.5"  x2="9"  y2="11"/>
+              <line x1="22" y1="8.5"  x2="15" y2="11"/>
+              <line x1="2"  y1="15.5" x2="9"  y2="13"/>
+              <line x1="22" y1="15.5" x2="15" y2="13"/>
+            </svg>
+          </div>
+          <span class="d-label" style="color:#22d3a5">The Platform</span>
+          <span class="d-meta">Context-aware AI apps.</span>
+          <span class="d-meta">Built, sold, and trusted.</span>
+        </div>
+
+        <!-- ── BOTTOM NODE 4: For Creators ── -->
+        <div class="d-node d-node-bottom enter"
+             id="node-creators"
+             style="left:188px; top:492px; --node-color:#f97316; --node-rgb:249,115,22"
+             aria-label="For Creators">
+          <div class="d-circle">
+            <svg width="30" height="30" viewBox="0 0 24 24" fill="none"
+                 stroke="#f97316" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17 5.8 21.3l2.4-7.4L2 9.4h7.6z"/>
+            </svg>
+          </div>
+          <span class="d-label">For Creators</span>
+          <!-- Tooltip -->
+          <div class="d-tooltip">
+            <ul>
+              <li>Build once, sell everywhere</li>
+              <li>Multi-model freedom</li>
+              <li>Revenue from day one</li>
+              <li>Built-in business tools</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- ── BOTTOM NODE 5: For Buyers ── -->
+        <div class="d-node d-node-bottom enter"
+             id="node-buyers"
+             style="left:512px; top:492px; --node-color:#00e5ff; --node-rgb:0,229,255"
+             aria-label="For Buyers">
+          <div class="d-circle">
+            <svg width="30" height="30" viewBox="0 0 24 24" fill="none"
+                 stroke="#00e5ff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+              <polyline points="9 12 11 14 15 10"/>
+            </svg>
+          </div>
+          <span class="d-label">For Buyers</span>
+          <!-- Tooltip -->
+          <div class="d-tooltip">
+            <ul>
+              <li>Trusted, certified apps</li>
+              <li>Connects to existing stack</li>
+              <li>Pay per outcome</li>
+              <li>Enterprise governance</li>
+            </ul>
+          </div>
+        </div>
+
+      </div><!-- /diagram-wrap -->
+
+      <!-- ── MOBILE DIAGRAM ── -->
+      <div class="diagram-mobile" id="diagram-mobile">
+
+        <!-- Top three: clickable accordion nodes -->
+        <div class="m-node" data-mid="mcp" style="--mc:#00e5ff">
+          <div class="m-node-header">
+            <div class="m-icon" style="background:rgba(0,229,255,.1);border:1px solid rgba(0,229,255,.2)">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#00e5ff" stroke-width="1.5" stroke-linecap="round">
+                <path d="M14 2H8a2 2 0 0 0-2 2v6h12V4a2 2 0 0 0-2-2z"/>
+                <path d="M12 10v12M9 22h6"/>
+              </svg>
+            </div>
+            <div><div class="m-node-title">MCP</div><div class="m-node-sub">Context & Access</div></div>
+            <span class="m-chevron">▾</span>
+          </div>
+          <div class="m-detail"><p>Connects AI apps to real data — your CRM, inbox, database, calendar. Apps that know your world, not just your prompt.</p></div>
+        </div>
+
+        <div class="m-connector"><div class="m-connector-line"></div></div>
+
+        <div class="m-node" data-mid="models" style="--mc:#f97316">
+          <div class="m-node-header">
+            <div class="m-icon" style="background:rgba(249,115,22,.1);border:1px solid rgba(249,115,22,.2)">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="1.5" stroke-linecap="round">
+                <path d="M9.5 2A6.5 6.5 0 0 1 16 8.5c0 2.5-1.4 4.7-3.5 5.9V18H11v-3.6A6.5 6.5 0 0 1 9.5 2z"/>
+                <line x1="11" y1="18" x2="11" y2="22"/>
+                <line x1="13" y1="18" x2="13" y2="22"/>
+                <line x1="9"  y1="22" x2="15" y2="22"/>
+              </svg>
+            </div>
+            <div><div class="m-node-title">Open Models</div><div class="m-node-sub">AI Intelligence</div></div>
+            <span class="m-chevron">▾</span>
+          </div>
+          <div class="m-detail"><p>Best model for every job. Claude, GPT, Gemini, Llama. Modular and swappable. No lock-in to one provider.</p></div>
+        </div>
+
+        <div class="m-connector"><div class="m-connector-line"></div></div>
+
+        <div class="m-node" data-mid="marketplace" style="--mc:#a855f7">
+          <div class="m-node-header">
+            <div class="m-icon" style="background:rgba(168,85,247,.1);border:1px solid rgba(168,85,247,.2)">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#a855f7" stroke-width="1.5" stroke-linecap="round">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9z"/>
+                <polyline points="9 22 9 13 15 13 15 22"/>
+              </svg>
+            </div>
+            <div><div class="m-node-title">Marketplace</div><div class="m-node-sub">Distribution & Revenue</div></div>
+            <span class="m-chevron">▾</span>
+          </div>
+          <div class="m-detail"><p>Where creators get paid and buyers find trusted, governed AI apps. The missing commercial layer.</p></div>
+        </div>
+
+        <div class="m-connector"><div class="m-connector-line" style="background:rgba(34,211,165,.3)"></div></div>
+
+        <!-- Center platform -->
+        <div class="m-node m-center">
+          <div class="m-node-header">
+            <div class="m-icon" style="background:rgba(34,211,165,.1);border:1px solid rgba(34,211,165,.3)">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#22d3a5" stroke-width="1.5" stroke-linecap="round">
+                <polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5 12 2"/>
+                <circle cx="12" cy="12" r="3"/>
+              </svg>
+            </div>
+            <div>
+              <div class="m-node-title" style="color:#22d3a5">The Platform</div>
+              <div class="m-node-sub">Context-aware AI apps. Built, sold, and trusted.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="m-connector"><div class="m-connector-line" style="background:rgba(34,211,165,.2)"></div></div>
+
+        <!-- Outputs -->
+        <div class="m-outputs">
+          <div class="m-output">
+            <div class="m-node" style="--mc:#f97316">
+              <div class="m-node-header">
+                <div class="m-icon" style="background:rgba(249,115,22,.1);border:1px solid rgba(249,115,22,.2)">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="1.5" stroke-linecap="round">
+                    <path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17 5.8 21.3l2.4-7.4L2 9.4h7.6z"/>
+                  </svg>
+                </div>
+                <div><div class="m-node-title" style="font-size:12px">Creators</div></div>
+              </div>
+              <ul class="m-bullets" style="margin-top:8px;display:flex;flex-direction:column;gap:4px">
+                <li>Build once, sell everywhere</li>
+                <li>Multi-model freedom</li>
+                <li>Revenue from day one</li>
+                <li>Built-in business tools</li>
+              </ul>
+            </div>
+          </div>
+          <div class="m-output">
+            <div class="m-node" style="--mc:#00e5ff">
+              <div class="m-node-header">
+                <div class="m-icon" style="background:rgba(0,229,255,.1);border:1px solid rgba(0,229,255,.2)">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00e5ff" stroke-width="1.5" stroke-linecap="round">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                    <polyline points="9 12 11 14 15 10"/>
+                  </svg>
+                </div>
+                <div><div class="m-node-title" style="font-size:12px">Buyers</div></div>
+              </div>
+              <ul class="m-bullets" style="margin-top:8px;display:flex;flex-direction:column;gap:4px">
+                <li>Trusted, certified apps</li>
+                <li>Connects to existing stack</li>
+                <li>Pay per outcome</li>
+                <li>Enterprise governance</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div><!-- /diagram-mobile -->
+
+    </section>
+
+    <!-- ══════════════════════════════════
+         VALUE PILLARS
+    ══════════════════════════════════ -->
+    <section class="pillars-section">
+      <div class="pillars-grid">
+
+        <div class="pillar">
+          <span class="pillar-icon">💰</span>
+          <div class="pillar-title">Creator Revenue</div>
+          <p class="pillar-sub">Real pay from day one. Build a tool once and earn every time it's used, across every buyer on the platform.</p>
+        </div>
+
+        <div class="pillar">
+          <span class="pillar-icon">🔍</span>
+          <div class="pillar-title">Governed Discovery</div>
+          <p class="pillar-sub">Curated apps buyers can trust. Certified tooling with audit trails — not a wild-west app store.</p>
+        </div>
+
+        <div class="pillar">
+          <span class="pillar-icon">⚡</span>
+          <div class="pillar-title">Live Context</div>
+          <p class="pillar-sub">Apps connected to real systems via MCP. Not static prompts — live access to your actual data and workflows.</p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════
+         CLOSING
+    ══════════════════════════════════ -->
+    <p class="closing">
+      The gap between indie AI builders and enterprise buyers — finally bridged.
+    </p>
+
+  </div><!-- /page -->
+
+  <footer class="site-footer">
+    AI App Marketplace · Open MCP Protocol · No Walled Gardens
+  </footer>
+
+  <script>
+  /* ================================================================
+     DIAGRAM INTERACTION
+  ================================================================ */
+
+  const TOP_NODES = ['mcp', 'models', 'marketplace'];
+  let activeNode = null;
+
+  /* Toggle node on click */
+  TOP_NODES.forEach(id => {
+    const btn    = document.getElementById(`node-${id}`);
+    const detail = document.getElementById(`detail-${id}`);
+    const animP  = document.getElementById(`anim-${id}`);
+    const bgP    = document.getElementById(`bg-${id}`);
+    if (!btn) return;
+
+    btn.addEventListener('click', () => {
+      const isOpen = activeNode === id;
+      clearActiveNode();
+      if (!isOpen) setActiveNode(id);
+    });
+  });
+
+  /* Keyboard: Escape to close */
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') clearActiveNode();
+  });
+
+  function setActiveNode(id) {
+    activeNode = id;
+
+    /* Highlight selected */
+    const btn = document.getElementById(`node-${id}`);
+    const detail = document.getElementById(`detail-${id}`);
+    const animP  = document.getElementById(`anim-${id}`);
+    const bgP    = document.getElementById(`bg-${id}`);
+
+    btn?.classList.add('is-active');
+    detail?.classList.add('is-open');
+    animP?.classList.add('is-active');
+
+    /* Dim others */
+    TOP_NODES.filter(n => n !== id).forEach(otherId => {
+      document.getElementById(`node-${otherId}`)?.classList.add('is-dimmed');
+      document.getElementById(`anim-${otherId}`)?.classList.add('is-dimmed');
+      document.getElementById(`bg-${otherId}`)?.classList.add('is-dimmed');
+    });
+  }
+
+  function clearActiveNode() {
+    if (!activeNode) return;
+    const prev = activeNode;
+    activeNode = null;
+
+    document.getElementById(`node-${prev}`)?.classList.remove('is-active');
+    document.getElementById(`detail-${prev}`)?.classList.remove('is-open');
+    document.getElementById(`anim-${prev}`)?.classList.remove('is-active');
+
+    TOP_NODES.forEach(id => {
+      document.getElementById(`node-${id}`)?.classList.remove('is-dimmed');
+      document.getElementById(`anim-${id}`)?.classList.remove('is-dimmed');
+      document.getElementById(`bg-${id}`)?.classList.remove('is-dimmed');
+    });
+  }
+
+  /* ================================================================
+     MOBILE ACCORDION
+  ================================================================ */
+
+  document.querySelectorAll('.m-node[data-mid]').forEach(node => {
+    node.addEventListener('click', () => {
+      const isOpen = node.classList.contains('is-open');
+      /* close all */
+      document.querySelectorAll('.m-node[data-mid]').forEach(n => n.classList.remove('is-open'));
+      if (!isOpen) node.classList.add('is-open');
+    });
+  });
+  </script>
+
+</body>
+</html>
