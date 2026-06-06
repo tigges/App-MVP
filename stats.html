@@ -491,8 +491,9 @@
 'use strict';
 
 /* ================================================================
-   HUB_DATA — all values replaceable with live scraper output.
-   To update: edit the arrays below, re-deploy. No layout changes needed.
+   FALLBACK DATA
+   Used when data/hub_stats.json is unavailable (first deploy, CI fail).
+   The fetch() below overrides every field it successfully receives.
 ================================================================ */
 const HUB_DATA = {
 
@@ -630,20 +631,91 @@ function fmtDate(iso) {
     + ' · ' + d.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'}) + ' UTC';
 }
 
-/* ================================================================
-   SCRAPER STATUS BAR
-================================================================ */
-
-function renderScraperStatus() {
-  const m = HUB_DATA.meta;
-  document.getElementById('scraper-meta').textContent =
-    `Scraped ${fmtDate(m.scraped)} · ${(m.totalRecords/1e6).toFixed(2)}M records · Run: ${m.runDuration}`;
-  document.getElementById('summary-ts').textContent =
-    `Source: ${m.source}`;
+/* fmtDate/fmtCount helpers kept for any inline use */
+function fmtDate(iso) {
+  if (!iso || iso === 'pending') return 'pending first run';
+  try {
+    const d = new Date(iso);
+    return d.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})
+      + ' ' + d.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'}) + ' UTC';
+  } catch { return iso; }
 }
 
 /* ================================================================
-   SUMMARY STATS
+   LIVE DATA FETCH
+   Loads data/hub_stats.json produced by the GitHub Actions scraper.
+   Falls back to the HUB_DATA mock above on any error.
+================================================================ */
+
+let isLive = false;
+
+async function loadLiveData() {
+  try {
+    /* Cache-bust with unix timestamp so the browser always gets fresh JSON */
+    const url = `./data/hub_stats.json?t=${Date.now()}`;
+    const res = await fetch(url, { cache: 'no-store' });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const live = await res.json();
+
+    /* Merge real fields into HUB_DATA — missing keys stay as fallback */
+    if (live.meta)          Object.assign(HUB_DATA.meta, live.meta);
+    if (live.summary?.length)    HUB_DATA.summary    = live.summary;
+    if (live.modelTasks?.length) HUB_DATA.modelTasks = live.modelTasks;
+    if (live.frameworks?.length) HUB_DATA.frameworks = live.frameworks;
+    if (live.licenses?.length)   HUB_DATA.licenses   = live.licenses;
+    if (live.topModels?.length)  HUB_DATA.topModels  = live.topModels;
+    /* spaceCategories / growth / opportunities kept from fallback */
+
+    isLive = true;
+  } catch (err) {
+    console.warn('[HUB] Live data unavailable — using fallback:', err.message);
+    isLive = false;
+  }
+}
+
+/* ================================================================
+   SCRAPER STATUS BAR UPDATE
+================================================================ */
+
+function renderScraperStatus() {
+  const m   = HUB_DATA.meta;
+  const led = document.querySelector('.status-led');
+  const txt = document.getElementById('scraper-meta');
+  const ts  = document.getElementById('summary-ts');
+
+  const scraped = m.scraped && m.scraped !== 'pending'
+    ? new Date(m.scraped).toLocaleString('en-GB', {
+        day:'numeric', month:'short', year:'numeric',
+        hour:'2-digit', minute:'2-digit', timeZoneName:'short'
+      })
+    : 'pending first run';
+
+  txt.textContent = [
+    `Scraped: ${scraped}`,
+    m.runDuration ? `Run: ${m.runDuration}` : null,
+    m.totalRecords ? `${((m.totalRecords)/1000).toFixed(0)}K records` : null,
+    isLive ? 'LIVE' : 'SIMULATED',
+  ].filter(Boolean).join(' · ');
+
+  if (ts) ts.textContent = `Source: ${m.source || 'huggingface.co/api'}`;
+
+  /* Pulse green = live, amber = simulated */
+  if (led) {
+    led.style.background = isLive ? 'var(--green)' : 'var(--yellow)';
+    led.className        = isLive ? 'status-led'   : 'status-led stale';
+  }
+
+  /* Update scraper badge label */
+  const badge = document.getElementById('scraper-status');
+  if (badge) {
+    badge.title = isLive
+      ? 'Live data from HF Hub API — refreshes every 6 h via GitHub Actions'
+      : 'Simulated data — scraper output pending or unavailable';
+  }
+}
+
+/* ================================================================
+   SUMMARY CARDS
 ================================================================ */
 
 function renderSummary() {
@@ -654,65 +726,87 @@ function renderSummary() {
       <div class="stat-lbl">${s.label}</div>
       <div class="stat-trend trend-up">
         <span class="trend-pill">${s.trend}</span>
-        <span style="color:var(--text-dim)">this ${s.period}</span>
       </div>
     </div>`).join('');
 }
 
 /* ================================================================
-   BAR LISTS (tasks, spaces, frameworks, licenses)
+   HORIZONTAL BAR LISTS
+   nameKey   — field used as row label
+   valueKey  — field used for bar width calculation (count | downloads | pct)
+   colorKey  — accent colour
 ================================================================ */
 
-function renderBars(containerId, items, nameKey, countKey, colorKey, pctKey) {
-  const container = document.getElementById(containerId);
-  const maxCount = Math.max(...items.map(i => i[countKey] ?? i.pct ?? 0));
+function renderBars(containerId, items, nameKey, valueKey, colorKey) {
+  const el = document.getElementById(containerId);
+  if (!el || !items?.length) return;
 
-  container.innerHTML = items.map((item, i) => {
-    const val   = item[countKey] ?? item.pct;
-    const pct   = pctKey ? item[pctKey] : ((val / maxCount) * 100);
-    const color = item[colorKey] || '#00d4ff';
+  /* Find max value for relative bar widths */
+  const max  = Math.max(...items.map(i => Number(i[valueKey]) || 0)) || 1;
+  const isPct = valueKey === 'pct';
+
+  el.innerHTML = items.map((item, i) => {
+    const raw   = Number(item[valueKey]) || 0;
+    const w     = isPct ? raw : (raw / max * 100);
+    const color = item[colorKey] || '#6366f1';
     const label = item[nameKey];
-    const disp  = countKey === 'pct' ? val+'%' : fmtCount(val);
 
+    /* Display value: pct → "N%", downloads → "NB/NM/NK", count → "N" */
+    let disp;
+    if (isPct) {
+      disp = raw + '%';
+    } else if (valueKey === 'downloads') {
+      disp = raw >= 1e9 ? (raw/1e9).toFixed(1)+'B' :
+             raw >= 1e6 ? (raw/1e6).toFixed(0)+'M' :
+             raw >= 1e3 ? Math.round(raw/1e3)+'K' : String(raw);
+    } else {
+      disp = raw >= 1e6 ? (raw/1e6).toFixed(1)+'M' :
+             raw >= 1e3 ? Math.round(raw/1e3)+'K'  : String(raw);
+    }
+
+    /* Secondary info for model tasks: show count when displaying downloads */
+    const secondary = (containerId === 'task-bars' && valueKey === 'downloads' && item.count)
+      ? `<span style="font-size:9px;color:var(--text-dim);font-family:var(--mono)"> (${item.count} models)</span>`
+      : '';
+
+    const isSm = containerId === 'fw-bars' || containerId === 'lic-bars';
     return `
-      <div class="${containerId.startsWith('fw') || containerId.startsWith('lic') ? 'bar-row-sm' : 'bar-row'}"
-           style="animation: fadeUp .35s ease ${i*0.04}s both">
-        <span class="bar-name" title="${label}">${label}</span>
+      <div class="${isSm ? 'bar-row-sm' : 'bar-row'}" style="animation:fadeUp .3s ease ${i*.04}s both">
+        <span class="bar-name" title="${label}">${label}${secondary}</span>
         <div class="bar-track">
-          <div class="bar-fill" data-w="${pct.toFixed(1)}" style="background:${color}"></div>
+          <div class="bar-fill" data-w="${w.toFixed(1)}" style="background:${color};width:${w.toFixed(1)}%"></div>
         </div>
         <span class="bar-count">${disp}</span>
       </div>`;
   }).join('');
 
-  document.getElementById(
-    containerId === 'task-bars'  ? 'tasks-total' :
-    containerId === 'space-bars' ? 'spaces-total' : ''
-  || '_noop').textContent =
-    containerId === 'task-bars'  ? fmtCount(items.reduce((a,i)=>a+i.count,0)) + ' models'  :
-    containerId === 'space-bars' ? fmtCount(items.reduce((a,i)=>a+i.count,0)) + ' Spaces'  : '';
+  /* Update section totals */
+  const taskTot  = document.getElementById('tasks-total');
+  const spaceTot = document.getElementById('spaces-total');
+  if (containerId === 'task-bars'  && taskTot)
+    taskTot.textContent  = items.reduce((a,i) => a + (i.count||0), 0).toLocaleString() + ' models sampled';
+  if (containerId === 'space-bars' && spaceTot)
+    spaceTot.textContent = items.reduce((a,i) => a + (i.count||0), 0).toLocaleString() + ' Spaces';
 }
 
 /* ================================================================
-   GROWTH CARDS
+   REMAINING RENDERERS (growth, models table, opportunities)
 ================================================================ */
 
 function renderGrowth() {
   const grid = document.getElementById('growth-grid');
+  if (!grid) return;
   grid.innerHTML = HUB_DATA.growth.map((g,i) => `
-    <div class="growth-card" style="animation: fadeUp .35s ease ${i*.06}s both">
+    <div class="growth-card" style="animation:fadeUp .35s ease ${i*.06}s both">
       <div class="growth-yoy">${g.yoy}</div>
       <div class="growth-lbl">${g.label}</div>
       <div class="growth-sub">${g.sub}</div>
     </div>`).join('');
 }
 
-/* ================================================================
-   TOP MODELS TABLE
-================================================================ */
-
 function renderModels() {
   const tbody = document.getElementById('models-tbody');
+  if (!tbody || !HUB_DATA.topModels?.length) return;
   tbody.innerHTML = HUB_DATA.topModels.map(m => `
     <tr>
       <td><span class="model-stat" style="color:var(--text-dim)">${m.rank}</span></td>
@@ -732,65 +826,64 @@ function renderModels() {
     </tr>`).join('');
 }
 
-/* ================================================================
-   OPPORTUNITY MATRIX
-================================================================ */
-
 function renderOpportunities() {
   const grid = document.getElementById('opp-grid');
+  if (!grid || !HUB_DATA.opportunities?.length) return;
   grid.innerHTML = HUB_DATA.opportunities.map((o,i) => {
-    const gapClass = o.gap === 'HIGH' ? 'gap-high' : o.gap === 'MEDIUM' ? 'gap-medium' : 'gap-low';
-    const demandColor = o.gap === 'HIGH' ? 'var(--red)' : o.gap === 'MEDIUM' ? 'var(--yellow)' : 'var(--green)';
-    const supplyColor = 'var(--cyan)';
-    const tags = o.tags.map(t => `<span class="opp-tag">${t}</span>`).join('');
+    const gc = o.gap === 'HIGH' ? 'gap-high' : o.gap === 'MEDIUM' ? 'gap-medium' : 'gap-low';
+    const dc = o.gap === 'HIGH' ? 'var(--red)' : o.gap === 'MEDIUM' ? 'var(--yellow)' : 'var(--green)';
     return `
-      <div class="opp-card" style="animation: fadeUp .35s ease ${i*.06}s both">
+      <div class="opp-card" style="animation:fadeUp .35s ease ${i*.06}s both">
         <div class="opp-header">
           <div class="opp-title">${o.title}</div>
-          <span class="gap-badge ${gapClass}">${o.gap}</span>
+          <span class="gap-badge ${gc}">${o.gap}</span>
         </div>
         <div class="opp-bars">
           <div class="opp-bar-row">
             <span class="opp-bar-lbl">DEMAND</span>
             <div class="opp-bar-track">
-              <div class="opp-bar-fill" data-w="${o.demand}" style="background:${demandColor}"></div>
+              <div class="opp-bar-fill" data-w="${o.demand}" style="background:${dc};width:${o.demand}%"></div>
             </div>
             <span class="opp-bar-num">${o.demand}</span>
           </div>
           <div class="opp-bar-row">
             <span class="opp-bar-lbl">SUPPLY</span>
             <div class="opp-bar-track">
-              <div class="opp-bar-fill" data-w="${o.supply}" style="background:${supplyColor}"></div>
+              <div class="opp-bar-fill" data-w="${o.supply}" style="background:var(--cyan);width:${o.supply}%"></div>
             </div>
             <span class="opp-bar-num">${o.supply}</span>
           </div>
         </div>
-        <div class="opp-tags">${tags}</div>
+        <div class="opp-tags">${o.tags.map(t=>`<span class="opp-tag">${t}</span>`).join('')}</div>
       </div>`;
   }).join('');
 }
 
 /* ================================================================
-   ANIMATED BAR WIDTHS (IntersectionObserver)
+   BAR ANIMATION
+   Bars already have inline width set (CSS). This function also
+   triggers an IntersectionObserver re-animation for off-screen bars.
 ================================================================ */
 
-function animateBars(root) {
-  const target = root || document;
-  const fills = target.querySelectorAll('.bar-fill, .opp-bar-fill');
+function animateBars() {
+  if (!('IntersectionObserver' in window)) return;
 
-  if (!('IntersectionObserver' in window)) {
-    fills.forEach(el => el.style.width = (el.dataset.w ?? 0) + '%');
-    return;
-  }
-
+  const fills = document.querySelectorAll('.bar-fill, .opp-bar-fill');
   const obs = new IntersectionObserver(entries => {
     entries.forEach(e => {
       if (e.isIntersecting) {
-        e.target.style.width = (e.target.dataset.w ?? 0) + '%';
+        const w = e.target.dataset.w ?? '0';
+        /* Re-trigger CSS transition by briefly resetting width */
+        e.target.style.transition = 'none';
+        e.target.style.width = '0%';
+        requestAnimationFrame(() => {
+          e.target.style.transition = 'width 1s cubic-bezier(.4,0,.2,1)';
+          e.target.style.width = w + '%';
+        });
         obs.unobserve(e.target);
       }
     });
-  }, { threshold: 0.1 });
+  }, { threshold: 0.05, rootMargin: '0px 0px -40px 0px' });
 
   fills.forEach(el => obs.observe(el));
 }
@@ -799,20 +892,30 @@ function animateBars(root) {
    INIT
 ================================================================ */
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
+  /* Show loading indicator on scraper status */
+  const txt = document.getElementById('scraper-meta');
+  if (txt) txt.textContent = 'Fetching live data…';
+
+  /* Fetch real data — falls back to HUB_DATA mock on failure */
+  await loadLiveData();
+
+  /* Render everything */
   renderScraperStatus();
   renderSummary();
 
-  renderBars('task-bars',  HUB_DATA.modelTasks,      'task',     'count', 'color');
-  renderBars('space-bars', HUB_DATA.spaceCategories,  'category', 'count', 'color');
-  renderBars('fw-bars',    HUB_DATA.frameworks,        'name',     'pct',   'color');
-  renderBars('lic-bars',   HUB_DATA.licenses,          'name',     'pct',   'color');
+  /* Model tasks: show 30-day downloads as the primary bar metric */
+  const taskMetric = HUB_DATA.modelTasks?.[0]?.downloads != null ? 'downloads' : 'count';
+  renderBars('task-bars',  HUB_DATA.modelTasks,      'task',     taskMetric, 'color');
+  renderBars('space-bars', HUB_DATA.spaceCategories,  'category', 'count',    'color');
+  renderBars('fw-bars',    HUB_DATA.frameworks,        'name',     'pct',      'color');
+  renderBars('lic-bars',   HUB_DATA.licenses,          'name',     'pct',      'color');
 
   renderGrowth();
   renderModels();
   renderOpportunities();
 
-  /* Slight delay so rendered bars are in the DOM before IntersectionObserver starts */
+  /* Trigger bar entrance animations */
   requestAnimationFrame(() => requestAnimationFrame(animateBars));
 });
 </script>
