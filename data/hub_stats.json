@@ -1,11 +1,11 @@
 {
   "meta": {
-    "scraped": "2026-06-09T03:30:17Z",
+    "scraped": "2026-06-09T09:43:06Z",
     "source": "huggingface.co/api",
     "sampleSize": 1000,
     "totalRecords": 2000,
     "runDuration": "0.7s",
-    "nextRun": "2026-06-09T09:30:17Z"
+    "nextRun": "2026-06-09T15:43:06Z"
   },
   "summary": [
     {
@@ -17,8 +17,8 @@
     },
     {
       "label": "30-Day Downloads",
-      "value": "2.3B",
-      "raw": 2322019980,
+      "value": "2.1B",
+      "raw": 2142590623,
       "trend": "from sample",
       "period": "scrape"
     },
@@ -47,88 +47,88 @@
   "modelTasks": [
     {
       "task": "Sentence Similarity",
-      "count": 69,
-      "downloads": 477737064,
+      "count": 68,
+      "downloads": 439360704,
       "color": "#6366f1"
     },
     {
       "task": "Text Generation",
-      "count": 224,
-      "downloads": 409707683,
+      "count": 228,
+      "downloads": 379231098,
       "color": "#00d4ff"
     },
     {
       "task": "No Tag",
-      "count": 128,
-      "downloads": 235267817,
+      "count": 127,
+      "downloads": 215265187,
       "color": "#6366f1"
     },
     {
       "task": "Image Text To Text",
-      "count": 134,
-      "downloads": 228147491,
+      "count": 133,
+      "downloads": 211283971,
       "color": "#22d3a5"
     },
     {
       "task": "Fill Mask",
-      "count": 48,
-      "downloads": 191968129,
+      "count": 47,
+      "downloads": 175371916,
       "color": "#00d4ff"
     },
     {
       "task": "Feature Extraction",
-      "count": 60,
-      "downloads": 162666269,
+      "count": 62,
+      "downloads": 150922124,
       "color": "#6366f1"
     },
     {
       "task": "Text Ranking",
       "count": 16,
-      "downloads": 95401021,
+      "downloads": 88437770,
       "color": "#6366f1"
     },
     {
       "task": "Automatic Speech Recognition",
-      "count": 55,
-      "downloads": 86797602,
+      "count": 56,
+      "downloads": 81457301,
       "color": "#f97316"
     },
     {
       "task": "Zero Shot Image Classification",
       "count": 22,
-      "downloads": 66062917,
+      "downloads": 60689456,
       "color": "#22d3a5"
     },
     {
       "task": "Time Series Forecasting",
       "count": 24,
-      "downloads": 63676654,
+      "downloads": 59608394,
       "color": "#fbbf24"
     },
     {
       "task": "Text Classification",
-      "count": 34,
-      "downloads": 52878317,
+      "count": 32,
+      "downloads": 48226233,
       "color": "#00d4ff"
     },
     {
       "task": "Image Classification",
-      "count": 25,
-      "downloads": 47597994,
+      "count": 24,
+      "downloads": 43692313,
       "color": "#22d3a5"
     }
   ],
   "licenses": [
     {
       "name": "apache-2.0",
-      "count": 489,
-      "pct": 54.8,
+      "count": 490,
+      "pct": 55.1,
       "color": "#00d4ff"
     },
     {
       "name": "mit",
-      "count": 195,
-      "pct": 21.9,
+      "count": 196,
+      "pct": 22.0,
       "color": "#22d3a5"
     },
     {
@@ -139,14 +139,14 @@
     },
     {
       "name": "cc-by-nc-4.0",
-      "count": 22,
-      "pct": 2.5,
+      "count": 21,
+      "pct": 2.4,
       "color": "#a855f7"
     },
     {
       "name": "gemma",
-      "count": 19,
-      "pct": 2.1,
+      "count": 17,
+      "pct": 1.9,
       "color": "#f97316"
     },
     {
@@ -189,7 +189,7 @@
       "creator": "sentence-transformers",
       "task": "Sentence Similarity",
       "taskColor": "#6366f1",
-      "dl": "251.7M",
+      "dl": "230.8M",
       "likes": "5K",
       "lic": "apache-2.0",
       "licColor": "#00d4ff"
@@ -200,7 +200,7 @@
       "creator": "cross-encoder",
       "task": "Text Ranking",
       "taskColor": "#6366f1",
-      "dl": "75.6M",
+      "dl": "70.2M",
       "likes": "260",
       "lic": "apache-2.0",
       "licColor": "#00d4ff"
@@ -211,7 +211,7 @@
       "creator": "google-bert",
       "task": "Fill Mask",
       "taskColor": "#00d4ff",
-      "dl": "63.7M",
+      "dl": "58.4M",
       "likes": "3K",
       "lic": "apache-2.0",
       "licColor": "#00d4ff"
@@ -222,7 +222,7 @@
       "creator": "BAAI",
       "task": "Feature Extraction",
       "taskColor": "#6366f1",
-      "dl": "57.4M",
+      "dl": "53.2M",
       "likes": "483",
       "lic": "mit",
       "licColor": "#22d3a5"
@@ -233,7 +233,7 @@
       "creator": "google",
       "task": "Unknown",
       "taskColor": "#6366f1",
-      "dl": "55.8M",
+      "dl": "51.5M",
       "likes": "124",
       "lic": "apache-2.0",
       "licColor": "#00d4ff"
@@ -244,7 +244,7 @@
       "creator": "sentence-transformers",
       "task": "Sentence Similarity",
       "taskColor": "#6366f1",
-      "dl": "50.7M",
+      "dl": "46.8M",
       "likes": "1K",
       "lic": "apache-2.0",
       "licColor": "#00d4ff"
@@ -255,7 +255,7 @@
       "creator": "sentence-transformers",
       "task": "Sentence Similarity",
       "taskColor": "#6366f1",
-      "dl": "35.1M",
+      "dl": "32.4M",
       "likes": "1K",
       "lic": "apache-2.0",
       "licColor": "#00d4ff"
@@ -266,32 +266,32 @@
       "creator": "BAAI",
       "task": "Sentence Similarity",
       "taskColor": "#6366f1",
-      "dl": "31.8M",
+      "dl": "29.2M",
       "likes": "3K",
       "lic": "mit",
       "licColor": "#22d3a5"
     },
     {
       "rank": 9,
-      "name": "clip-vit-base-patch32",
-      "creator": "openai",
-      "task": "Zero Shot Image Classification",
-      "taskColor": "#22d3a5",
-      "dl": "23.1M",
-      "likes": "956",
-      "lic": "—",
-      "licColor": "#4a5270"
-    },
-    {
-      "rank": 10,
       "name": "Qwen3-0.6B",
       "creator": "Qwen",
       "task": "Text Generation",
       "taskColor": "#00d4ff",
-      "dl": "22.8M",
+      "dl": "21.6M",
       "likes": "1K",
       "lic": "apache-2.0",
       "licColor": "#00d4ff"
+    },
+    {
+      "rank": 10,
+      "name": "clip-vit-base-patch32",
+      "creator": "openai",
+      "task": "Zero Shot Image Classification",
+      "taskColor": "#22d3a5",
+      "dl": "21.5M",
+      "likes": "956",
+      "lic": "—",
+      "licColor": "#4a5270"
     }
   ]
 }
