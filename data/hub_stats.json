@@ -1,11 +1,11 @@
 {
   "meta": {
-    "scraped": "2026-06-13T08:57:58Z",
+    "scraped": "2026-06-13T13:59:31Z",
     "source": "huggingface.co/api",
     "sampleSize": 1000,
     "totalRecords": 2000,
-    "runDuration": "0.7s",
-    "nextRun": "2026-06-13T14:57:58Z"
+    "runDuration": "0.6s",
+    "nextRun": "2026-06-13T19:59:31Z"
   },
   "summary": [
     {
@@ -18,7 +18,7 @@
     {
       "label": "30-Day Downloads",
       "value": "1.6B",
-      "raw": 1563428054,
+      "raw": 1564033421,
       "trend": "from sample",
       "period": "scrape"
     },
@@ -54,31 +54,31 @@
     {
       "task": "Text Generation",
       "count": 215,
-      "downloads": 273686847,
+      "downloads": 273812136,
       "color": "#00d4ff"
     },
     {
       "task": "No Tag",
-      "count": 124,
-      "downloads": 153264405,
+      "count": 123,
+      "downloads": 153084051,
       "color": "#6366f1"
     },
     {
       "task": "Image Text To Text",
-      "count": 137,
-      "downloads": 150394533,
+      "count": 139,
+      "downloads": 151050809,
       "color": "#22d3a5"
     },
     {
       "task": "Fill Mask",
       "count": 46,
-      "downloads": 127022156,
+      "downloads": 127055846,
       "color": "#00d4ff"
     },
     {
       "task": "Feature Extraction",
-      "count": 57,
-      "downloads": 108617873,
+      "count": 55,
+      "downloads": 108187819,
       "color": "#6366f1"
     },
     {
