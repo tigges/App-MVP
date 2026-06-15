@@ -1,11 +1,11 @@
 {
   "meta": {
-    "scraped": "2026-06-14T19:26:34Z",
+    "scraped": "2026-06-15T04:16:24Z",
     "source": "huggingface.co/api",
     "sampleSize": 1000,
     "totalRecords": 2000,
-    "runDuration": "0.6s",
-    "nextRun": "2026-06-15T01:26:34Z"
+    "runDuration": "1.0s",
+    "nextRun": "2026-06-15T10:16:24Z"
   },
   "summary": [
     {
@@ -201,7 +201,7 @@
       "task": "Text Ranking",
       "taskColor": "#6366f1",
       "dl": "50.8M",
-      "likes": "262",
+      "likes": "263",
       "lic": "apache-2.0",
       "licColor": "#00d4ff"
     },
