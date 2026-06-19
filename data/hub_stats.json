@@ -1,11 +1,11 @@
 {
   "meta": {
-    "scraped": "2026-06-18T20:26:02Z",
+    "scraped": "2026-06-19T04:17:25Z",
     "source": "huggingface.co/api",
     "sampleSize": 1000,
     "totalRecords": 2000,
-    "runDuration": "0.8s",
-    "nextRun": "2026-06-19T02:26:02Z"
+    "runDuration": "0.7s",
+    "nextRun": "2026-06-19T10:17:25Z"
   },
   "summary": [
     {
@@ -59,14 +59,14 @@
     },
     {
       "task": "Image Text To Text",
-      "count": 143,
-      "downloads": 201333360,
+      "count": 145,
+      "downloads": 203352003,
       "color": "#22d3a5"
     },
     {
       "task": "No Tag",
-      "count": 120,
-      "downloads": 182894353,
+      "count": 118,
+      "downloads": 180875710,
       "color": "#6366f1"
     },
     {
@@ -121,8 +121,8 @@
   "licenses": [
     {
       "name": "apache-2.0",
-      "count": 515,
-      "pct": 57.3,
+      "count": 517,
+      "pct": 57.4,
       "color": "#00d4ff"
     },
     {
