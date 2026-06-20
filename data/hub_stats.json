@@ -1,11 +1,11 @@
 {
   "meta": {
-    "scraped": "2026-06-19T19:49:20Z",
+    "scraped": "2026-06-20T03:38:53Z",
     "source": "huggingface.co/api",
     "sampleSize": 1000,
     "totalRecords": 2000,
-    "runDuration": "1.2s",
-    "nextRun": "2026-06-20T01:49:20Z"
+    "runDuration": "0.6s",
+    "nextRun": "2026-06-20T09:38:53Z"
   },
   "summary": [
     {
