@@ -1,11 +1,11 @@
 {
   "meta": {
-    "scraped": "2026-06-22T11:53:53Z",
+    "scraped": "2026-06-22T16:56:48Z",
     "source": "huggingface.co/api",
     "sampleSize": 1000,
     "totalRecords": 2000,
     "runDuration": "0.8s",
-    "nextRun": "2026-06-22T17:53:53Z"
+    "nextRun": "2026-06-22T22:56:48Z"
   },
   "summary": [
     {
@@ -289,7 +289,7 @@
       "task": "Zero Shot Image Classification",
       "taskColor": "#22d3a5",
       "dl": "23.6M",
-      "likes": "962",
+      "likes": "963",
       "lic": "—",
       "licColor": "#4a5270"
     }
