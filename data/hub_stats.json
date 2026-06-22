@@ -1,11 +1,11 @@
 {
   "meta": {
-    "scraped": "2026-06-21T19:40:40Z",
+    "scraped": "2026-06-22T04:13:12Z",
     "source": "huggingface.co/api",
     "sampleSize": 1000,
     "totalRecords": 2000,
-    "runDuration": "0.8s",
-    "nextRun": "2026-06-22T01:40:40Z"
+    "runDuration": "0.5s",
+    "nextRun": "2026-06-22T10:13:12Z"
   },
   "summary": [
     {
@@ -212,7 +212,7 @@
       "task": "Feature Extraction",
       "taskColor": "#6366f1",
       "dl": "61.2M",
-      "likes": "493",
+      "likes": "495",
       "lic": "mit",
       "licColor": "#22d3a5"
     },
@@ -289,7 +289,7 @@
       "task": "Zero Shot Image Classification",
       "taskColor": "#22d3a5",
       "dl": "23.4M",
-      "likes": "963",
+      "likes": "962",
       "lic": "—",
       "licColor": "#4a5270"
     }
