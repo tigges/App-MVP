@@ -1,11 +1,11 @@
 {
   "meta": {
-    "scraped": "2026-06-25T14:32:47Z",
+    "scraped": "2026-06-25T19:59:59Z",
     "source": "huggingface.co/api",
     "sampleSize": 1000,
     "totalRecords": 2000,
     "runDuration": "0.8s",
-    "nextRun": "2026-06-25T20:32:47Z"
+    "nextRun": "2026-06-26T01:59:59Z"
   },
   "summary": [
     {
@@ -121,7 +121,7 @@
   "licenses": [
     {
       "name": "apache-2.0",
-      "count": 519,
+      "count": 520,
       "pct": 58.1,
       "color": "#00d4ff"
     },
