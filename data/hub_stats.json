@@ -1,11 +1,11 @@
 {
   "meta": {
-    "scraped": "2026-06-28T08:51:04Z",
+    "scraped": "2026-06-28T13:45:23Z",
     "source": "huggingface.co/api",
     "sampleSize": 1000,
     "totalRecords": 2000,
-    "runDuration": "0.8s",
-    "nextRun": "2026-06-28T14:51:04Z"
+    "runDuration": "1.0s",
+    "nextRun": "2026-06-28T19:45:23Z"
   },
   "summary": [
     {
@@ -18,7 +18,7 @@
     {
       "label": "30-Day Downloads",
       "value": "2.4B",
-      "raw": 2361431059,
+      "raw": 2360865945,
       "trend": "from sample",
       "period": "scrape"
     },
@@ -53,38 +53,38 @@
     },
     {
       "task": "Text Generation",
-      "count": 201,
-      "downloads": 396902219,
+      "count": 203,
+      "downloads": 397714121,
       "color": "#00d4ff"
     },
     {
       "task": "Image Text To Text",
       "count": 148,
-      "downloads": 232594846,
+      "downloads": 231709619,
       "color": "#22d3a5"
     },
     {
       "task": "No Tag",
-      "count": 111,
-      "downloads": 193910759,
+      "count": 110,
+      "downloads": 193504996,
       "color": "#6366f1"
     },
     {
       "task": "Fill Mask",
       "count": 46,
-      "downloads": 178851481,
+      "downloads": 178893453,
       "color": "#00d4ff"
     },
     {
       "task": "Automatic Speech Recognition",
       "count": 102,
-      "downloads": 175642191,
+      "downloads": 175642408,
       "color": "#f97316"
     },
     {
       "task": "Feature Extraction",
-      "count": 56,
-      "downloads": 165892743,
+      "count": 55,
+      "downloads": 165523902,
       "color": "#6366f1"
     },
     {
@@ -121,8 +121,8 @@
   "licenses": [
     {
       "name": "apache-2.0",
-      "count": 511,
-      "pct": 57.4,
+      "count": 512,
+      "pct": 57.5,
       "color": "#00d4ff"
     },
     {
@@ -133,8 +133,8 @@
     },
     {
       "name": "other",
-      "count": 83,
-      "pct": 9.3,
+      "count": 82,
+      "pct": 9.2,
       "color": "#4a5270"
     },
     {
@@ -212,7 +212,7 @@
       "task": "Feature Extraction",
       "taskColor": "#6366f1",
       "dl": "61.6M",
-      "likes": "498",
+      "likes": "499",
       "lic": "mit",
       "licColor": "#22d3a5"
     },
