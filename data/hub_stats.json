@@ -1,11 +1,11 @@
 {
   "meta": {
-    "scraped": "2026-07-03T09:17:24Z",
+    "scraped": "2026-07-03T14:03:06Z",
     "source": "huggingface.co/api",
     "sampleSize": 1000,
     "totalRecords": 2000,
-    "runDuration": "0.7s",
-    "nextRun": "2026-07-03T15:17:24Z"
+    "runDuration": "1.0s",
+    "nextRun": "2026-07-03T20:03:06Z"
   },
   "summary": [
     {
@@ -83,8 +83,8 @@
     },
     {
       "task": "Feature Extraction",
-      "count": 50,
-      "downloads": 166576528,
+      "count": 53,
+      "downloads": 167960406,
       "color": "#6366f1"
     },
     {
@@ -201,7 +201,7 @@
       "task": "Text Ranking",
       "taskColor": "#6366f1",
       "dl": "80.4M",
-      "likes": "270",
+      "likes": "272",
       "lic": "apache-2.0",
       "licColor": "#00d4ff"
     },
@@ -223,7 +223,7 @@
       "task": "Feature Extraction",
       "taskColor": "#6366f1",
       "dl": "61.8M",
-      "likes": "502",
+      "likes": "503",
       "lic": "mit",
       "licColor": "#22d3a5"
     },
@@ -245,7 +245,7 @@
       "task": "Unknown",
       "taskColor": "#6366f1",
       "dl": "40.4M",
-      "likes": "130",
+      "likes": "132",
       "lic": "apache-2.0",
       "licColor": "#00d4ff"
     },
@@ -289,7 +289,7 @@
       "task": "Image Classification",
       "taskColor": "#22d3a5",
       "dl": "25.5M",
-      "likes": "80",
+      "likes": "83",
       "lic": "apache-2.0",
       "licColor": "#00d4ff"
     }
