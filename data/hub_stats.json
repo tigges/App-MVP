@@ -1,11 +1,11 @@
 {
   "meta": {
-    "scraped": "2026-07-11T07:54:58Z",
+    "scraped": "2026-07-11T13:17:45Z",
     "source": "huggingface.co/api",
     "sampleSize": 1000,
     "totalRecords": 2000,
     "runDuration": "0.7s",
-    "nextRun": "2026-07-11T13:54:58Z"
+    "nextRun": "2026-07-11T19:17:45Z"
   },
   "summary": [
     {
@@ -18,7 +18,7 @@
     {
       "label": "30-Day Downloads",
       "value": "2.5B",
-      "raw": 2488697833,
+      "raw": 2489841696,
       "trend": "from sample",
       "period": "scrape"
     },
@@ -48,61 +48,61 @@
     {
       "task": "Sentence Similarity",
       "count": 60,
-      "downloads": 481423486,
+      "downloads": 481495806,
       "color": "#6366f1"
     },
     {
       "task": "Text Generation",
       "count": 219,
-      "downloads": 426085870,
+      "downloads": 426691417,
       "color": "#00d4ff"
     },
     {
       "task": "Image Text To Text",
       "count": 146,
-      "downloads": 245615752,
+      "downloads": 245665731,
       "color": "#22d3a5"
     },
     {
       "task": "No Tag",
-      "count": 114,
-      "downloads": 218047515,
+      "count": 115,
+      "downloads": 218851489,
       "color": "#6366f1"
     },
     {
       "task": "Fill Mask",
       "count": 45,
-      "downloads": 194424694,
+      "downloads": 194678685,
       "color": "#00d4ff"
     },
     {
       "task": "Feature Extraction",
       "count": 54,
-      "downloads": 178434532,
+      "downloads": 178462639,
       "color": "#6366f1"
     },
     {
       "task": "Automatic Speech Recognition",
       "count": 97,
-      "downloads": 150090617,
+      "downloads": 150161671,
       "color": "#f97316"
     },
     {
       "task": "Text Ranking",
       "count": 16,
-      "downloads": 113157831,
+      "downloads": 113156201,
       "color": "#6366f1"
     },
     {
       "task": "Image Classification",
-      "count": 25,
-      "downloads": 67769473,
+      "count": 26,
+      "downloads": 68129772,
       "color": "#22d3a5"
     },
     {
       "task": "Time Series Forecasting",
       "count": 22,
-      "downloads": 65806088,
+      "downloads": 65441631,
       "color": "#fbbf24"
     },
     {
@@ -121,8 +121,8 @@
   "licenses": [
     {
       "name": "apache-2.0",
-      "count": 508,
-      "pct": 57.6,
+      "count": 507,
+      "pct": 57.5,
       "color": "#00d4ff"
     },
     {
@@ -201,7 +201,7 @@
       "task": "Text Ranking",
       "taskColor": "#6366f1",
       "dl": "85.1M",
-      "likes": "277",
+      "likes": "278",
       "lic": "apache-2.0",
       "licColor": "#00d4ff"
     },
@@ -245,7 +245,7 @@
       "task": "Unknown",
       "taskColor": "#6366f1",
       "dl": "47.4M",
-      "likes": "136",
+      "likes": "138",
       "lic": "apache-2.0",
       "licColor": "#00d4ff"
     },
@@ -278,7 +278,7 @@
       "task": "Image Classification",
       "taskColor": "#22d3a5",
       "dl": "28.7M",
-      "likes": "87",
+      "likes": "88",
       "lic": "apache-2.0",
       "licColor": "#00d4ff"
     },
