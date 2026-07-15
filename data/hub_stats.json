@@ -1,11 +1,11 @@
 {
   "meta": {
-    "scraped": "2026-07-15T13:42:10Z",
+    "scraped": "2026-07-15T19:09:50Z",
     "source": "huggingface.co/api",
     "sampleSize": 1000,
     "totalRecords": 2000,
-    "runDuration": "0.7s",
-    "nextRun": "2026-07-15T19:42:10Z"
+    "runDuration": "0.8s",
+    "nextRun": "2026-07-16T01:09:50Z"
   },
   "summary": [
     {
@@ -278,7 +278,7 @@
       "task": "Translation",
       "taskColor": "#00d4ff",
       "dl": "27.6M",
-      "likes": "569",
+      "likes": "570",
       "lic": "apache-2.0",
       "licColor": "#00d4ff"
     },
