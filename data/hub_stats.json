@@ -1,11 +1,11 @@
 {
   "meta": {
-    "scraped": "2026-07-17T08:09:05Z",
+    "scraped": "2026-07-17T13:26:51Z",
     "source": "huggingface.co/api",
     "sampleSize": 1000,
     "totalRecords": 2000,
-    "runDuration": "1.1s",
-    "nextRun": "2026-07-17T14:09:05Z"
+    "runDuration": "1.0s",
+    "nextRun": "2026-07-17T19:26:51Z"
   },
   "summary": [
     {
@@ -18,7 +18,7 @@
     {
       "label": "30-Day Downloads",
       "value": "2.5B",
-      "raw": 2475593120,
+      "raw": 2482968232,
       "trend": "from sample",
       "period": "scrape"
     },
@@ -47,32 +47,32 @@
   "modelTasks": [
     {
       "task": "Sentence Similarity",
-      "count": 61,
-      "downloads": 482461347,
+      "count": 60,
+      "downloads": 482110762,
       "color": "#6366f1"
     },
     {
       "task": "Text Generation",
-      "count": 221,
-      "downloads": 424462315,
+      "count": 222,
+      "downloads": 427372239,
       "color": "#00d4ff"
     },
     {
       "task": "Image Text To Text",
-      "count": 150,
-      "downloads": 246347520,
+      "count": 151,
+      "downloads": 250405349,
       "color": "#22d3a5"
     },
     {
       "task": "No Tag",
       "count": 116,
-      "downloads": 231676458,
+      "downloads": 231789173,
       "color": "#6366f1"
     },
     {
       "task": "Fill Mask",
-      "count": 46,
-      "downloads": 200672272,
+      "count": 45,
+      "downloads": 200369532,
       "color": "#00d4ff"
     },
     {
@@ -84,7 +84,7 @@
     {
       "task": "Automatic Speech Recognition",
       "count": 92,
-      "downloads": 131673861,
+      "downloads": 132105543,
       "color": "#f97316"
     },
     {
@@ -121,14 +121,14 @@
   "licenses": [
     {
       "name": "apache-2.0",
-      "count": 513,
-      "pct": 58.1,
+      "count": 510,
+      "pct": 57.8,
       "color": "#00d4ff"
     },
     {
       "name": "mit",
-      "count": 190,
-      "pct": 21.5,
+      "count": 193,
+      "pct": 21.9,
       "color": "#22d3a5"
     },
     {
@@ -201,7 +201,7 @@
       "task": "Text Ranking",
       "taskColor": "#6366f1",
       "dl": "85.0M",
-      "likes": "282",
+      "likes": "283",
       "lic": "apache-2.0",
       "licColor": "#00d4ff"
     },
@@ -223,7 +223,7 @@
       "task": "Feature Extraction",
       "taskColor": "#6366f1",
       "dl": "66.5M",
-      "likes": "512",
+      "likes": "513",
       "lic": "mit",
       "licColor": "#22d3a5"
     },
@@ -234,7 +234,7 @@
       "task": "Unknown",
       "taskColor": "#6366f1",
       "dl": "55.8M",
-      "likes": "140",
+      "likes": "141",
       "lic": "apache-2.0",
       "licColor": "#00d4ff"
     },
@@ -278,7 +278,7 @@
       "task": "Translation",
       "taskColor": "#00d4ff",
       "dl": "27.8M",
-      "likes": "573",
+      "likes": "574",
       "lic": "apache-2.0",
       "licColor": "#00d4ff"
     },
