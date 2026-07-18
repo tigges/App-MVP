@@ -1,11 +1,11 @@
 {
   "meta": {
-    "scraped": "2026-07-17T19:07:10Z",
+    "scraped": "2026-07-18T02:26:42Z",
     "source": "huggingface.co/api",
     "sampleSize": 1000,
     "totalRecords": 2000,
-    "runDuration": "0.8s",
-    "nextRun": "2026-07-18T01:07:10Z"
+    "runDuration": "1.0s",
+    "nextRun": "2026-07-18T08:26:42Z"
   },
   "summary": [
     {
@@ -53,8 +53,8 @@
     },
     {
       "task": "Text Generation",
-      "count": 222,
-      "downloads": 427372239,
+      "count": 223,
+      "downloads": 427756122,
       "color": "#00d4ff"
     },
     {
@@ -65,8 +65,8 @@
     },
     {
       "task": "No Tag",
-      "count": 116,
-      "downloads": 231789173,
+      "count": 115,
+      "downloads": 231405290,
       "color": "#6366f1"
     },
     {
