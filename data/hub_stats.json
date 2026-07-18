@@ -1,11 +1,11 @@
 {
   "meta": {
-    "scraped": "2026-07-18T13:13:39Z",
+    "scraped": "2026-07-18T19:02:25Z",
     "source": "huggingface.co/api",
     "sampleSize": 1000,
     "totalRecords": 2000,
-    "runDuration": "0.7s",
-    "nextRun": "2026-07-18T19:13:39Z"
+    "runDuration": "0.8s",
+    "nextRun": "2026-07-19T01:02:25Z"
   },
   "summary": [
     {
@@ -59,14 +59,14 @@
     },
     {
       "task": "Image Text To Text",
-      "count": 150,
-      "downloads": 250603813,
+      "count": 151,
+      "downloads": 250987821,
       "color": "#22d3a5"
     },
     {
       "task": "No Tag",
-      "count": 115,
-      "downloads": 231449104,
+      "count": 114,
+      "downloads": 231065096,
       "color": "#6366f1"
     },
     {
@@ -201,7 +201,7 @@
       "task": "Text Ranking",
       "taskColor": "#6366f1",
       "dl": "85.1M",
-      "likes": "284",
+      "likes": "285",
       "lic": "apache-2.0",
       "licColor": "#00d4ff"
     },
@@ -223,7 +223,7 @@
       "task": "Feature Extraction",
       "taskColor": "#6366f1",
       "dl": "66.5M",
-      "likes": "513",
+      "likes": "514",
       "lic": "mit",
       "licColor": "#22d3a5"
     },
@@ -234,7 +234,7 @@
       "task": "Unknown",
       "taskColor": "#6366f1",
       "dl": "55.9M",
-      "likes": "141",
+      "likes": "142",
       "lic": "apache-2.0",
       "licColor": "#00d4ff"
     },
