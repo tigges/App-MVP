@@ -1,11 +1,11 @@
 {
   "meta": {
-    "scraped": "2026-07-18T07:48:46Z",
+    "scraped": "2026-07-18T13:13:39Z",
     "source": "huggingface.co/api",
     "sampleSize": 1000,
     "totalRecords": 2000,
-    "runDuration": "0.6s",
-    "nextRun": "2026-07-18T13:48:46Z"
+    "runDuration": "0.7s",
+    "nextRun": "2026-07-18T19:13:39Z"
   },
   "summary": [
     {
@@ -18,7 +18,7 @@
     {
       "label": "30-Day Downloads",
       "value": "2.5B",
-      "raw": 2481976265,
+      "raw": 2483263740,
       "trend": "from sample",
       "period": "scrape"
     },
@@ -48,67 +48,67 @@
     {
       "task": "Sentence Similarity",
       "count": 59,
-      "downloads": 480838813,
+      "downloads": 480936764,
       "color": "#6366f1"
     },
     {
       "task": "Text Generation",
-      "count": 224,
-      "downloads": 428843982,
+      "count": 223,
+      "downloads": 429035265,
       "color": "#00d4ff"
     },
     {
       "task": "Image Text To Text",
-      "count": 149,
-      "downloads": 249700524,
+      "count": 150,
+      "downloads": 250603813,
       "color": "#22d3a5"
     },
     {
       "task": "No Tag",
-      "count": 113,
-      "downloads": 230632923,
+      "count": 115,
+      "downloads": 231449104,
       "color": "#6366f1"
     },
     {
       "task": "Fill Mask",
-      "count": 44,
-      "downloads": 199466241,
+      "count": 43,
+      "downloads": 199091712,
       "color": "#00d4ff"
     },
     {
       "task": "Feature Extraction",
       "count": 53,
-      "downloads": 176182699,
+      "downloads": 176096571,
       "color": "#6366f1"
     },
     {
       "task": "Automatic Speech Recognition",
       "count": 93,
-      "downloads": 133482710,
+      "downloads": 133704630,
       "color": "#f97316"
     },
     {
       "task": "Text Ranking",
       "count": 15,
-      "downloads": 115241880,
+      "downloads": 115322976,
       "color": "#6366f1"
     },
     {
       "task": "Time Series Forecasting",
-      "count": 23,
-      "downloads": 64708155,
+      "count": 22,
+      "downloads": 64184775,
       "color": "#fbbf24"
     },
     {
       "task": "Zero Shot Image Classification",
       "count": 22,
-      "downloads": 64068657,
+      "downloads": 64069850,
       "color": "#22d3a5"
     },
     {
       "task": "Text Classification",
       "count": 32,
-      "downloads": 63848173,
+      "downloads": 63843948,
       "color": "#00d4ff"
     },
     {
@@ -122,25 +122,25 @@
     {
       "name": "apache-2.0",
       "count": 511,
-      "pct": 57.8,
+      "pct": 57.9,
       "color": "#00d4ff"
     },
     {
       "name": "mit",
-      "count": 193,
+      "count": 192,
       "pct": 21.8,
       "color": "#22d3a5"
     },
     {
       "name": "other",
       "count": 79,
-      "pct": 8.9,
+      "pct": 9.0,
       "color": "#4a5270"
     },
     {
       "name": "cc-by-nc-4.0",
-      "count": 16,
-      "pct": 1.8,
+      "count": 15,
+      "pct": 1.7,
       "color": "#a855f7"
     },
     {
