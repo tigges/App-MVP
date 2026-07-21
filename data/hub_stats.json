@@ -1,11 +1,11 @@
 {
   "meta": {
-    "scraped": "2026-07-21T08:27:20Z",
+    "scraped": "2026-07-21T13:48:14Z",
     "source": "huggingface.co/api",
     "sampleSize": 1000,
     "totalRecords": 2000,
-    "runDuration": "0.7s",
-    "nextRun": "2026-07-21T14:27:20Z"
+    "runDuration": "0.9s",
+    "nextRun": "2026-07-21T19:48:14Z"
   },
   "summary": [
     {
@@ -18,7 +18,7 @@
     {
       "label": "30-Day Downloads",
       "value": "2.4B",
-      "raw": 2381385887,
+      "raw": 2383305885,
       "trend": "from sample",
       "period": "scrape"
     },
@@ -54,25 +54,25 @@
     {
       "task": "Text Generation",
       "count": 223,
-      "downloads": 414959852,
+      "downloads": 416210022,
       "color": "#00d4ff"
     },
     {
       "task": "Image Text To Text",
       "count": 153,
-      "downloads": 243211894,
+      "downloads": 243539771,
       "color": "#22d3a5"
     },
     {
       "task": "No Tag",
       "count": 114,
-      "downloads": 222130632,
+      "downloads": 222184994,
       "color": "#6366f1"
     },
     {
       "task": "Fill Mask",
       "count": 44,
-      "downloads": 192686251,
+      "downloads": 192688695,
       "color": "#00d4ff"
     },
     {
@@ -84,7 +84,7 @@
     {
       "task": "Automatic Speech Recognition",
       "count": 91,
-      "downloads": 128093794,
+      "downloads": 128267866,
       "color": "#f97316"
     },
     {
@@ -121,14 +121,14 @@
   "licenses": [
     {
       "name": "apache-2.0",
-      "count": 510,
-      "pct": 58.0,
+      "count": 511,
+      "pct": 58.1,
       "color": "#00d4ff"
     },
     {
       "name": "mit",
-      "count": 190,
-      "pct": 21.6,
+      "count": 189,
+      "pct": 21.5,
       "color": "#22d3a5"
     },
     {
