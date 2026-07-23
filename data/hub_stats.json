@@ -1,11 +1,11 @@
 {
   "meta": {
-    "scraped": "2026-07-23T08:28:48Z",
+    "scraped": "2026-07-23T13:57:36Z",
     "source": "huggingface.co/api",
     "sampleSize": 1000,
     "totalRecords": 2000,
-    "runDuration": "0.8s",
-    "nextRun": "2026-07-23T14:28:48Z"
+    "runDuration": "0.7s",
+    "nextRun": "2026-07-23T19:57:36Z"
   },
   "summary": [
     {
@@ -18,7 +18,7 @@
     {
       "label": "30-Day Downloads",
       "value": "2.5B",
-      "raw": 2500939574,
+      "raw": 2514349597,
       "trend": "from sample",
       "period": "scrape"
     },
@@ -53,26 +53,26 @@
     },
     {
       "task": "Text Generation",
-      "count": 224,
-      "downloads": 436710315,
+      "count": 223,
+      "downloads": 443102343,
       "color": "#00d4ff"
     },
     {
       "task": "Image Text To Text",
-      "count": 153,
-      "downloads": 253549949,
+      "count": 156,
+      "downloads": 259667677,
       "color": "#22d3a5"
     },
     {
       "task": "No Tag",
-      "count": 113,
-      "downloads": 236676662,
+      "count": 112,
+      "downloads": 236672509,
       "color": "#6366f1"
     },
     {
       "task": "Fill Mask",
-      "count": 45,
-      "downloads": 208842627,
+      "count": 43,
+      "downloads": 207809639,
       "color": "#00d4ff"
     },
     {
@@ -83,8 +83,8 @@
     },
     {
       "task": "Automatic Speech Recognition",
-      "count": 84,
-      "downloads": 123883427,
+      "count": 85,
+      "downloads": 125061894,
       "color": "#f97316"
     },
     {
@@ -122,19 +122,19 @@
     {
       "name": "apache-2.0",
       "count": 509,
-      "pct": 57.7,
+      "pct": 57.6,
       "color": "#00d4ff"
     },
     {
       "name": "mit",
       "count": 191,
-      "pct": 21.7,
+      "pct": 21.6,
       "color": "#22d3a5"
     },
     {
       "name": "other",
-      "count": 81,
-      "pct": 9.2,
+      "count": 82,
+      "pct": 9.3,
       "color": "#4a5270"
     },
     {
@@ -145,8 +145,8 @@
     },
     {
       "name": "cc-by-4.0",
-      "count": 13,
-      "pct": 1.5,
+      "count": 14,
+      "pct": 1.6,
       "color": "#818cf8"
     },
     {
