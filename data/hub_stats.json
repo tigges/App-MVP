@@ -1,11 +1,11 @@
 {
   "meta": {
-    "scraped": "2026-07-25T08:05:08Z",
+    "scraped": "2026-07-25T13:24:34Z",
     "source": "huggingface.co/api",
     "sampleSize": 1000,
     "totalRecords": 2000,
-    "runDuration": "0.7s",
-    "nextRun": "2026-07-25T14:05:08Z"
+    "runDuration": "0.8s",
+    "nextRun": "2026-07-25T19:24:34Z"
   },
   "summary": [
     {
@@ -18,7 +18,7 @@
     {
       "label": "30-Day Downloads",
       "value": "2.5B",
-      "raw": 2515068980,
+      "raw": 2516272036,
       "trend": "from sample",
       "period": "scrape"
     },
@@ -48,55 +48,55 @@
     {
       "task": "Sentence Similarity",
       "count": 60,
-      "downloads": 482884693,
+      "downloads": 482916259,
       "color": "#6366f1"
     },
     {
       "task": "Text Generation",
       "count": 226,
-      "downloads": 445148562,
+      "downloads": 445266657,
       "color": "#00d4ff"
     },
     {
       "task": "Image Text To Text",
       "count": 156,
-      "downloads": 260120503,
+      "downloads": 259359605,
       "color": "#22d3a5"
     },
     {
       "task": "No Tag",
       "count": 113,
-      "downloads": 239331712,
+      "downloads": 239320166,
       "color": "#6366f1"
     },
     {
       "task": "Fill Mask",
       "count": 43,
-      "downloads": 210626262,
+      "downloads": 210629489,
       "color": "#00d4ff"
     },
     {
       "task": "Feature Extraction",
       "count": 54,
-      "downloads": 175181735,
+      "downloads": 175093384,
       "color": "#6366f1"
     },
     {
       "task": "Automatic Speech Recognition",
       "count": 84,
-      "downloads": 125233181,
+      "downloads": 125559373,
       "color": "#f97316"
     },
     {
       "task": "Text Ranking",
       "count": 15,
-      "downloads": 117845658,
+      "downloads": 117858677,
       "color": "#6366f1"
     },
     {
       "task": "Time Series Forecasting",
       "count": 24,
-      "downloads": 69330278,
+      "downloads": 71028977,
       "color": "#fbbf24"
     },
     {
