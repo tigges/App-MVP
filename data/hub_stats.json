@@ -1,11 +1,11 @@
 {
   "meta": {
-    "scraped": "2026-07-26T08:25:00Z",
+    "scraped": "2026-07-26T13:20:15Z",
     "source": "huggingface.co/api",
     "sampleSize": 1000,
     "totalRecords": 2000,
-    "runDuration": "0.6s",
-    "nextRun": "2026-07-26T14:25:00Z"
+    "runDuration": "0.8s",
+    "nextRun": "2026-07-26T19:20:15Z"
   },
   "summary": [
     {
@@ -18,7 +18,7 @@
     {
       "label": "30-Day Downloads",
       "value": "2.5B",
-      "raw": 2510105524,
+      "raw": 2510291345,
       "trend": "from sample",
       "period": "scrape"
     },
@@ -54,13 +54,13 @@
     {
       "task": "Text Generation",
       "count": 228,
-      "downloads": 442527886,
+      "downloads": 442645526,
       "color": "#00d4ff"
     },
     {
       "task": "Image Text To Text",
       "count": 156,
-      "downloads": 258650159,
+      "downloads": 258718340,
       "color": "#22d3a5"
     },
     {
