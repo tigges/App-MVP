@@ -1,11 +1,11 @@
 {
   "meta": {
-    "scraped": "2026-07-27T18:34:44Z",
+    "scraped": "2026-07-28T00:36:29Z",
     "source": "huggingface.co/api",
     "sampleSize": 1000,
     "totalRecords": 2000,
-    "runDuration": "1.2s",
-    "nextRun": "2026-07-28T00:34:44Z"
+    "runDuration": "0.9s",
+    "nextRun": "2026-07-28T06:36:29Z"
   },
   "summary": [
     {
@@ -53,8 +53,8 @@
     },
     {
       "task": "Text Generation",
-      "count": 227,
-      "downloads": 443334996,
+      "count": 226,
+      "downloads": 442519902,
       "color": "#00d4ff"
     },
     {
@@ -65,8 +65,8 @@
     },
     {
       "task": "No Tag",
-      "count": 115,
-      "downloads": 240584415,
+      "count": 116,
+      "downloads": 241399509,
       "color": "#6366f1"
     },
     {
@@ -121,8 +121,8 @@
   "licenses": [
     {
       "name": "apache-2.0",
-      "count": 508,
-      "pct": 57.7,
+      "count": 507,
+      "pct": 57.6,
       "color": "#00d4ff"
     },
     {
@@ -223,7 +223,7 @@
       "task": "Feature Extraction",
       "taskColor": "#6366f1",
       "dl": "68.4M",
-      "likes": "518",
+      "likes": "519",
       "lic": "mit",
       "licColor": "#22d3a5"
     },
