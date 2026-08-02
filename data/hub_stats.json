@@ -1,11 +1,11 @@
 {
   "meta": {
-    "scraped": "2026-08-02T00:39:35Z",
+    "scraped": "2026-08-02T06:56:20Z",
     "source": "huggingface.co/api",
     "sampleSize": 1000,
     "totalRecords": 2000,
-    "runDuration": "0.6s",
-    "nextRun": "2026-08-02T06:39:35Z"
+    "runDuration": "1.0s",
+    "nextRun": "2026-08-02T12:56:20Z"
   },
   "summary": [
     {
@@ -245,7 +245,7 @@
       "task": "Unknown",
       "taskColor": "#6366f1",
       "dl": "53.8M",
-      "likes": "146",
+      "likes": "148",
       "lic": "apache-2.0",
       "licColor": "#00d4ff"
     },
