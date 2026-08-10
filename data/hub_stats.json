@@ -1,11 +1,11 @@
 {
   "meta": {
-    "scraped": "2026-08-09T18:10:15Z",
+    "scraped": "2026-08-10T00:21:48Z",
     "source": "huggingface.co/api",
     "sampleSize": 1000,
     "totalRecords": 2000,
-    "runDuration": "1.0s",
-    "nextRun": "2026-08-10T00:10:15Z"
+    "runDuration": "1.1s",
+    "nextRun": "2026-08-10T06:21:48Z"
   },
   "summary": [
     {
@@ -289,7 +289,7 @@
       "task": "Text Generation",
       "taskColor": "#00d4ff",
       "dl": "27.8M",
-      "likes": "1K",
+      "likes": "2K",
       "lic": "apache-2.0",
       "licColor": "#00d4ff"
     }
