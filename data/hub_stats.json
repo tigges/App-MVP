@@ -1,11 +1,11 @@
 {
   "meta": {
-    "scraped": "2026-08-12T06:31:59Z",
+    "scraped": "2026-08-12T12:19:20Z",
     "source": "huggingface.co/api",
     "sampleSize": 1000,
     "totalRecords": 2000,
-    "runDuration": "0.9s",
-    "nextRun": "2026-08-12T12:31:59Z"
+    "runDuration": "0.7s",
+    "nextRun": "2026-08-12T18:19:20Z"
   },
   "summary": [
     {
@@ -18,7 +18,7 @@
     {
       "label": "30-Day Downloads",
       "value": "2.4B",
-      "raw": 2387137833,
+      "raw": 2383896344,
       "trend": "from sample",
       "period": "scrape"
     },
@@ -48,49 +48,49 @@
     {
       "task": "Sentence Similarity",
       "count": 62,
-      "downloads": 451376920,
+      "downloads": 452640145,
       "color": "#6366f1"
     },
     {
       "task": "Text Generation",
-      "count": 232,
-      "downloads": 427222345,
+      "count": 233,
+      "downloads": 427443282,
       "color": "#00d4ff"
     },
     {
       "task": "Image Text To Text",
       "count": 157,
-      "downloads": 244610872,
+      "downloads": 244611078,
       "color": "#22d3a5"
     },
     {
       "task": "No Tag",
-      "count": 109,
-      "downloads": 232814444,
+      "count": 111,
+      "downloads": 233452314,
       "color": "#6366f1"
     },
     {
       "task": "Fill Mask",
       "count": 39,
-      "downloads": 212409679,
+      "downloads": 210998761,
       "color": "#00d4ff"
     },
     {
       "task": "Feature Extraction",
       "count": 48,
-      "downloads": 159589052,
+      "downloads": 159534505,
       "color": "#6366f1"
     },
     {
       "task": "Automatic Speech Recognition",
-      "count": 83,
-      "downloads": 130470978,
+      "count": 81,
+      "downloads": 125635349,
       "color": "#f97316"
     },
     {
       "task": "Text Ranking",
       "count": 16,
-      "downloads": 109298158,
+      "downloads": 109619952,
       "color": "#6366f1"
     },
     {
@@ -102,27 +102,27 @@
     {
       "task": "Text Classification",
       "count": 32,
-      "downloads": 55109273,
+      "downloads": 55010619,
       "color": "#00d4ff"
     },
     {
       "task": "Zero Shot Image Classification",
       "count": 23,
-      "downloads": 53101129,
+      "downloads": 53242775,
       "color": "#22d3a5"
     },
     {
       "task": "Image Classification",
       "count": 24,
-      "downloads": 46138801,
+      "downloads": 46632377,
       "color": "#22d3a5"
     }
   ],
   "licenses": [
     {
       "name": "apache-2.0",
-      "count": 519,
-      "pct": 57.7,
+      "count": 517,
+      "pct": 57.4,
       "color": "#00d4ff"
     },
     {
@@ -159,8 +159,8 @@
   "frameworks": [
     {
       "name": "Gradio",
-      "count": 824,
-      "pct": 82.4,
+      "count": 823,
+      "pct": 82.3,
       "color": "#f97316"
     },
     {
@@ -171,8 +171,8 @@
     },
     {
       "name": "Static",
-      "count": 77,
-      "pct": 7.7,
+      "count": 78,
+      "pct": 7.8,
       "color": "#22d3a5"
     },
     {
@@ -189,7 +189,7 @@
       "creator": "sentence-transformers",
       "task": "Sentence Similarity",
       "taskColor": "#6366f1",
-      "dl": "239.2M",
+      "dl": "240.3M",
       "likes": "5K",
       "lic": "apache-2.0",
       "licColor": "#00d4ff"
@@ -200,7 +200,7 @@
       "creator": "google-bert",
       "task": "Fill Mask",
       "taskColor": "#00d4ff",
-      "dl": "113.2M",
+      "dl": "111.6M",
       "likes": "3K",
       "lic": "apache-2.0",
       "licColor": "#00d4ff"
@@ -211,8 +211,8 @@
       "creator": "cross-encoder",
       "task": "Text Ranking",
       "taskColor": "#6366f1",
-      "dl": "82.0M",
-      "likes": "299",
+      "dl": "82.6M",
+      "likes": "300",
       "lic": "apache-2.0",
       "licColor": "#00d4ff"
     },
@@ -223,7 +223,7 @@
       "task": "Feature Extraction",
       "taskColor": "#6366f1",
       "dl": "67.1M",
-      "likes": "531",
+      "likes": "532",
       "lic": "mit",
       "licColor": "#22d3a5"
     },
@@ -244,8 +244,8 @@
       "creator": "google",
       "task": "Unknown",
       "taskColor": "#6366f1",
-      "dl": "52.4M",
-      "likes": "151",
+      "dl": "52.6M",
+      "likes": "152",
       "lic": "apache-2.0",
       "licColor": "#00d4ff"
     },
