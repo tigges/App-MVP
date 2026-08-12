@@ -1,11 +1,11 @@
 {
   "meta": {
-    "scraped": "2026-08-12T00:25:09Z",
+    "scraped": "2026-08-12T06:31:59Z",
     "source": "huggingface.co/api",
     "sampleSize": 1000,
     "totalRecords": 2000,
-    "runDuration": "0.8s",
-    "nextRun": "2026-08-12T06:25:09Z"
+    "runDuration": "0.9s",
+    "nextRun": "2026-08-12T12:31:59Z"
   },
   "summary": [
     {
@@ -212,7 +212,7 @@
       "task": "Text Ranking",
       "taskColor": "#6366f1",
       "dl": "82.0M",
-      "likes": "298",
+      "likes": "299",
       "lic": "apache-2.0",
       "licColor": "#00d4ff"
     },
@@ -223,7 +223,7 @@
       "task": "Feature Extraction",
       "taskColor": "#6366f1",
       "dl": "67.1M",
-      "likes": "529",
+      "likes": "531",
       "lic": "mit",
       "licColor": "#22d3a5"
     },
@@ -245,7 +245,7 @@
       "task": "Unknown",
       "taskColor": "#6366f1",
       "dl": "52.4M",
-      "likes": "150",
+      "likes": "151",
       "lic": "apache-2.0",
       "licColor": "#00d4ff"
     },
@@ -256,7 +256,7 @@
       "task": "Unknown",
       "taskColor": "#6366f1",
       "dl": "37.2M",
-      "likes": "49",
+      "likes": "50",
       "lic": "—",
       "licColor": "#4a5270"
     },
@@ -267,7 +267,7 @@
       "task": "Time Series Forecasting",
       "taskColor": "#fbbf24",
       "dl": "32.3M",
-      "likes": "396",
+      "likes": "397",
       "lic": "apache-2.0",
       "licColor": "#00d4ff"
     },
