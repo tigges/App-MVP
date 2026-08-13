@@ -1,11 +1,11 @@
 {
   "meta": {
-    "scraped": "2026-08-13T00:26:05Z",
+    "scraped": "2026-08-13T06:33:54Z",
     "source": "huggingface.co/api",
     "sampleSize": 1000,
     "totalRecords": 2000,
-    "runDuration": "0.7s",
-    "nextRun": "2026-08-13T06:26:05Z"
+    "runDuration": "0.6s",
+    "nextRun": "2026-08-13T12:33:54Z"
   },
   "summary": [
     {
@@ -18,7 +18,7 @@
     {
       "label": "30-Day Downloads",
       "value": "2.4B",
-      "raw": 2383896344,
+      "raw": 2385137705,
       "trend": "from sample",
       "period": "scrape"
     },
@@ -65,8 +65,8 @@
     },
     {
       "task": "No Tag",
-      "count": 111,
-      "downloads": 233452314,
+      "count": 110,
+      "downloads": 233117867,
       "color": "#6366f1"
     },
     {
@@ -133,8 +133,8 @@
     },
     {
       "name": "other",
-      "count": 91,
-      "pct": 10.1,
+      "count": 92,
+      "pct": 10.2,
       "color": "#4a5270"
     },
     {
@@ -267,7 +267,7 @@
       "task": "Time Series Forecasting",
       "taskColor": "#fbbf24",
       "dl": "32.3M",
-      "likes": "397",
+      "likes": "398",
       "lic": "apache-2.0",
       "licColor": "#00d4ff"
     },
