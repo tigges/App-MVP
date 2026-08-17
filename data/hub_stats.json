@@ -1,11 +1,11 @@
 {
   "meta": {
-    "scraped": "2026-08-17T00:13:55Z",
+    "scraped": "2026-08-17T06:13:52Z",
     "source": "huggingface.co/api",
     "sampleSize": 1000,
     "totalRecords": 2000,
-    "runDuration": "1.0s",
-    "nextRun": "2026-08-17T06:13:55Z"
+    "runDuration": "0.7s",
+    "nextRun": "2026-08-17T12:13:52Z"
   },
   "summary": [
     {
@@ -65,8 +65,8 @@
     },
     {
       "task": "No Tag",
-      "count": 116,
-      "downloads": 257097778,
+      "count": 115,
+      "downloads": 252188832,
       "color": "#6366f1"
     },
     {
@@ -121,20 +121,20 @@
   "licenses": [
     {
       "name": "apache-2.0",
-      "count": 529,
+      "count": 532,
       "pct": 58.3,
       "color": "#00d4ff"
     },
     {
       "name": "mit",
       "count": 178,
-      "pct": 19.6,
+      "pct": 19.5,
       "color": "#22d3a5"
     },
     {
       "name": "other",
-      "count": 92,
-      "pct": 10.1,
+      "count": 94,
+      "pct": 10.3,
       "color": "#4a5270"
     },
     {
@@ -146,27 +146,27 @@
     {
       "name": "cc-by-4.0",
       "count": 15,
-      "pct": 1.7,
+      "pct": 1.6,
       "color": "#818cf8"
     },
     {
       "name": "cc-by-nc-4.0",
       "count": 15,
-      "pct": 1.7,
+      "pct": 1.6,
       "color": "#a855f7"
     }
   ],
   "frameworks": [
     {
       "name": "Gradio",
-      "count": 822,
-      "pct": 82.2,
+      "count": 823,
+      "pct": 82.3,
       "color": "#f97316"
     },
     {
       "name": "Docker",
-      "count": 89,
-      "pct": 8.9,
+      "count": 88,
+      "pct": 8.8,
       "color": "#00d4ff"
     },
     {
