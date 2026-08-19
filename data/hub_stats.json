@@ -1,11 +1,11 @@
 {
   "meta": {
-    "scraped": "2026-08-19T00:14:06Z",
+    "scraped": "2026-08-19T06:11:25Z",
     "source": "huggingface.co/api",
     "sampleSize": 1000,
     "totalRecords": 2000,
-    "runDuration": "0.9s",
-    "nextRun": "2026-08-19T06:14:06Z"
+    "runDuration": "0.7s",
+    "nextRun": "2026-08-19T12:11:25Z"
   },
   "summary": [
     {
@@ -165,14 +165,14 @@
     },
     {
       "name": "Docker",
-      "count": 88,
-      "pct": 8.8,
+      "count": 87,
+      "pct": 8.7,
       "color": "#00d4ff"
     },
     {
       "name": "Static",
-      "count": 79,
-      "pct": 7.9,
+      "count": 80,
+      "pct": 8.0,
       "color": "#22d3a5"
     },
     {
