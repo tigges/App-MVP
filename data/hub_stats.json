@@ -1,11 +1,11 @@
 {
   "meta": {
-    "scraped": "2026-08-19T12:09:20Z",
+    "scraped": "2026-08-19T18:08:05Z",
     "source": "huggingface.co/api",
     "sampleSize": 1000,
     "totalRecords": 2000,
-    "runDuration": "0.9s",
-    "nextRun": "2026-08-19T18:09:20Z"
+    "runDuration": "2.2s",
+    "nextRun": "2026-08-20T00:08:05Z"
   },
   "summary": [
     {
@@ -122,13 +122,13 @@
     {
       "name": "apache-2.0",
       "count": 530,
-      "pct": 58.2,
+      "pct": 58.1,
       "color": "#00d4ff"
     },
     {
       "name": "mit",
-      "count": 176,
-      "pct": 19.3,
+      "count": 177,
+      "pct": 19.4,
       "color": "#22d3a5"
     },
     {
