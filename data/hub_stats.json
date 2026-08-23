@@ -1,11 +1,11 @@
 {
   "meta": {
-    "scraped": "2026-08-23T00:15:05Z",
+    "scraped": "2026-08-23T06:10:15Z",
     "source": "huggingface.co/api",
     "sampleSize": 1000,
     "totalRecords": 2000,
     "runDuration": "0.8s",
-    "nextRun": "2026-08-23T06:15:05Z"
+    "nextRun": "2026-08-23T12:10:15Z"
   },
   "summary": [
     {
@@ -159,8 +159,8 @@
   "frameworks": [
     {
       "name": "Gradio",
-      "count": 823,
-      "pct": 82.3,
+      "count": 822,
+      "pct": 82.2,
       "color": "#f97316"
     },
     {
@@ -171,8 +171,8 @@
     },
     {
       "name": "Static",
-      "count": 80,
-      "pct": 8.0,
+      "count": 81,
+      "pct": 8.1,
       "color": "#22d3a5"
     },
     {
@@ -223,7 +223,7 @@
       "task": "Feature Extraction",
       "taskColor": "#6366f1",
       "dl": "72.4M",
-      "likes": "537",
+      "likes": "538",
       "lic": "mit",
       "licColor": "#22d3a5"
     },
