@@ -1,11 +1,11 @@
 {
   "meta": {
-    "scraped": "2026-08-25T06:11:40Z",
+    "scraped": "2026-08-25T12:10:39Z",
     "source": "huggingface.co/api",
     "sampleSize": 1000,
     "totalRecords": 2000,
     "runDuration": "1.0s",
-    "nextRun": "2026-08-25T12:11:40Z"
+    "nextRun": "2026-08-25T18:10:39Z"
   },
   "summary": [
     {
@@ -18,7 +18,7 @@
     {
       "label": "30-Day Downloads",
       "value": "2.5B",
-      "raw": 2509186037,
+      "raw": 2518982465,
       "trend": "from sample",
       "period": "scrape"
     },
@@ -47,88 +47,88 @@
   "modelTasks": [
     {
       "task": "Sentence Similarity",
-      "count": 60,
-      "downloads": 479521000,
+      "count": 59,
+      "downloads": 479321747,
       "color": "#6366f1"
     },
     {
       "task": "Text Generation",
-      "count": 221,
-      "downloads": 417436951,
+      "count": 222,
+      "downloads": 417508087,
       "color": "#00d4ff"
     },
     {
       "task": "Image Text To Text",
-      "count": 163,
-      "downloads": 264547933,
+      "count": 161,
+      "downloads": 264971252,
       "color": "#22d3a5"
     },
     {
       "task": "No Tag",
-      "count": 111,
-      "downloads": 252881982,
+      "count": 115,
+      "downloads": 254726351,
       "color": "#6366f1"
     },
     {
       "task": "Fill Mask",
-      "count": 37,
-      "downloads": 192438125,
+      "count": 36,
+      "downloads": 190363004,
       "color": "#00d4ff"
     },
     {
       "task": "Feature Extraction",
-      "count": 45,
-      "downloads": 169450623,
+      "count": 46,
+      "downloads": 169650631,
       "color": "#6366f1"
     },
     {
       "task": "Automatic Speech Recognition",
       "count": 84,
-      "downloads": 154571279,
+      "downloads": 155291812,
       "color": "#f97316"
     },
     {
       "task": "Text Ranking",
       "count": 16,
-      "downloads": 114253357,
+      "downloads": 113750653,
       "color": "#6366f1"
     },
     {
       "task": "Time Series Forecasting",
-      "count": 19,
-      "downloads": 72939771,
+      "count": 17,
+      "downloads": 71953903,
       "color": "#fbbf24"
     },
     {
       "task": "Text Classification",
       "count": 34,
-      "downloads": 60334130,
+      "downloads": 60409713,
       "color": "#00d4ff"
     },
     {
-      "task": "Zero Shot Image Classification",
-      "count": 20,
-      "downloads": 53224062,
+      "task": "Image Classification",
+      "count": 25,
+      "downloads": 59663383,
       "color": "#22d3a5"
     },
     {
-      "task": "Image Classification",
-      "count": 26,
-      "downloads": 50035409,
+      "task": "Zero Shot Image Classification",
+      "count": 19,
+      "downloads": 52354994,
       "color": "#22d3a5"
     }
   ],
   "licenses": [
     {
       "name": "apache-2.0",
-      "count": 539,
-      "pct": 59.2,
+      "count": 537,
+      "pct": 58.9,
       "color": "#00d4ff"
     },
     {
       "name": "mit",
-      "count": 176,
-      "pct": 19.3,
+      "count": 179,
+      "pct": 19.6,
       "color": "#22d3a5"
     },
     {
@@ -139,21 +139,21 @@
     },
     {
       "name": "gemma",
-      "count": 16,
-      "pct": 1.8,
-      "color": "#f97316"
-    },
-    {
-      "name": "cc-by-nc-4.0",
       "count": 15,
       "pct": 1.6,
-      "color": "#a855f7"
+      "color": "#f97316"
     },
     {
       "name": "cc-by-4.0",
       "count": 14,
       "pct": 1.5,
       "color": "#818cf8"
+    },
+    {
+      "name": "cc-by-nc-4.0",
+      "count": 14,
+      "pct": 1.5,
+      "color": "#a855f7"
     }
   ],
   "frameworks": [
@@ -189,7 +189,7 @@
       "creator": "sentence-transformers",
       "task": "Sentence Similarity",
       "taskColor": "#6366f1",
-      "dl": "255.8M",
+      "dl": "256.2M",
       "likes": "5K",
       "lic": "apache-2.0",
       "licColor": "#00d4ff"
@@ -200,7 +200,7 @@
       "creator": "google-bert",
       "task": "Fill Mask",
       "taskColor": "#00d4ff",
-      "dl": "95.4M",
+      "dl": "93.8M",
       "likes": "3K",
       "lic": "apache-2.0",
       "licColor": "#00d4ff"
@@ -211,7 +211,7 @@
       "creator": "cross-encoder",
       "task": "Text Ranking",
       "taskColor": "#6366f1",
-      "dl": "87.6M",
+      "dl": "87.5M",
       "likes": "301",
       "lic": "apache-2.0",
       "licColor": "#00d4ff"
@@ -222,30 +222,30 @@
       "creator": "BAAI",
       "task": "Feature Extraction",
       "taskColor": "#6366f1",
-      "dl": "71.6M",
+      "dl": "71.3M",
       "likes": "538",
       "lic": "mit",
       "licColor": "#22d3a5"
     },
     {
       "rank": 5,
-      "name": "electra-base-discriminator",
-      "creator": "google",
-      "task": "Unknown",
+      "name": "paraphrase-multilingual-MiniLM-L12-v2",
+      "creator": "sentence-transformers",
+      "task": "Sentence Similarity",
       "taskColor": "#6366f1",
-      "dl": "54.7M",
-      "likes": "154",
+      "dl": "54.4M",
+      "likes": "1K",
       "lic": "apache-2.0",
       "licColor": "#00d4ff"
     },
     {
       "rank": 6,
-      "name": "paraphrase-multilingual-MiniLM-L12-v2",
-      "creator": "sentence-transformers",
-      "task": "Sentence Similarity",
+      "name": "electra-base-discriminator",
+      "creator": "google",
+      "task": "Unknown",
       "taskColor": "#6366f1",
-      "dl": "54.5M",
-      "likes": "1K",
+      "dl": "54.2M",
+      "likes": "154",
       "lic": "apache-2.0",
       "licColor": "#00d4ff"
     },
@@ -266,7 +266,7 @@
       "creator": "amazon",
       "task": "Time Series Forecasting",
       "taskColor": "#fbbf24",
-      "dl": "35.1M",
+      "dl": "34.6M",
       "likes": "407",
       "lic": "apache-2.0",
       "licColor": "#00d4ff"
@@ -277,7 +277,7 @@
       "creator": "lpiccinelli",
       "task": "Unknown",
       "taskColor": "#6366f1",
-      "dl": "26.3M",
+      "dl": "25.2M",
       "likes": "50",
       "lic": "—",
       "licColor": "#4a5270"
@@ -288,7 +288,7 @@
       "creator": "sentence-transformers",
       "task": "Sentence Similarity",
       "taskColor": "#6366f1",
-      "dl": "24.9M",
+      "dl": "24.8M",
       "likes": "1K",
       "lic": "apache-2.0",
       "licColor": "#00d4ff"
