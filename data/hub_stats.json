@@ -1,11 +1,11 @@
 {
   "meta": {
-    "scraped": "2026-08-29T12:15:10Z",
+    "scraped": "2026-08-29T18:12:44Z",
     "source": "huggingface.co/api",
     "sampleSize": 1000,
     "totalRecords": 2000,
-    "runDuration": "0.9s",
-    "nextRun": "2026-08-29T18:15:10Z"
+    "runDuration": "0.8s",
+    "nextRun": "2026-08-30T00:12:44Z"
   },
   "summary": [
     {
@@ -121,8 +121,8 @@
   "licenses": [
     {
       "name": "apache-2.0",
-      "count": 545,
-      "pct": 59.7,
+      "count": 546,
+      "pct": 59.8,
       "color": "#00d4ff"
     },
     {
@@ -151,8 +151,8 @@
     },
     {
       "name": "gemma",
-      "count": 14,
-      "pct": 1.5,
+      "count": 13,
+      "pct": 1.4,
       "color": "#f97316"
     }
   ],
