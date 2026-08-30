@@ -1,11 +1,11 @@
 {
   "meta": {
-    "scraped": "2026-08-29T18:12:44Z",
+    "scraped": "2026-08-30T00:35:25Z",
     "source": "huggingface.co/api",
     "sampleSize": 1000,
     "totalRecords": 2000,
     "runDuration": "0.8s",
-    "nextRun": "2026-08-30T00:12:44Z"
+    "nextRun": "2026-08-30T06:35:25Z"
   },
   "summary": [
     {
@@ -159,8 +159,8 @@
   "frameworks": [
     {
       "name": "Gradio",
-      "count": 823,
-      "pct": 82.3,
+      "count": 824,
+      "pct": 82.4,
       "color": "#f97316"
     },
     {
@@ -177,8 +177,8 @@
     },
     {
       "name": "Streamlit",
-      "count": 10,
-      "pct": 1.0,
+      "count": 9,
+      "pct": 0.9,
       "color": "#6366f1"
     }
   ],
@@ -267,7 +267,7 @@
       "task": "Time Series Forecasting",
       "taskColor": "#fbbf24",
       "dl": "29.8M",
-      "likes": "414",
+      "likes": "415",
       "lic": "apache-2.0",
       "licColor": "#00d4ff"
     },
