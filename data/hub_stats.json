@@ -1,11 +1,11 @@
 {
   "meta": {
-    "scraped": "2026-09-04T18:13:36Z",
+    "scraped": "2026-09-05T00:30:56Z",
     "source": "huggingface.co/api",
     "sampleSize": 1000,
     "totalRecords": 2000,
-    "runDuration": "0.9s",
-    "nextRun": "2026-09-05T00:13:36Z"
+    "runDuration": "1.2s",
+    "nextRun": "2026-09-05T06:30:56Z"
   },
   "summary": [
     {
@@ -190,7 +190,7 @@
       "task": "Sentence Similarity",
       "taskColor": "#6366f1",
       "dl": "253.8M",
-      "likes": "5K",
+      "likes": "6K",
       "lic": "apache-2.0",
       "licColor": "#00d4ff"
     },
