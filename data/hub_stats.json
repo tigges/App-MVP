@@ -1,11 +1,11 @@
 {
   "meta": {
-    "scraped": "2026-09-06T18:12:31Z",
+    "scraped": "2026-09-07T00:35:26Z",
     "source": "huggingface.co/api",
     "sampleSize": 1000,
     "totalRecords": 2000,
     "runDuration": "0.6s",
-    "nextRun": "2026-09-07T00:12:31Z"
+    "nextRun": "2026-09-07T06:35:26Z"
   },
   "summary": [
     {
@@ -267,7 +267,7 @@
       "task": "Time Series Forecasting",
       "taskColor": "#fbbf24",
       "dl": "24.2M",
-      "likes": "430",
+      "likes": "432",
       "lic": "apache-2.0",
       "licColor": "#00d4ff"
     },
