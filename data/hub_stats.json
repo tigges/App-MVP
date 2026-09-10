@@ -1,11 +1,11 @@
 {
   "meta": {
-    "scraped": "2026-09-10T00:30:36Z",
+    "scraped": "2026-09-10T06:20:32Z",
     "source": "huggingface.co/api",
     "sampleSize": 1000,
     "totalRecords": 2000,
-    "runDuration": "0.8s",
-    "nextRun": "2026-09-10T06:30:36Z"
+    "runDuration": "0.5s",
+    "nextRun": "2026-09-10T12:20:32Z"
   },
   "summary": [
     {
@@ -53,8 +53,8 @@
     },
     {
       "task": "Text Generation",
-      "count": 218,
-      "downloads": 392120195,
+      "count": 219,
+      "downloads": 393004527,
       "color": "#00d4ff"
     },
     {
@@ -65,8 +65,8 @@
     },
     {
       "task": "No Tag",
-      "count": 115,
-      "downloads": 249842908,
+      "count": 114,
+      "downloads": 248958576,
       "color": "#6366f1"
     },
     {
@@ -121,8 +121,8 @@
   "licenses": [
     {
       "name": "apache-2.0",
-      "count": 552,
-      "pct": 60.7,
+      "count": 553,
+      "pct": 60.8,
       "color": "#00d4ff"
     },
     {
@@ -140,7 +140,7 @@
     {
       "name": "gemma",
       "count": 15,
-      "pct": 1.7,
+      "pct": 1.6,
       "color": "#f97316"
     },
     {
@@ -212,7 +212,7 @@
       "task": "Feature Extraction",
       "taskColor": "#6366f1",
       "dl": "64.9M",
-      "likes": "550",
+      "likes": "551",
       "lic": "mit",
       "licColor": "#22d3a5"
     },
