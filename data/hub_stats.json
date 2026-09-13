@@ -1,11 +1,11 @@
 {
   "meta": {
-    "scraped": "2026-09-13T12:15:35Z",
+    "scraped": "2026-09-13T18:13:02Z",
     "source": "huggingface.co/api",
     "sampleSize": 1000,
     "totalRecords": 2000,
-    "runDuration": "0.7s",
-    "nextRun": "2026-09-13T18:15:35Z"
+    "runDuration": "0.8s",
+    "nextRun": "2026-09-14T00:13:02Z"
   },
   "summary": [
     {
@@ -201,7 +201,7 @@
       "task": "Text Ranking",
       "taskColor": "#6366f1",
       "dl": "87.5M",
-      "likes": "320",
+      "likes": "324",
       "lic": "apache-2.0",
       "licColor": "#00d4ff"
     },
@@ -212,7 +212,7 @@
       "task": "Feature Extraction",
       "taskColor": "#6366f1",
       "dl": "64.0M",
-      "likes": "554",
+      "likes": "564",
       "lic": "mit",
       "licColor": "#22d3a5"
     },
@@ -223,7 +223,7 @@
       "task": "Unknown",
       "taskColor": "#6366f1",
       "dl": "59.2M",
-      "likes": "159",
+      "likes": "162",
       "lic": "apache-2.0",
       "licColor": "#00d4ff"
     },
@@ -256,7 +256,7 @@
       "task": "Sentence Similarity",
       "taskColor": "#6366f1",
       "dl": "37.6M",
-      "likes": "3K",
+      "likes": "4K",
       "lic": "mit",
       "licColor": "#22d3a5"
     },
@@ -267,7 +267,7 @@
       "task": "Translation",
       "taskColor": "#00d4ff",
       "dl": "24.6M",
-      "likes": "605",
+      "likes": "609",
       "lic": "apache-2.0",
       "licColor": "#00d4ff"
     },
@@ -289,7 +289,7 @@
       "task": "Time Series Forecasting",
       "taskColor": "#fbbf24",
       "dl": "22.8M",
-      "likes": "448",
+      "likes": "454",
       "lic": "apache-2.0",
       "licColor": "#00d4ff"
     }
