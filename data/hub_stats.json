@@ -1,11 +1,11 @@
 {
   "meta": {
-    "scraped": "2026-09-14T00:35:31Z",
+    "scraped": "2026-09-14T06:26:28Z",
     "source": "huggingface.co/api",
     "sampleSize": 1000,
     "totalRecords": 2000,
     "runDuration": "0.6s",
-    "nextRun": "2026-09-14T06:35:31Z"
+    "nextRun": "2026-09-14T12:26:28Z"
   },
   "summary": [
     {
@@ -201,7 +201,7 @@
       "task": "Text Ranking",
       "taskColor": "#6366f1",
       "dl": "87.5M",
-      "likes": "326",
+      "likes": "338",
       "lic": "apache-2.0",
       "licColor": "#00d4ff"
     },
@@ -212,7 +212,7 @@
       "task": "Feature Extraction",
       "taskColor": "#6366f1",
       "dl": "64.0M",
-      "likes": "564",
+      "likes": "580",
       "lic": "mit",
       "licColor": "#22d3a5"
     },
@@ -223,7 +223,7 @@
       "task": "Unknown",
       "taskColor": "#6366f1",
       "dl": "59.2M",
-      "likes": "162",
+      "likes": "177",
       "lic": "apache-2.0",
       "licColor": "#00d4ff"
     },
@@ -267,7 +267,7 @@
       "task": "Translation",
       "taskColor": "#00d4ff",
       "dl": "24.6M",
-      "likes": "610",
+      "likes": "623",
       "lic": "apache-2.0",
       "licColor": "#00d4ff"
     },
@@ -289,7 +289,7 @@
       "task": "Time Series Forecasting",
       "taskColor": "#fbbf24",
       "dl": "22.8M",
-      "likes": "455",
+      "likes": "471",
       "lic": "apache-2.0",
       "licColor": "#00d4ff"
     }
