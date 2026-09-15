@@ -1,11 +1,11 @@
 {
   "meta": {
-    "scraped": "2026-09-14T18:13:04Z",
+    "scraped": "2026-09-15T00:33:12Z",
     "source": "huggingface.co/api",
     "sampleSize": 1000,
     "totalRecords": 2000,
-    "runDuration": "0.7s",
-    "nextRun": "2026-09-15T00:13:04Z"
+    "runDuration": "0.9s",
+    "nextRun": "2026-09-15T06:33:12Z"
   },
   "summary": [
     {
@@ -18,7 +18,7 @@
     {
       "label": "30-Day Downloads",
       "value": "2.4B",
-      "raw": 2411933504,
+      "raw": 2411729534,
       "trend": "from sample",
       "period": "scrape"
     },
@@ -65,14 +65,14 @@
     },
     {
       "task": "No Tag",
-      "count": 115,
-      "downloads": 251252468,
+      "count": 114,
+      "downloads": 250662064,
       "color": "#6366f1"
     },
     {
       "task": "Automatic Speech Recognition",
-      "count": 85,
-      "downloads": 157558897,
+      "count": 86,
+      "downloads": 157945331,
       "color": "#f97316"
     },
     {
@@ -127,8 +127,8 @@
     },
     {
       "name": "mit",
-      "count": 179,
-      "pct": 19.6,
+      "count": 180,
+      "pct": 19.7,
       "color": "#22d3a5"
     },
     {
