@@ -1,11 +1,11 @@
 {
   "meta": {
-    "scraped": "2026-09-15T12:17:25Z",
+    "scraped": "2026-09-15T18:12:47Z",
     "source": "huggingface.co/api",
     "sampleSize": 1000,
     "totalRecords": 2000,
     "runDuration": "0.6s",
-    "nextRun": "2026-09-15T18:17:25Z"
+    "nextRun": "2026-09-16T00:12:47Z"
   },
   "summary": [
     {
@@ -201,7 +201,7 @@
       "task": "Text Ranking",
       "taskColor": "#6366f1",
       "dl": "87.9M",
-      "likes": "339",
+      "likes": "340",
       "lic": "apache-2.0",
       "licColor": "#00d4ff"
     },
@@ -267,7 +267,7 @@
       "task": "Translation",
       "taskColor": "#00d4ff",
       "dl": "24.7M",
-      "likes": "627",
+      "likes": "628",
       "lic": "apache-2.0",
       "licColor": "#00d4ff"
     },
@@ -289,7 +289,7 @@
       "task": "Time Series Forecasting",
       "taskColor": "#fbbf24",
       "dl": "22.7M",
-      "likes": "475",
+      "likes": "476",
       "lic": "apache-2.0",
       "licColor": "#00d4ff"
     }
