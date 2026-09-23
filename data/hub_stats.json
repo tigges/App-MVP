@@ -1,11 +1,11 @@
 {
   "meta": {
-    "scraped": "2026-09-23T12:18:08Z",
+    "scraped": "2026-09-23T18:15:40Z",
     "source": "huggingface.co/api",
     "sampleSize": 1000,
     "totalRecords": 2000,
-    "runDuration": "0.6s",
-    "nextRun": "2026-09-23T18:18:08Z"
+    "runDuration": "0.8s",
+    "nextRun": "2026-09-24T00:15:40Z"
   },
   "summary": [
     {
@@ -159,14 +159,14 @@
   "frameworks": [
     {
       "name": "Gradio",
-      "count": 825,
-      "pct": 82.5,
+      "count": 824,
+      "pct": 82.4,
       "color": "#f97316"
     },
     {
       "name": "Docker",
-      "count": 87,
-      "pct": 8.7,
+      "count": 88,
+      "pct": 8.8,
       "color": "#00d4ff"
     },
     {
@@ -289,7 +289,7 @@
       "task": "Time Series Forecasting",
       "taskColor": "#fbbf24",
       "dl": "22.8M",
-      "likes": "487",
+      "likes": "489",
       "lic": "apache-2.0",
       "licColor": "#00d4ff"
     }
