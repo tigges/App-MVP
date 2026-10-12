@@ -1,11 +1,11 @@
 {
   "meta": {
-    "scraped": "2026-10-12T12:26:20Z",
+    "scraped": "2026-10-12T18:14:42Z",
     "source": "huggingface.co/api",
     "sampleSize": 1000,
     "totalRecords": 2000,
-    "runDuration": "0.5s",
-    "nextRun": "2026-10-12T18:26:20Z"
+    "runDuration": "0.7s",
+    "nextRun": "2026-10-13T00:14:42Z"
   },
   "summary": [
     {
@@ -201,7 +201,7 @@
       "task": "Text Ranking",
       "taskColor": "#6366f1",
       "dl": "79.5M",
-      "likes": "370",
+      "likes": "383",
       "lic": "apache-2.0",
       "licColor": "#00d4ff"
     },
@@ -212,7 +212,7 @@
       "task": "Feature Extraction",
       "taskColor": "#6366f1",
       "dl": "59.9M",
-      "likes": "618",
+      "likes": "632",
       "lic": "mit",
       "licColor": "#22d3a5"
     },
@@ -234,7 +234,7 @@
       "task": "Unknown",
       "taskColor": "#6366f1",
       "dl": "45.3M",
-      "likes": "195",
+      "likes": "203",
       "lic": "apache-2.0",
       "licColor": "#00d4ff"
     },
@@ -278,7 +278,7 @@
       "task": "Translation",
       "taskColor": "#00d4ff",
       "dl": "23.8M",
-      "likes": "662",
+      "likes": "670",
       "lic": "apache-2.0",
       "licColor": "#00d4ff"
     },
