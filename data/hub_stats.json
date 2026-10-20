@@ -1,11 +1,11 @@
 {
   "meta": {
-    "scraped": "2026-10-19T18:15:19Z",
+    "scraped": "2026-10-20T00:30:50Z",
     "source": "huggingface.co/api",
     "sampleSize": 1000,
     "totalRecords": 2000,
     "runDuration": "0.7s",
-    "nextRun": "2026-10-20T00:15:19Z"
+    "nextRun": "2026-10-20T06:30:50Z"
   },
   "summary": [
     {
@@ -159,8 +159,8 @@
   "frameworks": [
     {
       "name": "Gradio",
-      "count": 826,
-      "pct": 82.6,
+      "count": 825,
+      "pct": 82.5,
       "color": "#f97316"
     },
     {
@@ -171,8 +171,8 @@
     },
     {
       "name": "Static",
-      "count": 79,
-      "pct": 7.9,
+      "count": 80,
+      "pct": 8.0,
       "color": "#22d3a5"
     },
     {
@@ -201,7 +201,7 @@
       "task": "Text Ranking",
       "taskColor": "#6366f1",
       "dl": "76.1M",
-      "likes": "420",
+      "likes": "417",
       "lic": "apache-2.0",
       "licColor": "#00d4ff"
     },
@@ -212,7 +212,7 @@
       "task": "Feature Extraction",
       "taskColor": "#6366f1",
       "dl": "57.5M",
-      "likes": "645",
+      "likes": "639",
       "lic": "mit",
       "licColor": "#22d3a5"
     },
@@ -234,7 +234,7 @@
       "task": "Unknown",
       "taskColor": "#6366f1",
       "dl": "41.9M",
-      "likes": "217",
+      "likes": "215",
       "lic": "apache-2.0",
       "licColor": "#00d4ff"
     },
@@ -289,7 +289,7 @@
       "task": "Translation",
       "taskColor": "#00d4ff",
       "dl": "24.4M",
-      "likes": "687",
+      "likes": "679",
       "lic": "apache-2.0",
       "licColor": "#00d4ff"
     }
