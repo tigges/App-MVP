@@ -1,11 +1,11 @@
 {
   "meta": {
-    "scraped": "2026-10-21T18:14:47Z",
+    "scraped": "2026-10-22T00:30:06Z",
     "source": "huggingface.co/api",
     "sampleSize": 1000,
     "totalRecords": 2000,
-    "runDuration": "0.9s",
-    "nextRun": "2026-10-22T00:14:47Z"
+    "runDuration": "0.7s",
+    "nextRun": "2026-10-22T06:30:06Z"
   },
   "summary": [
     {
@@ -159,8 +159,8 @@
   "frameworks": [
     {
       "name": "Gradio",
-      "count": 826,
-      "pct": 82.6,
+      "count": 825,
+      "pct": 82.5,
       "color": "#f97316"
     },
     {
@@ -171,8 +171,8 @@
     },
     {
       "name": "Static",
-      "count": 79,
-      "pct": 7.9,
+      "count": 80,
+      "pct": 8.0,
       "color": "#22d3a5"
     },
     {
