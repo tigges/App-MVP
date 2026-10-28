@@ -1,11 +1,11 @@
 {
   "meta": {
-    "scraped": "2026-10-28T00:23:42Z",
+    "scraped": "2026-10-28T06:15:15Z",
     "source": "huggingface.co/api",
     "sampleSize": 1000,
     "totalRecords": 2000,
-    "runDuration": "0.8s",
-    "nextRun": "2026-10-28T06:23:42Z"
+    "runDuration": "0.7s",
+    "nextRun": "2026-10-28T12:15:15Z"
   },
   "summary": [
     {
@@ -65,8 +65,8 @@
     },
     {
       "task": "No Tag",
-      "count": 123,
-      "downloads": 226781307,
+      "count": 117,
+      "downloads": 221812891,
       "color": "#6366f1"
     },
     {
@@ -159,8 +159,8 @@
   "frameworks": [
     {
       "name": "Gradio",
-      "count": 824,
-      "pct": 82.4,
+      "count": 823,
+      "pct": 82.3,
       "color": "#f97316"
     },
     {
@@ -171,8 +171,8 @@
     },
     {
       "name": "Static",
-      "count": 81,
-      "pct": 8.1,
+      "count": 82,
+      "pct": 8.2,
       "color": "#22d3a5"
     },
     {
