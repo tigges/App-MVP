@@ -1,11 +1,11 @@
 {
   "meta": {
-    "scraped": "2026-10-29T18:11:05Z",
+    "scraped": "2026-10-30T00:23:54Z",
     "source": "huggingface.co/api",
     "sampleSize": 1000,
     "totalRecords": 2000,
-    "runDuration": "0.6s",
-    "nextRun": "2026-10-30T00:11:05Z"
+    "runDuration": "0.8s",
+    "nextRun": "2026-10-30T06:23:54Z"
   },
   "summary": [
     {
@@ -65,8 +65,8 @@
     },
     {
       "task": "No Tag",
-      "count": 119,
-      "downloads": 223234363,
+      "count": 118,
+      "downloads": 213069031,
       "color": "#6366f1"
     },
     {
