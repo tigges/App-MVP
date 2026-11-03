@@ -1,11 +1,11 @@
 {
   "meta": {
-    "scraped": "2026-11-03T13:41:26Z",
+    "scraped": "2026-11-03T22:56:13Z",
     "source": "huggingface.co/api",
     "sampleSize": 1000,
     "totalRecords": 2000,
-    "runDuration": "0.5s",
-    "nextRun": "2026-11-03T19:41:26Z"
+    "runDuration": "0.7s",
+    "nextRun": "2026-11-04T04:56:13Z"
   },
   "summary": [
     {
@@ -159,14 +159,14 @@
   "frameworks": [
     {
       "name": "Gradio",
-      "count": 820,
-      "pct": 82.0,
+      "count": 821,
+      "pct": 82.1,
       "color": "#f97316"
     },
     {
       "name": "Docker",
-      "count": 89,
-      "pct": 8.9,
+      "count": 88,
+      "pct": 8.8,
       "color": "#00d4ff"
     },
     {
@@ -223,7 +223,7 @@
       "task": "Unknown",
       "taskColor": "#6366f1",
       "dl": "31.8M",
-      "likes": "2K",
+      "likes": "3K",
       "lic": "other",
       "licColor": "#4a5270"
     },
