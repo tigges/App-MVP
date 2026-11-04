@@ -1,11 +1,11 @@
 {
   "meta": {
-    "scraped": "2026-11-03T22:56:13Z",
+    "scraped": "2026-11-04T04:59:09Z",
     "source": "huggingface.co/api",
     "sampleSize": 1000,
     "totalRecords": 2000,
-    "runDuration": "0.7s",
-    "nextRun": "2026-11-04T04:56:13Z"
+    "runDuration": "0.5s",
+    "nextRun": "2026-11-04T10:59:09Z"
   },
   "summary": [
     {
@@ -159,14 +159,14 @@
   "frameworks": [
     {
       "name": "Gradio",
-      "count": 821,
-      "pct": 82.1,
+      "count": 822,
+      "pct": 82.2,
       "color": "#f97316"
     },
     {
       "name": "Docker",
-      "count": 88,
-      "pct": 8.8,
+      "count": 87,
+      "pct": 8.7,
       "color": "#00d4ff"
     },
     {
@@ -212,7 +212,7 @@
       "task": "Feature Extraction",
       "taskColor": "#6366f1",
       "dl": "49.4M",
-      "likes": "662",
+      "likes": "663",
       "lic": "mit",
       "licColor": "#22d3a5"
     },
