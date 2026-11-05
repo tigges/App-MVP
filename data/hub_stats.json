@@ -1,11 +1,11 @@
 {
   "meta": {
-    "scraped": "2026-11-04T23:15:12Z",
+    "scraped": "2026-11-05T05:20:36Z",
     "source": "huggingface.co/api",
     "sampleSize": 1000,
     "totalRecords": 2000,
     "runDuration": "0.5s",
-    "nextRun": "2026-11-05T05:15:12Z"
+    "nextRun": "2026-11-05T11:20:36Z"
   },
   "summary": [
     {
@@ -121,8 +121,8 @@
   "licenses": [
     {
       "name": "apache-2.0",
-      "count": 533,
-      "pct": 57.5,
+      "count": 532,
+      "pct": 57.4,
       "color": "#00d4ff"
     },
     {
@@ -139,8 +139,8 @@
     },
     {
       "name": "cc-by-nc-4.0",
-      "count": 20,
-      "pct": 2.2,
+      "count": 21,
+      "pct": 2.3,
       "color": "#a855f7"
     },
     {
