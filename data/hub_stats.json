@@ -1,11 +1,11 @@
 {
   "meta": {
-    "scraped": "2026-11-05T23:17:40Z",
+    "scraped": "2026-11-06T05:20:04Z",
     "source": "huggingface.co/api",
     "sampleSize": 1000,
     "totalRecords": 2000,
-    "runDuration": "0.7s",
-    "nextRun": "2026-11-06T05:17:40Z"
+    "runDuration": "0.5s",
+    "nextRun": "2026-11-06T11:20:04Z"
   },
   "summary": [
     {
@@ -212,7 +212,7 @@
       "task": "Feature Extraction",
       "taskColor": "#6366f1",
       "dl": "48.4M",
-      "likes": "664",
+      "likes": "666",
       "lic": "mit",
       "licColor": "#22d3a5"
     },
